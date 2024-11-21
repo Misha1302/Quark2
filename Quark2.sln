@@ -1,0 +1,34 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Quark2", "Quark2\Quark2.csproj", "{C540B8DF-043E-44CC-8C82-AA97283F2E51}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CommonBytecode", "CommonBytecode\CommonBytecode.csproj", "{E0A32CE8-432B-4E82-8DB7-CB841BA93448}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VirtualMachine", "VirtualMachine\VirtualMachine.csproj", "{28784E77-EE9B-4FA8-8FFE-AB837A0629A7}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AbstractExecutor", "AbstractExecutor\AbstractExecutor.csproj", "{4A7332AA-4C03-4606-B22B-ECBDDC43936D}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{C540B8DF-043E-44CC-8C82-AA97283F2E51}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C540B8DF-043E-44CC-8C82-AA97283F2E51}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C540B8DF-043E-44CC-8C82-AA97283F2E51}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C540B8DF-043E-44CC-8C82-AA97283F2E51}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E0A32CE8-432B-4E82-8DB7-CB841BA93448}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E0A32CE8-432B-4E82-8DB7-CB841BA93448}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E0A32CE8-432B-4E82-8DB7-CB841BA93448}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E0A32CE8-432B-4E82-8DB7-CB841BA93448}.Release|Any CPU.Build.0 = Release|Any CPU
+		{28784E77-EE9B-4FA8-8FFE-AB837A0629A7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{28784E77-EE9B-4FA8-8FFE-AB837A0629A7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{28784E77-EE9B-4FA8-8FFE-AB837A0629A7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{28784E77-EE9B-4FA8-8FFE-AB837A0629A7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4A7332AA-4C03-4606-B22B-ECBDDC43936D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4A7332AA-4C03-4606-B22B-ECBDDC43936D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4A7332AA-4C03-4606-B22B-ECBDDC43936D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4A7332AA-4C03-4606-B22B-ECBDDC43936D}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
