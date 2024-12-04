@@ -1,9 +1,8 @@
 using AbstractExecutor;
-using CommonBytecode;
-using VirtualMachine.Vm.DataStructures;
-using VirtualMachine.Vm.DataStructures.VmValues;
+using CommonBytecode.Data.Structures;
 using VirtualMachine.Vm.Execution;
-using VirtualMachine.Vm.Operations;
+using VirtualMachine.Vm.Execution.Executors;
+using VirtualMachine.Vm.Preparing;
 
 namespace VirtualMachine;
 
@@ -11,7 +10,7 @@ public class QuarkVirtualMachine : IExecutor
 {
     public IEnumerable<Any> RunModule(BytecodeModule module, object?[] arguments)
     {
-        var logAction = (Action<Operation, int, VmFuncFrame, MyStack<VmValue>>?)arguments[0];
+        var logAction = (Action<VmOperation, int, VmFuncFrame, MyStack<VmValue>>?)arguments[0];
 
         var converter = new BytecodeConverter();
         var vmModule = converter.MakeVmModule(module);

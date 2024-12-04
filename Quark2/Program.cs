@@ -1,5 +1,7 @@
 ﻿using AbstractExecutor;
-using CommonBytecode;
+using CommonBytecode.Data.AnyValue;
+using CommonBytecode.Data.Structures;
+using CommonBytecode.Enums;
 using Quark2;
 using VirtualMachine;
 using static BytecodeGenerationSimplifier.SimpleBytecodeGenerator;

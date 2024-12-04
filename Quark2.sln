@@ -10,6 +10,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AbstractExecutor", "Abstrac
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BytecodeGenerationSimplifier", "BytecodeGenerationSimplifier\BytecodeGenerationSimplifier.csproj", "{23655F1D-0308-4A7F-9156-EEFF7C433769}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExceptionsManager", "ExceptionsManager\ExceptionsManager.csproj", "{A1647657-0097-49D0-AFE0-FB536B3693B8}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -36,5 +38,9 @@ Global
 		{23655F1D-0308-4A7F-9156-EEFF7C433769}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{23655F1D-0308-4A7F-9156-EEFF7C433769}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{23655F1D-0308-4A7F-9156-EEFF7C433769}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A1647657-0097-49D0-AFE0-FB536B3693B8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A1647657-0097-49D0-AFE0-FB536B3693B8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A1647657-0097-49D0-AFE0-FB536B3693B8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A1647657-0097-49D0-AFE0-FB536B3693B8}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

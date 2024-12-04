@@ -1,6 +1,3 @@
-using CommonBytecode;
-using VirtualMachine.Vm.DataStructures.VmValues;
-
 namespace VirtualMachine.Vm.Execution;
 
 public static class SharpInteractioner
@@ -40,6 +37,7 @@ public static class SharpInteractioner
             stack.PushMany(result.MakeVmValue());
         }
 
+        // here is BUG when return value?
         stack.DropMany(argsCount);
     }
 }
