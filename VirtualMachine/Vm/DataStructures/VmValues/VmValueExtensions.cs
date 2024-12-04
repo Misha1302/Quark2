@@ -12,8 +12,7 @@ public static class VmValueExtensions
             long l => [VmValue.Create(l, NativeI64)],
             string s => [VmValue.CreateRef(s, Str)],
             Delegate value => [..SharpCall.MakeCallSharpOperationArguments(value)],
-            MathLogicOp op => [VmValue.Create(op, NativeI64)],
-            // ReSharper disable once ConditionIsAlwaysTrueOrFalseAccordingToNullableAPIContract
+            Enum e => [VmValue.Create((long)Convert.ToInt32(e), NativeI64)],
             null => [VmValue.NilValue],
             _ => [Throw.InvalidOpEx<VmValue>()],
         };

@@ -4,5 +4,5 @@ namespace AbstractExecutor;
 
 public interface IExecutor
 {
-    IEnumerable<Any> RunModule(BytecodeModule module);
+    IEnumerable<Any> RunModule(BytecodeModule module, object?[] arguments);
 }

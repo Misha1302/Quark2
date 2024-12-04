@@ -8,6 +8,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VirtualMachine", "VirtualMa
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AbstractExecutor", "AbstractExecutor\AbstractExecutor.csproj", "{4A7332AA-4C03-4606-B22B-ECBDDC43936D}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BytecodeGenerationSimplifier", "BytecodeGenerationSimplifier\BytecodeGenerationSimplifier.csproj", "{23655F1D-0308-4A7F-9156-EEFF7C433769}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -30,5 +32,9 @@ Global
 		{4A7332AA-4C03-4606-B22B-ECBDDC43936D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4A7332AA-4C03-4606-B22B-ECBDDC43936D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4A7332AA-4C03-4606-B22B-ECBDDC43936D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{23655F1D-0308-4A7F-9156-EEFF7C433769}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{23655F1D-0308-4A7F-9156-EEFF7C433769}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{23655F1D-0308-4A7F-9156-EEFF7C433769}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{23655F1D-0308-4A7F-9156-EEFF7C433769}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

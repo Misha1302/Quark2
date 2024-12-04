@@ -2,28 +2,54 @@
 using CommonBytecode;
 using Quark2;
 using VirtualMachine;
+using static BytecodeGenerationSimplifier.SimpleBytecodeGenerator;
 
-var fivePowTwoFuncBytecode = (List<Instruction>)
+
+var start = (Func<List<BytecodeInstruction>>)(() =>
 [
-    new Instruction(InstructionType.MakeVariables, [new BytecodeVariable("i", Number).ToAny()]),
-    new Instruction(InstructionType.PushConst, [5.0]),
-    new Instruction(InstructionType.SetLocal, ["i"]),
+    ..DefineLocals(("i", Number)),
+    new BytecodeInstruction(InstructionType.PushConst, [0.0]),
+    new BytecodeInstruction(InstructionType.SetLocal, ["i"]),
+]);
+var cond = (Func<List<BytecodeInstruction>>)(() =>
+[
+    new BytecodeInstruction(InstructionType.LoadLocal, ["i"]),
+    new BytecodeInstruction(InstructionType.PushConst, [10.0]),
+    new BytecodeInstruction(InstructionType.MathOrLogicOp, [MathLogicOp.NotEq.ToAny()]),
+]);
+var step = (Func<List<BytecodeInstruction>>)(() => [..Inc("i")]);
+var body = (Func<List<BytecodeInstruction>>)(() =>
+[
+    ..DefineLocals(("j", Number)),
+    new BytecodeInstruction(InstructionType.LoadLocal, ["i"]),
+    new BytecodeInstruction(InstructionType.PushConst, [2]),
+    new BytecodeInstruction(InstructionType.MathOrLogicOp, [MathLogicOp.Mul.ToAny()]),
+    new BytecodeInstruction(InstructionType.SetLocal, ["j"]),
+    
+    new BytecodeInstruction(InstructionType.LoadLocal, ["j"]),
+    ..CallSharp(BuiltInFunctions.Print),
+    new BytecodeInstruction(InstructionType.PushConst, [" "]),
+    ..CallSharp(BuiltInFunctions.Print),
+]);
 
-    new Instruction(InstructionType.LoadLocal, ["i"]),
-    new Instruction(InstructionType.PushConst, [2.0]),
-    new Instruction(InstructionType.MathOrLogicOp, [MathLogicOp.Pow]),
+var fivePowTwoFuncBytecode = (List<BytecodeInstruction>)
+[
+    ..For(start, cond, step, body),
 
-    new Instruction(InstructionType.CallSharp, [((Action<Any>)BuiltInFunctions.PrintLn).ToAny()]),
-
-    new Instruction(InstructionType.PushConst, [new Any(null!)]),
-    new Instruction(InstructionType.Ret, []),
+    
+    new BytecodeInstruction(InstructionType.PushConst, [""]),
+    ..CallSharp(BuiltInFunctions.PrintLn),
+    
+    new BytecodeInstruction(InstructionType.PushConst, [new Any(null!)]),
+    new BytecodeInstruction(InstructionType.Ret, []),
 ];
 
+
 var module = new BytecodeModule(
-    "five to the second power",
+    "print 0..9",
     [new BytecodeFunction("Main", new Bytecode(fivePowTwoFuncBytecode))]
 );
 
 IExecutor executor = new QuarkVirtualMachine();
-var results = executor.RunModule(module);
+var results = executor.RunModule(module, [null]);
 Console.WriteLine(string.Join(", ", results));

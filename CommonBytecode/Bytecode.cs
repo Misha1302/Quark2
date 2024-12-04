@@ -1,3 +1,3 @@
 ﻿namespace CommonBytecode;
 
-public record Bytecode(List<Instruction> Instructions);
+public record Bytecode(List<BytecodeInstruction> Instructions);

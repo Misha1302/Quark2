@@ -9,11 +9,11 @@ public class Engine
     private EngineRuntimeData _engineRuntimeData = null!;
 
     public List<VmValue> Run(VmModule module,
-        Action<Operation, int, VmFuncFrame, MyStack<VmValue>>? logIntoConsole = null)
+        Action<Operation, int, VmFuncFrame, MyStack<VmValue>>? logAction = null)
     {
         var output = new List<VmValue>();
 
-        InitRuntimeData(module, logIntoConsole);
+        InitRuntimeData(module, logAction);
         InitMainInterpreter(module);
         ExecuteEveryInterpreter(output);
 
@@ -27,9 +27,9 @@ public class Engine
         _engineRuntimeData.Interpreters.Add(item);
     }
 
-    private void InitRuntimeData(VmModule module, Action<Operation, int, VmFuncFrame, MyStack<VmValue>>? logIntoConsole)
+    private void InitRuntimeData(VmModule module, Action<Operation, int, VmFuncFrame, MyStack<VmValue>>? logAction)
     {
-        _engineRuntimeData = new EngineRuntimeData(module, logIntoConsole, []);
+        _engineRuntimeData = new EngineRuntimeData(module, logAction, []);
     }
 
     private void ExecuteEveryInterpreter(List<VmValue> output)

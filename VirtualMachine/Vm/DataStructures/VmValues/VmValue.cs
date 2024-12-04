@@ -70,7 +70,7 @@ public readonly struct VmValue : IAny
     public override string ToString() =>
         Type.IsRefType()
             ? BytecodeValueExtensions.ToStringValue(_ref.ToAny(), Type)
-            : BytecodeValueExtensions.ToStringValue(_value.ToAny(), Type);
+            : BytecodeValueExtensions.UnsafeI64ToString(_value, Type);
 
     /// <summary>
     ///     Returns is this value not empty

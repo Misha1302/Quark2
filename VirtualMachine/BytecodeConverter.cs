@@ -16,18 +16,39 @@ public class BytecodeConverter
 
     private VmFunction ConvertFunction(BytecodeFunction function)
     {
-        var ops = ConvertBytecodeToOperations(function.Code);
+        var ops = function.Code.Instructions.Select(
+            instruction => new Operation(instruction.Type, ConvertToVmValues(instruction.Arguments))
+        ).ToList();
+
+        var labels = LabelsCalculator.CalculateLabels(function.Code.Instructions);
+        PreprocessBranches(ops, labels);
+
         var name = function.Name;
         var locals = ExtractLocals(function.Code);
-        return new VmFunction(ops, name, locals);
+
+        ConvertLocalsOperations(ops, locals);
+
+        return new VmFunction(ops, name, locals, labels);
     }
 
-    private List<Operation> ConvertBytecodeToOperations(Bytecode functionCode)
+
+    private void ConvertLocalsOperations(List<Operation> ops, List<VmVariable> locals)
     {
-        var ops = new List<Operation>();
-        foreach (var instruction in functionCode.Instructions)
-            ops.Add(new Operation(instruction.Type, ConvertToVmValues(instruction.Arguments)));
-        return ops;
+        foreach (var op in ops)
+            if (op.Type is InstructionType.LoadLocal or InstructionType.SetLocal)
+                op.Args[0] = VmValue.Create((long)locals.FindIndex(x => x.Name == op.Args[0].GetRef<string>()),
+                    NativeI64);
+    }
+
+    private void PreprocessBranches(List<Operation> ops, List<Label> labels)
+    {
+        foreach (var op in ops)
+            if (op.Type is InstructionType.BrOp)
+                // int - jump ip = [string - jump label name]
+            {
+                var findIndex = (long)labels.FindIndex(x => x.Name == op.Args[1].GetRef<string>());
+                op.Args[1] = VmValue.Create(findIndex, NativeI64);
+            }
     }
 
     private List<VmValue> ConvertToVmValues(List<Any> anies)
@@ -47,18 +68,18 @@ public class BytecodeConverter
     private List<VmVariable> ExtractLocals(Bytecode functionCode) =>
         GetMakingVariablesInstructions(functionCode).SelectMany(ToVmVariables).ToList();
 
-    private static IEnumerable<Instruction> GetMakingVariablesInstructions(Bytecode functionCode)
+    private static IEnumerable<BytecodeInstruction> GetMakingVariablesInstructions(Bytecode functionCode)
     {
         return functionCode.Instructions.Where(x => x.Type == InstructionType.MakeVariables);
     }
 
-    private static IEnumerable<VmVariable> ToVmVariables(Instruction instruction)
+    private static IEnumerable<VmVariable> ToVmVariables(BytecodeInstruction bytecodeInstruction)
     {
-        return ToBytecodeVariables(instruction).Select(x => new VmVariable(x.Name, x.Type));
+        return ToBytecodeVariables(bytecodeInstruction).Select(x => new VmVariable(x.Name, x.Type));
     }
 
-    private static List<BytecodeVariable> ToBytecodeVariables(Instruction instruction)
+    private static List<BytecodeVariable> ToBytecodeVariables(BytecodeInstruction bytecodeInstruction)
     {
-        return instruction.Arguments.Select(x => x.Get<BytecodeVariable>()).ToList();
+        return bytecodeInstruction.Arguments.Select(x => x.Get<BytecodeVariable>()).ToList();
     }
 }
