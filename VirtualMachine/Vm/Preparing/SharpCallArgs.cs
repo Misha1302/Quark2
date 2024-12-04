@@ -17,6 +17,5 @@ public static class SharpCallArgs
             VmValue.Create(func.Method.GetParameters().Length, NativeI64),
             VmValue.Create(func.Method.ReturnType == typeof(Any) ? 1.0 : 0.0, Number),
         ];
-        ;
     }
 }
