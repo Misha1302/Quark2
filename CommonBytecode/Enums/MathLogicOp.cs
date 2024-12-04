@@ -13,4 +13,8 @@ public enum MathLogicOp : long
     Not,
     Eq,
     NotEq,
+    Lt,
+    Gt,
+    LtOrEq,
+    GtOrEq,
 }

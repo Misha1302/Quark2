@@ -29,4 +29,16 @@ public static class VmCalc
 
     public static VmValue NotEq(VmValue a, VmValue b, double accuracy) =>
         VmValue.Create(a.Get<double>().EqualWithAccuracy(b.Get<double>(), accuracy) ? 0.0 : 1.0, Number);
+
+    public static VmValue Lt(VmValue a, VmValue b) =>
+        VmValue.Create(a.Get<double>() < b.Get<double>() ? 1.0 : 0.0, Number);
+
+    public static VmValue Gt(VmValue a, VmValue b) =>
+        VmValue.Create(a.Get<double>() > b.Get<double>() ? 1.0 : 0.0, Number);
+
+    public static VmValue GtOrEq(VmValue a, VmValue b, double accuracy) =>
+        VmValue.Create(Gt(a, b).IsTrue() || Eq(a, b, accuracy).IsTrue() ? 1.0 : 0.0, Number);
+
+    public static VmValue LtOrEq(VmValue a, VmValue b, double accuracy) =>
+        VmValue.Create(Lt(a, b).IsTrue() || Eq(a, b, accuracy).IsTrue() ? 1.0 : 0.0, Number);
 }

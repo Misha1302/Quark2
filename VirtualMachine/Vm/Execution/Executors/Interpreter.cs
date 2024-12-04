@@ -127,6 +127,10 @@ public class Interpreter
             Xor => VmCalc.Xor(a, b),
             Eq => VmCalc.Eq(a, b, NumbersCompareAccuracy),
             NotEq => VmCalc.NotEq(a, b, NumbersCompareAccuracy),
+            Lt => VmCalc.Lt(a, b),
+            Gt => VmCalc.Gt(a, b),
+            LtOrEq => VmCalc.LtOrEq(a, b, NumbersCompareAccuracy),
+            GtOrEq => VmCalc.GtOrEq(a, b, NumbersCompareAccuracy),
             _ => Throw.InvalidOpEx<VmValue>(),
         };
 

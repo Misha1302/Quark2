@@ -2,6 +2,8 @@ namespace CommonBytecode.Data.AnyValue;
 
 public class Any(object value)
 {
+    public static readonly Any Nil = new(null!) { Type = BytecodeValueType.Nil };
+
     public BytecodeValueType Type = BytecodeValueType.Any;
 
     public object Value = value;
