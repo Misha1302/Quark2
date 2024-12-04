@@ -25,7 +25,7 @@ var body = (Func<List<BytecodeInstruction>>)(() =>
     new BytecodeInstruction(InstructionType.PushConst, [2]),
     new BytecodeInstruction(InstructionType.MathOrLogicOp, [MathLogicOp.Mul.ToAny()]),
     new BytecodeInstruction(InstructionType.SetLocal, ["j"]),
-    
+
     new BytecodeInstruction(InstructionType.LoadLocal, ["j"]),
     ..CallSharp(BuiltInFunctions.Print),
     new BytecodeInstruction(InstructionType.PushConst, [" "]),
@@ -36,10 +36,10 @@ var fivePowTwoFuncBytecode = (List<BytecodeInstruction>)
 [
     ..For(start, cond, step, body),
 
-    
+
     new BytecodeInstruction(InstructionType.PushConst, [""]),
     ..CallSharp(BuiltInFunctions.PrintLn),
-    
+
     new BytecodeInstruction(InstructionType.PushConst, [new Any(null!)]),
     new BytecodeInstruction(InstructionType.Ret, []),
 ];

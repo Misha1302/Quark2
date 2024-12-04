@@ -5,7 +5,9 @@ namespace BytecodeGenerationSimplifier;
 public static class SimpleBytecodeGenerator
 {
     public static List<BytecodeInstruction> For(
-        Func<List<BytecodeInstruction>> start, Func<List<BytecodeInstruction>> cond, Func<List<BytecodeInstruction>> step,
+        Func<List<BytecodeInstruction>> start,
+        Func<List<BytecodeInstruction>> cond,
+        Func<List<BytecodeInstruction>> step,
         Func<List<BytecodeInstruction>> body
     )
     {
@@ -17,7 +19,8 @@ public static class SimpleBytecodeGenerator
     }
 
     public static List<BytecodeInstruction> While(
-        Func<List<BytecodeInstruction>> cond, Func<List<BytecodeInstruction>> body
+        Func<List<BytecodeInstruction>> cond,
+        Func<List<BytecodeInstruction>> body
     )
     {
         var instructions = new List<BytecodeInstruction>();
@@ -45,7 +48,8 @@ public static class SimpleBytecodeGenerator
         new(InstructionType.SetLocal, [name]),
     ];
 
-    public static List<BytecodeInstruction> CallSharp(Delegate printLn) => [new(InstructionType.CallSharp, [printLn.ToAny()])];
+    public static List<BytecodeInstruction> CallSharp(Delegate printLn) =>
+        [new(InstructionType.CallSharp, [printLn.ToAny()])];
 
     public static List<BytecodeInstruction> DefineLocals(params (string, BytecodeValueType)[] locals)
     {

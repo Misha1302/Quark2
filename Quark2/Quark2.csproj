@@ -9,7 +9,7 @@
 
     <ItemGroup>
         <ProjectReference Include="..\AbstractExecutor\AbstractExecutor.csproj"/>
-        <ProjectReference Include="..\BytecodeGenerationSimplifier\BytecodeGenerationSimplifier.csproj" />
+        <ProjectReference Include="..\BytecodeGenerationSimplifier\BytecodeGenerationSimplifier.csproj"/>
         <ProjectReference Include="..\CommonBytecode\CommonBytecode.csproj"/>
         <ProjectReference Include="..\VirtualMachine\VirtualMachine.csproj"/>
     </ItemGroup>
