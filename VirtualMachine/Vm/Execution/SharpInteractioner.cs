@@ -21,6 +21,8 @@ public static class SharpInteractioner
                 ((delegate*<Any, Any, Any, void>)ptr)(stack.Get(^1).ToAny(), stack.Get(^2).ToAny(),
                     stack.Get(^3).ToAny());
             else Throw.InvalidOpEx();
+
+            stack.DropMany(argsCount);
         }
         else
         {
@@ -34,10 +36,10 @@ public static class SharpInteractioner
                     stack.Get(^3).ToAny()),
                 _ => Throw.InvalidOpEx<Any>(),
             };
+
+            stack.DropMany(argsCount);
+
             stack.PushMany(result.MakeVmValue());
         }
-
-        // here is BUG when return value?
-        stack.DropMany(argsCount);
     }
 }

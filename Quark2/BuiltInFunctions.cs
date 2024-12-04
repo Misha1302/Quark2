@@ -14,4 +14,10 @@ public static class BuiltInFunctions
     {
         Console.Write(value.ToString());
     }
+
+    public static Any Cube(Any value)
+    {
+        var d = value.Get<double>();
+        return d * d * d;
+    }
 }

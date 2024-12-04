@@ -24,8 +24,7 @@ var body = (Func<List<BytecodeInstruction>>)(() =>
 [
     ..DefineLocals(("j", Number)),
     new BytecodeInstruction(InstructionType.LoadLocal, ["i"]),
-    new BytecodeInstruction(InstructionType.PushConst, [2]),
-    new BytecodeInstruction(InstructionType.MathOrLogicOp, [MathLogicOp.Mul.ToAny()]),
+    ..CallSharp(BuiltInFunctions.Cube),
     new BytecodeInstruction(InstructionType.SetLocal, ["j"]),
 
     new BytecodeInstruction(InstructionType.LoadLocal, ["j"]),
