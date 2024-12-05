@@ -4,11 +4,11 @@ namespace ExceptionsManager;
 
 public static class Throw
 {
-    public static void InvalidOpEx() => throw new InvalidOperationException();
+    public static void InvalidOpEx(string message = "") => throw new InvalidOperationException(message);
 
-    public static void AssertationFail() => throw new InvalidCastException("Assertion failed");
+    public static void AssertationFail() => InvalidOpEx("Assertion failed");
 
-    public static T InvalidOpEx<T>() => throw new InvalidOperationException();
+    public static T InvalidOpEx<T>(string message = "") => throw new InvalidOperationException(message);
 
     public static void Assert([DoesNotReturnIf(false)] bool cond)
     {
