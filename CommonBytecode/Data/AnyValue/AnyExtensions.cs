@@ -15,7 +15,7 @@ public static class AnyExtensions
 #if DEBUG
         return CatchExceptionsAnyToString(value, type);
 #else
-        return BasicToStringValue(value, type);
+        return BasicAnyToString(value, type);
 #endif
     }
 

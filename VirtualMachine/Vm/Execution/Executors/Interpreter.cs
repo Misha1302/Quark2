@@ -5,7 +5,7 @@ namespace VirtualMachine.Vm.Execution.Executors;
 public class Interpreter
 {
     public readonly Stack<VmFuncFrame> Frames = new();
-    public readonly MyStack<VmValue> Stack = new();
+    public readonly MyStack<VmValue> Stack = new(1024);
     private EngineRuntimeData _engineRuntimeData = null!;
 
     private double _numbersCompareAccuracy = 0.00001;

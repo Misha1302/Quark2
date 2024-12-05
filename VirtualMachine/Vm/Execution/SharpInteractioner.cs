@@ -14,12 +14,12 @@ public static class SharpInteractioner
             if (argsCount == 0)
                 ((delegate*<void>)ptr)();
             else if (argsCount == 1)
-                ((delegate*<Any, void>)ptr)(stack.Get(^1).ToAny());
+                ((delegate*<Any, void>)ptr)(stack.Get(-1).ToAny());
             else if (argsCount == 2)
-                ((delegate*<Any, Any, void>)ptr)(stack.Get(^1).ToAny(), stack.Get(^2).ToAny());
+                ((delegate*<Any, Any, void>)ptr)(stack.Get(-1).ToAny(), stack.Get(-2).ToAny());
             else if (argsCount == 3)
-                ((delegate*<Any, Any, Any, void>)ptr)(stack.Get(^1).ToAny(), stack.Get(^2).ToAny(),
-                    stack.Get(^3).ToAny());
+                ((delegate*<Any, Any, Any, void>)ptr)(stack.Get(-1).ToAny(), stack.Get(-2).ToAny(),
+                    stack.Get(-3).ToAny());
             else Throw.InvalidOpEx();
 
             stack.DropMany(argsCount);
@@ -30,16 +30,16 @@ public static class SharpInteractioner
             var result = argsCount switch
             {
                 0 => ((delegate*<Any>)ptr)(),
-                1 => ((delegate*<Any, Any>)ptr)(stack.Get(^1).ToAny()),
-                2 => ((delegate*<Any, Any, Any>)ptr)(stack.Get(^1).ToAny(), stack.Get(^2).ToAny()),
-                3 => ((delegate*<Any, Any, Any, Any>)ptr)(stack.Get(^1).ToAny(), stack.Get(^2).ToAny(),
-                    stack.Get(^3).ToAny()),
+                1 => ((delegate*<Any, Any>)ptr)(stack.Get(-1).ToAny()),
+                2 => ((delegate*<Any, Any, Any>)ptr)(stack.Get(-1).ToAny(), stack.Get(-2).ToAny()),
+                3 => ((delegate*<Any, Any, Any, Any>)ptr)(stack.Get(-1).ToAny(), stack.Get(-2).ToAny(),
+                    stack.Get(-3).ToAny()),
                 _ => Throw.InvalidOpEx<Any>(),
             };
 
             stack.DropMany(argsCount);
 
-            stack.PushMany(result.MakeVmValue());
+            stack.PushMany(CollectionsMarshal.AsSpan(result.MakeVmValue()));
         }
     }
 }

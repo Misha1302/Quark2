@@ -1,4 +1,5 @@
-﻿using AbstractExecutor;
+﻿using System.Diagnostics;
+using AbstractExecutor;
 using CommonBytecode.Data.AnyValue;
 using CommonBytecode.Data.Structures;
 using CommonBytecode.Enums;
@@ -28,7 +29,8 @@ var start = (Func<List<BytecodeInstruction>>)(() =>
     new BytecodeInstruction(InstructionType.PushConst, [1.0]),
     new BytecodeInstruction(InstructionType.SetLocal, ["i"]),
 
-    ..CallSharp(importsManager.GetDelegateByName("InputNumber")),
+    // ..CallSharp(importsManager.GetDelegateByName("InputNumber")),
+    new BytecodeInstruction(InstructionType.PushConst, [10_000_000.0]),
     new BytecodeInstruction(InstructionType.SetLocal, ["top"]),
 ]);
 var cond = (Func<List<BytecodeInstruction>>)(() =>
@@ -40,14 +42,14 @@ var cond = (Func<List<BytecodeInstruction>>)(() =>
 var step = (Func<List<BytecodeInstruction>>)(() => [..Inc("i")]);
 var body = (Func<List<BytecodeInstruction>>)(() =>
 [
-    ..DefineLocals(("j", Number)),
-    new BytecodeInstruction(InstructionType.LoadLocal, ["i"]),
-    new BytecodeInstruction(InstructionType.SetLocal, ["j"]),
-
-    new BytecodeInstruction(InstructionType.LoadLocal, ["j"]),
-    ..CallSharp(importsManager.GetDelegateByName("Print")),
-    new BytecodeInstruction(InstructionType.PushConst, [" "]),
-    ..CallSharp(importsManager.GetDelegateByName("Print")),
+    // ..DefineLocals(("j", Number)),
+    // new BytecodeInstruction(InstructionType.LoadLocal, ["i"]),
+    // new BytecodeInstruction(InstructionType.SetLocal, ["j"]),
+    //
+    // new BytecodeInstruction(InstructionType.LoadLocal, ["j"]),
+    // ..CallSharp(importsManager.GetDelegateByName("Print")),
+    // new BytecodeInstruction(InstructionType.PushConst, [" "]),
+    // ..CallSharp(importsManager.GetDelegateByName("Print")),
 ]);
 
 var fivePowTwoFuncBytecode = (List<BytecodeInstruction>)
@@ -67,6 +69,11 @@ var module = new BytecodeModule(
     [new BytecodeFunction("Main", new Bytecode(fivePowTwoFuncBytecode))]
 );
 
-IExecutor executor = new QuarkVirtualMachine();
+var executor = (IExecutor)new QuarkVirtualMachine();
+var sw = Stopwatch.StartNew();
 var results = executor.RunModule(module, [null]);
+Console.WriteLine(sw.ElapsedMilliseconds);
 Console.WriteLine(string.Join(", ", results));
+
+// in my notebook:
+// 10_000_000 iterations / 1202 ms == 8333 iterations per ms = 125000 operations per ms 

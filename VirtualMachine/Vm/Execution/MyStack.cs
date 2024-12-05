@@ -1,36 +1,37 @@
 namespace VirtualMachine.Vm.Execution;
 
-public class MyStack<T>
+public class MyStack<T>(int maxSize)
 {
-    private readonly List<T> _list = [];
+    private readonly T[] _data = new T[maxSize];
+    private int _index;
 
-    public int Count => _list.Count;
+    public int Count => _data.Length;
 
     public void Push(T value)
     {
-        _list.Add(value);
+        _data[_index++] = value;
     }
 
     public T Pop()
     {
-        var r = _list[^1];
-        // TODO: optimize
-        _list.RemoveAt(_list.Count - 1);
-        return r;
+        _index--;
+        Throw.Assert(_index >= 0);
+        return _data[_index];
     }
 
-    public T Get(Index ind) => _list[ind];
+    public T Get(int ind) => _data[ind > 0 ? ind : _index + ind];
 
     public void DropMany(long argsCount)
     {
-        // TODO: optimize
-        for (var i = 0; i < argsCount; i++) Pop();
+        _index -= (int)argsCount;
+        Throw.Assert(_index >= 0);
     }
 
-    public override string ToString() => string.Join(", ", _list);
+    public override string ToString() => string.Join(", ", _data);
 
-    public void PushMany(List<T> vmValues)
+    public void PushMany(Span<T> vmValues)
     {
-        _list.AddRange(vmValues);
+        foreach (var vmValue in vmValues)
+            Push(vmValue);
     }
 }
