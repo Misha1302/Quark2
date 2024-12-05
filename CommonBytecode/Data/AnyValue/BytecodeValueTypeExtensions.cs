@@ -8,5 +8,5 @@ public static class BytecodeValueTypeExtensions
         ((Number | NativeI64 | Nil | SharpFunctionAddress) & value) != 0;
 
     public static bool IsRefType(this BytecodeValueType value) =>
-        ((Str | Map | List | VmFunction) & value) != 0;
+        ((Str | SomeSharpObject) & value) != 0;
 }

@@ -7,19 +7,20 @@ public class BytecodeConverter
 {
     public VmModule MakeVmModule(BytecodeModule bytecodeModule)
     {
-        var functions = bytecodeModule.Functions.Select(ConvertFunction).ToList();
+        var functions = bytecodeModule.Functions.Select(function => ConvertFunction(function, bytecodeModule.Functions))
+            .ToList();
         var vmModule = new VmModule(functions);
         return vmModule;
     }
 
-    private VmFunction ConvertFunction(BytecodeFunction function)
+    private VmFunction ConvertFunction(BytecodeFunction function, List<BytecodeFunction> functions)
     {
         var ops = function.Code.Instructions.Select(
             instruction => new VmOperation(instruction.Type, ConvertToVmValues(instruction.Arguments))
         ).ToList();
 
         var labels = LabelsCalculator.CalculateLabels(function.Code.Instructions);
-        PreprocessBranches(ops, labels);
+        PreprocessBranches(ops, labels, functions);
 
         var name = function.Name;
         var locals = ExtractLocals(function.Code);
@@ -38,14 +39,19 @@ public class BytecodeConverter
                     NativeI64);
     }
 
-    private void PreprocessBranches(List<VmOperation> ops, List<Label> labels)
+    private void PreprocessBranches(List<VmOperation> ops, List<Label> labels, List<BytecodeFunction> functions)
     {
         foreach (var op in ops)
             if (op.Type is InstructionType.BrOp)
-                // int - jump ip = [string - jump label name]
             {
+                // int - jump ip = [string - jump label name]
                 var findIndex = (long)labels.FindIndex(x => x.Name == op.Args[1].GetRef<string>());
                 op.Args[1] = VmValue.Create(findIndex, NativeI64);
+            }
+            else if (op.Type is InstructionType.CallFunc)
+            {
+                var findIndex = (long)functions.FindIndex(x => x.Name == op.Args[0].GetRef<string>());
+                op.Args[0] = VmValue.Create(findIndex, NativeI64);
             }
     }
 

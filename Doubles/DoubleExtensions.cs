@@ -1,4 +1,4 @@
-namespace VirtualMachine.Vm.Extensions;
+namespace Doubles;
 
 public static class DoubleExtensions
 {

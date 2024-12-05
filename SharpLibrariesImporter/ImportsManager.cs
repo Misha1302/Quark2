@@ -39,15 +39,18 @@ public class ImportsManager
         foreach (var dir in Directory.GetDirectories(path))
             ImportDirectory(dir);
 
-        foreach (var file in Directory.GetFiles(path))
+        foreach (var file in Directory.GetFiles(path).Where(IsCorrectFilePath))
             ImportFile(file);
     }
+
+    private bool IsCorrectFilePath(string path) => path.EndsWith(".dll");
 
 
     private void ImportAssembly(Assembly assembly)
     {
         foreach (var type in assembly.GetTypes())
-        foreach (var methodInfo in type.GetMethods(BindingFlags.Static | BindingFlags.Public))
+        foreach (var methodInfo in type.GetMethods(BindingFlags.Static | BindingFlags.Public)
+                     .Where(x => !x.IsGenericMethod))
             _methods.Add(methodInfo, methodInfo.CreateDelegateCustom(null));
     }
 }

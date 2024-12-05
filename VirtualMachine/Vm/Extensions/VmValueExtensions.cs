@@ -14,7 +14,7 @@ public static class VmValueExtensions
             Delegate value => [..SharpCallArgs.MakeCallSharpOperationArguments(value)],
             Enum e => [VmValue.Create((long)Convert.ToInt32(e), NativeI64)],
             null => [VmValue.NilValue],
-            _ => [Throw.InvalidOpEx<VmValue>()],
+            var obj => [VmValue.CreateRef(obj, SomeSharpObject)],
         };
     }
 
@@ -25,10 +25,8 @@ public static class VmValueExtensions
             Nil => "Nil",
             Number => value.Get<double>(),
             Str => value.GetRef<string>(),
-            Map => Throw.InvalidOpEx<string>(),
-            List => string.Join(", ", value.GetRef<List<VmValue>>()),
-            BytecodeValueType.VmFunction => value.GetRef<VmFunction>(),
             SharpFunctionAddress => value.Get<nint>(),
+            SomeSharpObject => value.GetRef<object>(),
             NativeI64 => value.Get<long>(),
             BytecodeValueType.Any => value.Get<long>(),
             _ => Throw.InvalidOpEx<string>(),

@@ -8,55 +8,93 @@ using VirtualMachine;
 using static BytecodeGenerationSimplifier.SimpleBytecodeGenerator;
 using Any = CommonBytecode.Data.AnyValue.Any;
 
+var importsManager = new ImportsManager();
+
+importsManager.Import("../../../../Libraries");
+
+GetForLoopBlocks(out var mainForStartI, out var mainForCondI, out var mainForStepI, "i");
+GetForLoopBlocks(out var mainForStartJ, out var mainForCondJ, out var mainForStepJ, "j");
+
 
 /*
-for number i = 1, i <= 10.0, i = i + 1 {
-    number j = Cube(i)
-    Print(j)
-    Print(" ")
-}
-PrintLn("")
+import 'Vector.dll'
+import 'Random.dll'
+import 'IO.dll'
 
-return Nil
+def main() {
+   var len = 10
+
+   var arr = Vector.CreateVector()
+   Vector.SetSize(arr)
+
+   for var i = 0, i < len, i = i + 1 {
+       SetValue(arr, i, Random.RandInteger(-10, 10)
+   }
+
+   Print(arr)
+   RecursiveBubbleSort(arr, 0)
+   Print(arr)
+}
+
+def RecursiveBubbleSort(var arr, var i) {
+   if i == GetLen(arr) - 1 {
+       return
+   }
+
+   for var j = i, j < GetLen(arr) - 1, j = j + 1 {
+       if GetValue(arr, j) > GetValue(arr, j + 1) {
+           SwapValues(arr, j, j + 1)
+       }
+   }
+
+   RecursiveBubbleSort(arr, i + 1)
+}
 */
 
-var importsManager = new ImportsManager();
-importsManager.Import("../../../../Libraries/bin/net8.0/QuarkIO.dll");
+var mainForBody = (Func<List<BytecodeInstruction>>)(
+    () =>
+    [
+        // arr[i] = Random.RandInteger(-10, 10)
+        new BytecodeInstruction(InstructionType.LoadLocal, ["arr"]),
+        new BytecodeInstruction(InstructionType.LoadLocal, ["i"]),
 
-var start = (Func<List<BytecodeInstruction>>)(() =>
-[
-    ..DefineLocals(("i", Number), ("top", Number)),
-    new BytecodeInstruction(InstructionType.PushConst, [1.0]),
-    new BytecodeInstruction(InstructionType.SetLocal, ["i"]),
+        new BytecodeInstruction(InstructionType.PushConst, [-10.0]),
+        new BytecodeInstruction(InstructionType.PushConst, [10.0]),
+        ..CallSharp(importsManager.GetDelegateByName("GetRandomInteger")),
 
-    // ..CallSharp(importsManager.GetDelegateByName("InputNumber")),
-    new BytecodeInstruction(InstructionType.PushConst, [10_000_000.0]),
-    new BytecodeInstruction(InstructionType.SetLocal, ["top"]),
-]);
-var cond = (Func<List<BytecodeInstruction>>)(() =>
-[
-    new BytecodeInstruction(InstructionType.LoadLocal, ["i"]),
-    new BytecodeInstruction(InstructionType.LoadLocal, ["top"]),
-    new BytecodeInstruction(InstructionType.MathOrLogicOp, [MathLogicOp.LtOrEq.ToAny()]),
-]);
-var step = (Func<List<BytecodeInstruction>>)(() => [..Inc("i")]);
-var body = (Func<List<BytecodeInstruction>>)(() =>
-[
-    // ..DefineLocals(("j", Number)),
-    // new BytecodeInstruction(InstructionType.LoadLocal, ["i"]),
-    // new BytecodeInstruction(InstructionType.SetLocal, ["j"]),
-    //
-    // new BytecodeInstruction(InstructionType.LoadLocal, ["j"]),
-    // ..CallSharp(importsManager.GetDelegateByName("Print")),
-    // new BytecodeInstruction(InstructionType.PushConst, [" "]),
-    // ..CallSharp(importsManager.GetDelegateByName("Print")),
-]);
+        ..CallSharp(importsManager.GetDelegateByName("SetValue")),
+    ]);
 
-var fivePowTwoFuncBytecode = (List<BytecodeInstruction>)
+var main = (List<BytecodeInstruction>)
 [
-    ..For(start, cond, step, body),
+    // var len = 10
+    ..DefineLocals(("len", Number)),
+    new BytecodeInstruction(InstructionType.PushConst, [10.0]),
+    new BytecodeInstruction(InstructionType.SetLocal, ["len"]),
 
-    new BytecodeInstruction(InstructionType.PushConst, [""]),
+    // var arr = Vector.CreateVector()
+    ..DefineLocals(("arr", SomeSharpObject)),
+    ..CallSharp(importsManager.GetDelegateByName("CreateVector")),
+    new BytecodeInstruction(InstructionType.SetLocal, ["arr"]),
+
+    // arr.SetSize(len)
+    new BytecodeInstruction(InstructionType.LoadLocal, ["arr"]),
+    new BytecodeInstruction(InstructionType.LoadLocal, ["len"]),
+    ..CallSharp(importsManager.GetDelegateByName("SetSize")),
+
+    // for 0..len via i { arr[i] = RandomInteger(-10, 10) }
+    ..For(mainForStartI, mainForCondI, mainForStepI, mainForBody),
+
+    // PrintLn(arr)
+    new BytecodeInstruction(InstructionType.LoadLocal, ["arr"]),
+    ..CallSharp(importsManager.GetDelegateByName("PrintLn")),
+
+    // BubbleSort(arr)
+    new BytecodeInstruction(InstructionType.LoadLocal, ["arr"]),
+    new BytecodeInstruction(InstructionType.CallFunc, ["BubbleSort"]),
+
+    // PrintLn(arr)
+    new BytecodeInstruction(InstructionType.LoadLocal, ["arr"]),
     ..CallSharp(importsManager.GetDelegateByName("PrintLn")),
 
     new BytecodeInstruction(InstructionType.PushConst, [Any.Nil]),
@@ -64,9 +102,67 @@ var fivePowTwoFuncBytecode = (List<BytecodeInstruction>)
 ];
 
 
+var bubbleForBody2 = (Func<List<BytecodeInstruction>>)(() =>
+[
+    // if arr[j] > arr[j+1]
+    new BytecodeInstruction(InstructionType.LoadLocal, ["arr"]),
+    new BytecodeInstruction(InstructionType.LoadLocal, ["j"]),
+    ..CallSharp(importsManager.GetDelegateByName("GetValue")),
+
+    new BytecodeInstruction(InstructionType.LoadLocal, ["arr"]),
+    new BytecodeInstruction(InstructionType.LoadLocal, ["j"]),
+    new BytecodeInstruction(InstructionType.PushConst, [1.0]),
+    new BytecodeInstruction(InstructionType.MathOrLogicOp, [MathLogicOp.Sum.ToAny()]),
+    ..CallSharp(importsManager.GetDelegateByName("GetValue")),
+
+    new BytecodeInstruction(InstructionType.MathOrLogicOp, [MathLogicOp.Gt.ToAny()]),
+    new BytecodeInstruction(InstructionType.BrOp, [BranchMode.IfFalse.ToAny(), "end"]),
+
+
+    // SwapValues(arr, j, j+1)
+    new BytecodeInstruction(InstructionType.LoadLocal, ["arr"]),
+    new BytecodeInstruction(InstructionType.LoadLocal, ["j"]),
+
+    new BytecodeInstruction(InstructionType.LoadLocal, ["j"]),
+    new BytecodeInstruction(InstructionType.PushConst, [1.0]),
+    new BytecodeInstruction(InstructionType.MathOrLogicOp, [MathLogicOp.Sum.ToAny()]),
+
+    ..CallSharp(importsManager.GetDelegateByName("SwapValues")),
+
+
+    new BytecodeInstruction(InstructionType.Label, ["end"]),
+]);
+
+
+var bubbleForBody = (Func<List<BytecodeInstruction>>)(() =>
+[
+    ..For(mainForStartJ, mainForCondJ, mainForStepJ, bubbleForBody2),
+]);
+
+var bubbleSort = (List<BytecodeInstruction>)
+[
+    ..DefineLocals(("arr", SomeSharpObject), ("len", Number)),
+    new BytecodeInstruction(InstructionType.SetLocal, ["arr"]),
+
+    new BytecodeInstruction(InstructionType.LoadLocal, ["arr"]),
+    ..CallSharp(importsManager.GetDelegateByName("GetSize")),
+    new BytecodeInstruction(InstructionType.PushConst, [1.0]),
+    new BytecodeInstruction(InstructionType.MathOrLogicOp, [MathLogicOp.Sub.ToAny()]),
+    new BytecodeInstruction(InstructionType.SetLocal, ["len"]),
+
+    // for 0..len via i { arr[i] = RandomInteger(-10, 10) }
+    ..For(mainForStartI, mainForCondI, mainForStepI, bubbleForBody),
+
+    new BytecodeInstruction(InstructionType.PushConst, [Any.Nil]),
+    new BytecodeInstruction(InstructionType.Ret, []),
+];
+
 var module = new BytecodeModule(
     "print cubes",
-    [new BytecodeFunction("Main", new Bytecode(fivePowTwoFuncBytecode))]
+    [
+        new BytecodeFunction("Main", new Bytecode(main)),
+        new BytecodeFunction("BubbleSort", new Bytecode(bubbleSort)),
+    ]
 );
 
 var executor = (IExecutor)new QuarkVirtualMachine();
@@ -74,6 +170,37 @@ var sw = Stopwatch.StartNew();
 var results = executor.RunModule(module, [null]);
 Console.WriteLine(sw.ElapsedMilliseconds);
 Console.WriteLine(string.Join(", ", results));
+return;
 
-// in my notebook:
+void GetForLoopBlocks(
+    out Func<List<BytecodeInstruction>> mainForStartParam,
+    out Func<List<BytecodeInstruction>> mainForCondParam,
+    out Func<List<BytecodeInstruction>> mainForStepParam,
+    string varName
+)
+{
+    mainForStartParam = () =>
+    [
+        // var i = 0
+        ..DefineLocals((varName, Number)),
+        new BytecodeInstruction(InstructionType.PushConst, [0.0]),
+        new BytecodeInstruction(InstructionType.SetLocal, [varName]),
+    ];
+
+    mainForCondParam = () =>
+    [
+        // i < len
+        new BytecodeInstruction(InstructionType.LoadLocal, [varName]),
+        new BytecodeInstruction(InstructionType.LoadLocal, ["len"]),
+        new BytecodeInstruction(InstructionType.MathOrLogicOp, [MathLogicOp.Lt.ToAny()]),
+    ];
+
+    mainForStepParam = () =>
+    [
+        // i = i + 1
+        ..Inc(varName),
+    ];
+}
+
+// in my laptop:
 // 10_000_000 iterations / 1202 ms == 8333 iterations per ms = 125000 operations per ms 

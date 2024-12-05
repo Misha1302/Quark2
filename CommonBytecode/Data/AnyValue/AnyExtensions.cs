@@ -1,6 +1,5 @@
 using System.Globalization;
 using System.Runtime.CompilerServices;
-using CommonBytecode.Data.Structures;
 using ExceptionsManager;
 
 namespace CommonBytecode.Data.AnyValue;
@@ -38,9 +37,7 @@ public static class AnyExtensions
             Nil => "Nil",
             Number => value.Get<double>().ToString(CultureInfo.InvariantCulture),
             Str => value.Get<string>(),
-            Map => Throw.InvalidOpEx<string>(),
-            List => string.Join(", ", value.Get<List<Any>>()),
-            VmFunction => value.Get<BytecodeFunction>().Name,
+            SomeSharpObject => value.Value.ToString() ?? string.Empty,
             SharpFunctionAddress => value.Get<nint>().ToString("X"),
             NativeI64 => $"n_{value.Get<long>()}",
             BytecodeValueType.Any => $"any: {value.Get<long>()}",
