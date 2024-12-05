@@ -17,37 +17,32 @@ GetForLoopBlocks(out var mainForStartJ, out var mainForCondJ, out var mainForSte
 
 
 /*
-import 'Vector.dll'
-import 'Random.dll'
-import 'IO.dll'
+import 'Libraries'
 
 def main() {
    var len = 10
 
-   var arr = Vector.CreateVector()
-   Vector.SetSize(arr)
+   var arr = CreateVector()
+   SetSize(arr)
 
    for var i = 0, i < len, i = i + 1 {
        SetValue(arr, i, Random.RandInteger(-10, 10)
    }
 
-   Print(arr)
-   RecursiveBubbleSort(arr, 0)
-   Print(arr)
+   PrintLn(arr)
+   BubbleSort(arr, 0)
+   PrintLn(arr)
 }
 
-def RecursiveBubbleSort(var arr, var i) {
-   if i == GetLen(arr) - 1 {
-       return
-   }
-
-   for var j = i, j < GetLen(arr) - 1, j = j + 1 {
-       if GetValue(arr, j) > GetValue(arr, j + 1) {
-           SwapValues(arr, j, j + 1)
-       }
-   }
-
-   RecursiveBubbleSort(arr, i + 1)
+def BubbleSort(var arr) {
+    var len = GetSize(arr) - 1
+    for var i = 0, i < len, i = i + 1 {
+        for var j = 0, j < len, j = j + 1 {
+            if GetValue(arr, j) > GetValue(arr, j + 1) {
+               SwapValues(arr, j, j + 1)
+            }
+        }
+    }
 }
 */
 
