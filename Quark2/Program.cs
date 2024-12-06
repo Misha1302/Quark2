@@ -20,7 +20,7 @@ GetForLoopBlocks(out var mainForStartJ, out var mainForCondJ, out var mainForSte
 import 'Libraries'
 
 def main() {
-   var len = 10
+   var len = 100
 
    var arr = CreateVector()
    SetSize(arr)
@@ -30,7 +30,7 @@ def main() {
    }
 
    PrintLn(arr)
-   BubbleSort(arr, 0)
+   BubbleSort(arr)
    PrintLn(arr)
 }
 
@@ -64,7 +64,7 @@ var main = (List<BytecodeInstruction>)
 [
     // var len = 10
     ..DefineLocals(("len", Number)),
-    new BytecodeInstruction(InstructionType.PushConst, [10.0]),
+    new BytecodeInstruction(InstructionType.PushConst, [100.0]),
     new BytecodeInstruction(InstructionType.SetLocal, ["len"]),
 
     // var arr = Vector.CreateVector()
@@ -196,6 +196,3 @@ void GetForLoopBlocks(
         ..Inc(varName),
     ];
 }
-
-// in my laptop:
-// 10_000_000 iterations / 1202 ms == 8333 iterations per ms = 125000 operations per ms 
