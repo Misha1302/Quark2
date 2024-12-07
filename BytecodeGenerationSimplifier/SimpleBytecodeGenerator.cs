@@ -61,4 +61,9 @@ public static class SimpleBytecodeGenerator
                 locals.Select(x => new BytecodeVariable(x.Item1, x.Item2).ToAny()).ToList()),
         ];
     }
+
+    public static List<BytecodeInstruction> ReadParameters(params string[] parameters)
+    {
+        return parameters.Reverse().Select(x => new BytecodeInstruction(InstructionType.SetLocal, [x])).ToList();
+    }
 }

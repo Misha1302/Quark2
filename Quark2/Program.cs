@@ -84,8 +84,9 @@ var main = (List<BytecodeInstruction>)
     new BytecodeInstruction(InstructionType.LoadLocal, ["arr"]),
     ..CallSharp(importsManager.GetDelegateByName("PrintLn")),
 
-    // BubbleSort(arr)
+    // BubbleSort(arr, 0)
     new BytecodeInstruction(InstructionType.LoadLocal, ["arr"]),
+    new BytecodeInstruction(InstructionType.PushConst, [0.0]),
     new BytecodeInstruction(InstructionType.CallFunc, ["BubbleSort"]),
 
     // PrintLn(arr)
@@ -134,19 +135,38 @@ var bubbleForBody = (Func<List<BytecodeInstruction>>)(() =>
     ..For(mainForStartJ, mainForCondJ, mainForStepJ, bubbleForBody2),
 ]);
 
-var bubbleSort = (List<BytecodeInstruction>)
+var recursiveBubbleSort = (List<BytecodeInstruction>)
 [
-    ..DefineLocals(("arr", SomeSharpObject), ("len", Number)),
-    new BytecodeInstruction(InstructionType.SetLocal, ["arr"]),
+    // read parameters - arr and i
+    ..DefineLocals(("arr", SomeSharpObject), ("len", Number), ("i", Number)),
+    ..ReadParameters("arr", "i"),
 
+    // len = GetSize(arr) - 1
     new BytecodeInstruction(InstructionType.LoadLocal, ["arr"]),
     ..CallSharp(importsManager.GetDelegateByName("GetSize")),
     new BytecodeInstruction(InstructionType.PushConst, [1.0]),
     new BytecodeInstruction(InstructionType.MathOrLogicOp, [MathLogicOp.Sub.ToAny()]),
     new BytecodeInstruction(InstructionType.SetLocal, ["len"]),
 
+    // if i == len { return }
+    new BytecodeInstruction(InstructionType.LoadLocal, ["i"]),
+    new BytecodeInstruction(InstructionType.LoadLocal, ["len"]),
+    new BytecodeInstruction(InstructionType.MathOrLogicOp, [MathLogicOp.Lt.ToAny()]),
+    new BytecodeInstruction(InstructionType.BrOp, [BranchMode.IfTrue.ToAny(), "sort"]),
+
+    new BytecodeInstruction(InstructionType.Ret, []),
+
+    new BytecodeInstruction(InstructionType.Label, ["sort"]),
+
+
     // for 0..len via i { arr[i] = RandomInteger(-10, 10) }
-    ..For(mainForStartI, mainForCondI, mainForStepI, bubbleForBody),
+    ..For(mainForStartJ, mainForCondJ, mainForStepJ, bubbleForBody),
+
+    new BytecodeInstruction(InstructionType.LoadLocal, ["arr"]),
+    new BytecodeInstruction(InstructionType.LoadLocal, ["i"]),
+    new BytecodeInstruction(InstructionType.PushConst, [1.0]),
+    new BytecodeInstruction(InstructionType.MathOrLogicOp, [MathLogicOp.Sum.ToAny()]),
+    new BytecodeInstruction(InstructionType.CallFunc, ["BubbleSort"]),
 
     new BytecodeInstruction(InstructionType.PushConst, [Any.Nil]),
     new BytecodeInstruction(InstructionType.Ret, []),
@@ -156,7 +176,7 @@ var module = new BytecodeModule(
     "print cubes",
     [
         new BytecodeFunction("Main", new Bytecode(main)),
-        new BytecodeFunction("BubbleSort", new Bytecode(bubbleSort)),
+        new BytecodeFunction("BubbleSort", new Bytecode(recursiveBubbleSort)),
     ]
 );
 
