@@ -9,6 +9,7 @@
 
     <ItemGroup>
         <ProjectReference Include="..\AbstractExecutor\AbstractExecutor.csproj"/>
+        <ProjectReference Include="..\AsgToBytecodeTranslator\AsgToBytecodeTranslator.csproj" />
         <ProjectReference Include="..\BytecodeGenerationSimplifier\BytecodeGenerationSimplifier.csproj"/>
         <ProjectReference Include="..\CommonBytecode\CommonBytecode.csproj"/>
         <ProjectReference Include="..\SharpLibrariesImporter\SharpLibrariesImporter.csproj"/>

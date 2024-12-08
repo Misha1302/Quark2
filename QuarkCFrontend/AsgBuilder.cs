@@ -8,8 +8,10 @@ public class AsgBuilder(List<List<INodeCreator>> creatorLevels)
 
         var root = new AsgNode(AsgNodeType.Scope, null!, nodes);
 
+
         foreach (var level in creatorLevels)
             Dfs(nodes, level);
+
 
         return root;
     }

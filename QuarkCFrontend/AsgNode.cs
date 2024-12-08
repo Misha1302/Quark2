@@ -4,6 +4,7 @@ public record AsgNode(AsgNodeType NodeType, LexemeValue LexemeValue, List<AsgNod
 {
     public LexemeType? LexemeType => LexemeValue?.LexemePattern.LexemeType;
     public AsgNodeType NodeType { get; set; } = NodeType;
+    public string Text => LexemeValue.Text;
 
     public override string ToString() => ToStringCustom(0);
 

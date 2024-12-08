@@ -53,4 +53,9 @@ public class ImportsManager
                      .Where(x => !x.IsGenericMethod))
             _methods.Add(methodInfo, methodInfo.CreateDelegateCustom(null));
     }
+
+    public bool Have(string functionName)
+    {
+        return _methods.Any(x => x.Key.Name == functionName);
+    }
 }

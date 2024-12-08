@@ -8,7 +8,7 @@ public class FunctionCreationNodeCreator : INodeCreator
 
     public void TryBuild(List<AsgNode> nodes, int i)
     {
-        if (i + 2 >= nodes.Count) return;
+        if (i + 3 >= nodes.Count) return;
 
         var a = nodes[i].LexemeType == Identifier;
         var b = nodes[i + 1].LexemeType == Identifier;

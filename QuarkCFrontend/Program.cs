@@ -42,22 +42,6 @@ const string code2 =
 var lexemes = new Lexer().Lexemize(code2);
 Console.WriteLine(string.Join("\n", lexemes));
 
-var asg = new AsgBuilder([
-    [
-        new NumberNodeCreator(),
-        new StringNodeCreator(),
-    ],
-    [
-        new ScopeBracesNodeCreator(),
-        new ScopeParsNodeCreator(),
-    ],
-    [
-        new ImportNodeCreator(),
-        new ReturnNodeCreator(),
-    ],
-    [
-        new FunctionCreationNodeCreator(),
-    ],
-]).Build(lexemes);
+var asg = new AsgBuilder(AsgBuilderConfiguration.Default).Build(lexemes);
 
 Console.WriteLine(string.Join("\n", asg));
