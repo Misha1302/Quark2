@@ -23,9 +23,12 @@ public class Lexer
 
         var result = new List<LexemeValue>();
         var index = 0;
+        var prevFoundIndex = 0;
         while (index < code.Length)
         {
-            var lexeme = allMatches.First(x => x.StartIndex >= index);
+            // ReSharper disable once AccessToModifiedClosure
+            (var lexeme, prevFoundIndex) = allMatches.FirstOptimized(x => x.StartIndex >= index, prevFoundIndex);
+            // var lexeme = allMatches.First(x => x.StartIndex >= index);
             index = lexeme.StartIndex + lexeme.Text.Length;
             result.Add(lexeme);
         }

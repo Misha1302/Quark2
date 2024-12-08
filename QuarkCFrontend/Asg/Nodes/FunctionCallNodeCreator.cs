@@ -9,7 +9,6 @@ public class FunctionCallNodeCreator : INodeCreator
 
     public void TryBuild(List<AsgNode> nodes, int i)
     {
-        Console.WriteLine("---" + nodes[i]);
         if (i + 1 >= nodes.Count) return;
 
         var a = nodes[i].LexemeType == LexemeType.Identifier;
