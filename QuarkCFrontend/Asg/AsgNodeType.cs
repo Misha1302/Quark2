@@ -29,4 +29,8 @@ public enum AsgNodeType
     Modulus,
     Scope,
     Power,
+    And,
+    Or,
+    Xor,
+    Not,
 }

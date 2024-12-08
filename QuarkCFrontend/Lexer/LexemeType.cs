@@ -31,4 +31,8 @@ public enum LexemeType : long
     Division,
     Modulus,
     Power,
+    And,
+    Or,
+    Xor,
+    Not,
 }

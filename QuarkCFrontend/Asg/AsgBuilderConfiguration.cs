@@ -34,6 +34,16 @@ public static class AsgBuilderConfiguration
             new GreaterThanOrEqualsNodeCreator(),
         ],
         [
+            new NotNodeCreator(),
+        ],
+        [
+            new AndNodeCreator(),
+        ],
+        [
+            new OrNodeCreator(),
+            new XorNodeCreator(),
+        ],
+        [
             new ImportNodeCreator(),
             new ReturnNodeCreator(),
             new FunctionCallNodeCreator(),

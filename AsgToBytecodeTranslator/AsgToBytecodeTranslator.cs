@@ -120,6 +120,18 @@ public class AsgToBytecodeTranslator
             case AsgNodeType.Power:
                 Operation(node, MathLogicOp.Pow);
                 break;
+            case AsgNodeType.And:
+                Operation(node, MathLogicOp.And);
+                break;
+            case AsgNodeType.Or:
+                Operation(node, MathLogicOp.Or);
+                break;
+            case AsgNodeType.Xor:
+                Operation(node, MathLogicOp.Xor);
+                break;
+            case AsgNodeType.Not:
+                Operation(node, MathLogicOp.Not);
+                break;
             default:
                 Throw.InvalidOpEx();
                 break;
