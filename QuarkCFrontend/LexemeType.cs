@@ -1,0 +1,33 @@
+namespace QuarkCFrontend;
+
+public enum LexemeType : long
+{
+    Identifier,
+    LeftPar,
+    RightPar,
+    LeftBrace,
+    RightBrace,
+    Eq,
+    Lt,
+    Gt,
+    Le,
+    Ge,
+    Neq,
+    If,
+    Else,
+    ElseIf,
+    For,
+    While,
+    Return,
+    Number,
+    String,
+    Import,
+    LeftBracket,
+    RightBracket,
+    EqEq,
+    Addition,
+    Subtraction,
+    Multiplication,
+    Division,
+    Modulus,
+}

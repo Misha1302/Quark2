@@ -1,0 +1,31 @@
+namespace QuarkCFrontend;
+
+public enum AsgNodeType
+{
+    Unknown,
+    Import,
+    String,
+    FunctionCreating,
+    SetOperation,
+    Number,
+    Type,
+    FunctionCall,
+    If,
+    Else,
+    ElseIf,
+    Return,
+    ForLoop,
+    WhileLoop,
+    Multiplication,
+    Division,
+    Addition,
+    Subtraction,
+    LessThan,
+    GreaterThan,
+    LessThanOrEqual,
+    GreaterThanOrEqual,
+    Equal,
+    NotEqual,
+    Modulus,
+    Scope
+}
