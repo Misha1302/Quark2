@@ -7,15 +7,15 @@ public class FunctionCreationNodeCreator : INodeCreator
 {
     public AsgNodeType NodeType => AsgNodeType.FunctionCreating;
 
-    public void TryBuild(List<AsgNode> nodes, int i)
+    public int TryBuild(List<AsgNode> nodes, int i, AsgBuilder asgBuilder)
     {
-        if (i + 3 >= nodes.Count) return;
+        if (i + 3 >= nodes.Count) return 0;
 
         var a = nodes[i].LexemeType == Identifier;
         var b = nodes[i + 1].LexemeType == Identifier;
         var c = nodes[i + 2].NodeType == AsgNodeType.Scope;
         var d = nodes[i + 3].NodeType == AsgNodeType.Scope;
-        if (!(a && b && c && d)) return;
+        if (!(a && b && c && d)) return 0;
 
         nodes[i + 1].Children.AddRange([nodes[i], nodes[i + 2], nodes[i + 3]]);
         nodes[i + 0].NodeType = AsgNodeType.Type;
@@ -24,5 +24,6 @@ public class FunctionCreationNodeCreator : INodeCreator
         nodes.RemoveAt(i + 3);
         nodes.RemoveAt(i + 2);
         nodes.RemoveAt(i);
+        return 0;
     }
 }

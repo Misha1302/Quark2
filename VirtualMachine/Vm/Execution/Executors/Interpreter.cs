@@ -122,6 +122,7 @@ public class Interpreter
             Mul => VmCalc.Mul(a, b),
             Div => VmCalc.Div(a, b),
             Pow => VmCalc.Pow(a, b),
+            Mod => VmCalc.Mod(a, b),
             And => VmCalc.And(a, b),
             Or => VmCalc.Or(a, b),
             Xor => VmCalc.Xor(a, b),

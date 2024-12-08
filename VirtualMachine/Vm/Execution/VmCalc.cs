@@ -43,4 +43,6 @@ public static class VmCalc
 
     public static VmValue LtOrEq(VmValue a, VmValue b, double accuracy) =>
         VmValue.Create(Lt(a, b).IsTrue() || Eq(a, b, accuracy).IsTrue() ? 1.0 : 0.0, Number);
+
+    public static VmValue Mod(VmValue a, VmValue b) => VmValue.Create(a.Get<double>() % b.Get<double>(), Number);
 }

@@ -30,4 +30,5 @@ public enum LexemeType : long
     Multiplication,
     Division,
     Modulus,
+    Power,
 }

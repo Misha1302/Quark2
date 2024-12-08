@@ -14,7 +14,7 @@ public class ScopesNodeCreator : INodeCreator
 
     public AsgNodeType NodeType => AsgNodeType.Scope;
 
-    public void TryBuild(List<AsgNode> nodes, int i)
+    public int TryBuild(List<AsgNode> nodes, int i, AsgBuilder asgBuilder)
     {
         foreach (var pair in _scopes)
         {
@@ -26,7 +26,7 @@ public class ScopesNodeCreator : INodeCreator
             while (true)
             {
                 if (nodes[i].LexemeType == pair.left)
-                    TryBuild(nodes, i);
+                    TryBuild(nodes, i, asgBuilder);
 
                 if (nodes[i].LexemeType == pair.right)
                     break;
@@ -42,5 +42,7 @@ public class ScopesNodeCreator : INodeCreator
             nodes.RemoveRange(from - 1, to - from + 1 + 2);
             nodes.Insert(from - 1, node);
         }
+
+        return 0;
     }
 }

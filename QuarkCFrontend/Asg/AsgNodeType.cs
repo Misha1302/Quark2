@@ -28,4 +28,5 @@ public enum AsgNodeType
     NotEqual,
     Modulus,
     Scope,
+    Power,
 }

@@ -1,5 +1,6 @@
 ﻿using System.Globalization;
 using BytecodeGenerationSimplifier;
+using CommonBytecode.Data.AnyValue;
 using CommonBytecode.Data.Structures;
 using CommonBytecode.Enums;
 using ExceptionsManager;
@@ -81,34 +82,54 @@ public class AsgToBytecodeTranslator
             case AsgNodeType.WhileLoop:
                 break;
             case AsgNodeType.Multiplication:
+                Operation(node, MathLogicOp.Mul);
                 break;
             case AsgNodeType.Division:
+                Operation(node, MathLogicOp.Div);
                 break;
             case AsgNodeType.Addition:
+                Operation(node, MathLogicOp.Sum);
                 break;
             case AsgNodeType.Subtraction:
+                Operation(node, MathLogicOp.Sub);
                 break;
             case AsgNodeType.LessThan:
+                Operation(node, MathLogicOp.Lt);
                 break;
             case AsgNodeType.GreaterThan:
+                Operation(node, MathLogicOp.Gt);
                 break;
             case AsgNodeType.LessThanOrEqual:
+                Operation(node, MathLogicOp.LtOrEq);
                 break;
             case AsgNodeType.GreaterThanOrEqual:
+                Operation(node, MathLogicOp.GtOrEq);
                 break;
             case AsgNodeType.Equal:
+                Operation(node, MathLogicOp.Eq);
                 break;
             case AsgNodeType.NotEqual:
+                Operation(node, MathLogicOp.NotEq);
                 break;
             case AsgNodeType.Modulus:
+                Operation(node, MathLogicOp.Mod);
                 break;
             case AsgNodeType.Scope:
                 Visit(node.Children);
+                break;
+            case AsgNodeType.Power:
+                Operation(node, MathLogicOp.Pow);
                 break;
             default:
                 Throw.InvalidOpEx();
                 break;
         }
+    }
+
+    private void Operation(AsgNode node, MathLogicOp mathLogicOp)
+    {
+        Visit(node.Children);
+        CurBytecode.Add(new BytecodeInstruction(InstructionType.MathOrLogicOp, [mathLogicOp.ToAny()]));
     }
 
     private static string GetString(string text) => text[1..^1];

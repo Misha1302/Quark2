@@ -7,6 +7,7 @@ public enum MathLogicOp : long
     Mul,
     Div,
     Pow,
+    Mod,
     And,
     Or,
     Xor,

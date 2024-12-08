@@ -5,6 +5,8 @@ namespace QuarkCFrontend.Asg;
 
 public class AsgBuilder(List<List<INodeCreator>> creatorLevels)
 {
+    private List<INodeCreator> _curCreators = null!;
+
     public AsgNode Build(List<LexemeValue> lexemes)
     {
         var nodes = lexemes.Select(x => new AsgNode(AsgNodeType.Unknown, x, [])).ToList();
@@ -19,8 +21,14 @@ public class AsgBuilder(List<List<INodeCreator>> creatorLevels)
         return root;
     }
 
+    public void DfsWithMathOps(List<AsgNode> nodes)
+    {
+        Dfs(nodes, _curCreators);
+    }
+
     private void Dfs(List<AsgNode> nodes, List<INodeCreator> curCreators)
     {
+        _curCreators = curCreators;
         for (var i = 0; i < nodes.Count; i++)
         {
             var node = nodes[i];
@@ -28,7 +36,8 @@ public class AsgBuilder(List<List<INodeCreator>> creatorLevels)
             Dfs(node.Children, curCreators);
 
             foreach (var creator in curCreators)
-                creator.TryBuild(nodes, i);
+                if (i < nodes.Count)
+                    i += creator.TryBuild(nodes, i, this);
         }
     }
 }
