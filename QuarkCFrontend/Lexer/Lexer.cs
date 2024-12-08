@@ -1,6 +1,6 @@
 using System.Text.RegularExpressions;
 
-namespace QuarkCFrontend;
+namespace QuarkCFrontend.Lexer;
 
 public class Lexer
 {

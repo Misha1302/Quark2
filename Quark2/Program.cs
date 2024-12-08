@@ -1,5 +1,6 @@
 ﻿using AbstractExecutor;
-using QuarkCFrontend;
+using QuarkCFrontend.Asg;
+using QuarkCFrontend.Lexer;
 using VirtualMachine;
 
 const string code2 =
@@ -16,7 +17,6 @@ const string code2 =
 
 var lexemes = new Lexer().Lexemize(code2);
 var asg = new AsgBuilder(AsgBuilderConfiguration.Default).Build(lexemes);
-Console.WriteLine(asg.ToString());
 var module = new AsgToBytecodeTranslator.AsgToBytecodeTranslator().Translate(asg);
 var executor = (IExecutor)new QuarkVirtualMachine();
 var results = executor.RunModule(module, [null]);

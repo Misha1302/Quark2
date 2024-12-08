@@ -1,4 +1,4 @@
-namespace QuarkCFrontend;
+namespace QuarkCFrontend.Lexer;
 
 public enum LexemeType : long
 {

@@ -7,10 +7,10 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\BytecodeGenerationSimplifier\BytecodeGenerationSimplifier.csproj" />
-      <ProjectReference Include="..\CommonBytecode\CommonBytecode.csproj" />
-      <ProjectReference Include="..\QuarkCFrontend\QuarkCFrontend.csproj" />
-      <ProjectReference Include="..\SharpLibrariesImporter\SharpLibrariesImporter.csproj" />
+        <ProjectReference Include="..\BytecodeGenerationSimplifier\BytecodeGenerationSimplifier.csproj"/>
+        <ProjectReference Include="..\CommonBytecode\CommonBytecode.csproj"/>
+        <ProjectReference Include="..\QuarkCFrontend\QuarkCFrontend.csproj"/>
+        <ProjectReference Include="..\SharpLibrariesImporter\SharpLibrariesImporter.csproj"/>
     </ItemGroup>
 
 </Project>

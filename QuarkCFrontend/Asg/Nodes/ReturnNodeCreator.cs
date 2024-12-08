@@ -1,4 +1,7 @@
-namespace QuarkCFrontend;
+using QuarkCFrontend.Asg.Nodes.Interfaces;
+using QuarkCFrontend.Lexer;
+
+namespace QuarkCFrontend.Asg.Nodes;
 
 public class ReturnNodeCreator : INodeCreator
 {

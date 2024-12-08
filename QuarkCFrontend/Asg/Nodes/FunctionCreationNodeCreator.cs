@@ -1,6 +1,7 @@
-using static QuarkCFrontend.LexemeType;
+using QuarkCFrontend.Asg.Nodes.Interfaces;
+using static QuarkCFrontend.Lexer.LexemeType;
 
-namespace QuarkCFrontend;
+namespace QuarkCFrontend.Asg.Nodes;
 
 public class FunctionCreationNodeCreator : INodeCreator
 {

@@ -1,4 +1,6 @@
-namespace QuarkCFrontend;
+using QuarkCFrontend.Lexer;
+
+namespace QuarkCFrontend.Asg;
 
 public record AsgNode(AsgNodeType NodeType, LexemeValue LexemeValue, List<AsgNode> Children)
 {

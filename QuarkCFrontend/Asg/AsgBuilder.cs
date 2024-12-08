@@ -1,4 +1,7 @@
-namespace QuarkCFrontend;
+using QuarkCFrontend.Asg.Nodes.Interfaces;
+using QuarkCFrontend.Lexer;
+
+namespace QuarkCFrontend.Asg;
 
 public class AsgBuilder(List<List<INodeCreator>> creatorLevels)
 {

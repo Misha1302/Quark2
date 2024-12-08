@@ -1,4 +1,7 @@
-namespace QuarkCFrontend;
+using QuarkCFrontend.Asg.Nodes;
+using QuarkCFrontend.Asg.Nodes.Interfaces;
+
+namespace QuarkCFrontend.Asg;
 
 public static class AsgBuilderConfiguration
 {

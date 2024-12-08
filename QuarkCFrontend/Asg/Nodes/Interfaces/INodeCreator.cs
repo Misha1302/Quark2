@@ -1,4 +1,4 @@
-namespace QuarkCFrontend;
+namespace QuarkCFrontend.Asg.Nodes.Interfaces;
 
 public interface INodeCreator
 {

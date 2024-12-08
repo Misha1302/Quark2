@@ -1,4 +1,5 @@
-﻿using QuarkCFrontend;
+﻿using QuarkCFrontend.Asg;
+using QuarkCFrontend.Lexer;
 
 const string code =
     """

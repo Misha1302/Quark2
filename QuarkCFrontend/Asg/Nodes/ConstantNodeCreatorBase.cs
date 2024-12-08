@@ -1,4 +1,7 @@
-namespace QuarkCFrontend;
+using QuarkCFrontend.Asg.Nodes.Interfaces;
+using QuarkCFrontend.Lexer;
+
+namespace QuarkCFrontend.Asg.Nodes;
 
 public abstract class ConstantNodeCreatorBase(LexemeType lexemeType, AsgNodeType nodeType) : INodeCreator
 {

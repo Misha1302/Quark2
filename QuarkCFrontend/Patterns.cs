@@ -1,3 +1,5 @@
+using QuarkCFrontend.Lexer;
+
 namespace QuarkCFrontend;
 
 public static class Patterns

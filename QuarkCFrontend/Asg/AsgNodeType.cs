@@ -1,4 +1,4 @@
-namespace QuarkCFrontend;
+namespace QuarkCFrontend.Asg;
 
 public enum AsgNodeType
 {
@@ -27,5 +27,5 @@ public enum AsgNodeType
     Equal,
     NotEqual,
     Modulus,
-    Scope
+    Scope,
 }

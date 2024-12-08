@@ -3,7 +3,7 @@ using BytecodeGenerationSimplifier;
 using CommonBytecode.Data.Structures;
 using CommonBytecode.Enums;
 using ExceptionsManager;
-using QuarkCFrontend;
+using QuarkCFrontend.Asg;
 using SharpLibrariesImporter;
 
 namespace AsgToBytecodeTranslator;
@@ -23,7 +23,7 @@ public class AsgToBytecodeTranslator
     }
 
     // split to classes
-    public void Visit(AsgNode node)
+    private void Visit(AsgNode node)
     {
         switch (node.NodeType)
         {
@@ -51,9 +51,9 @@ public class AsgToBytecodeTranslator
                 break;
             case AsgNodeType.FunctionCall:
                 Visit(node.Children);
-                
+
                 var functionName = node.Text;
-                
+
                 if (_importsManager.Have(functionName))
                 {
                     var @delegate = _importsManager.GetDelegateByName(functionName);
