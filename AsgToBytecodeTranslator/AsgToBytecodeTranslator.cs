@@ -139,6 +139,17 @@ public class AsgToBytecodeTranslator
             case AsgNodeType.Identifier:
                 CurBytecode.Add(new BytecodeInstruction(InstructionType.LoadLocal, [node.Text]));
                 break;
+            case AsgNodeType.BrIf:
+                Visit(node.Children[0]);
+                CurBytecode.Add(new BytecodeInstruction(
+                        InstructionType.BrOp,
+                        [BranchMode.IfTrue.ToAny(), node.Children[1].Text]
+                    )
+                );
+                break;
+            case AsgNodeType.Label:
+                CurBytecode.Add(new BytecodeInstruction(InstructionType.Label, [node.Text]));
+                break;
             default:
                 Throw.InvalidOpEx();
                 break;

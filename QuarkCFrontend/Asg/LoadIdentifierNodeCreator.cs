@@ -9,7 +9,7 @@ public class LoadIdentifierNodeCreator : INodeCreator
 
     public int TryBuild(List<AsgNode> nodes, int i, AsgBuilder asgBuilder)
     {
-        if (nodes[i].LexemeType == LexemeType.Identifier)
+        if (nodes[i].NodeType == AsgNodeType.Unknown && nodes[i].LexemeType == LexemeType.Identifier)
             nodes[i].NodeType = AsgNodeType.Identifier;
 
         return 0;

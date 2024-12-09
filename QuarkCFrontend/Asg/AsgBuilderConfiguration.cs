@@ -11,6 +11,7 @@ public static class AsgBuilderConfiguration
         [
             new NumberNodeCreator(),
             new StringNodeCreator(),
+            new LabelNodeCreator(),
         ],
         [
             new ScopesNodeCreator(),
@@ -45,6 +46,7 @@ public static class AsgBuilderConfiguration
         ],
         [
             new SetVariableNodeCreator(),
+            new BrIfNodeCreator(),
         ],
         [
             new LoadIdentifierNodeCreator(),

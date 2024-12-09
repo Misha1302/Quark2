@@ -10,11 +10,13 @@ var code2 =
     import "../../../../Libraries"
 
     Number Main() {
-        i = 5
-        j = 7
-        PrintLn(i * 6 + j)
-        j = j * 2
-        PrintLn(i * 6 + j)
+        i = 0
+        @start
+            Print(i)
+            Print(" ")
+            i = i + 1
+        brif i <= 10 @start
+        PrintLn("")
     
         return 0
     }
@@ -27,7 +29,7 @@ var asg = quarkStatistics.Measure(() => new AsgBuilder(AsgBuilderConfiguration.D
 // Console.WriteLine(asg);
 var module = quarkStatistics.Measure(() => new AsgToBytecodeTranslator.AsgToBytecodeTranslator().Translate(asg));
 var executor = (IExecutor)new QuarkVirtualMachine();
-Console.WriteLine(module);
+// Console.WriteLine(module);
 var results = quarkStatistics.Measure(() => executor.RunModule(module, [null]));
 
 Console.WriteLine($"Results: {string.Join(", ", results)}");

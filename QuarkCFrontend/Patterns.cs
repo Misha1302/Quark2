@@ -37,7 +37,9 @@ public static class Patterns
         new("import", LexemeType.Import),
         new(@"[0-9]+(\.[0-9]+)?", LexemeType.Number),
         new("\".*?\"", LexemeType.String),
+        new("brif", LexemeType.BrIf),
         new("[a-zA-Z_][a-zA-Z0-9_]*", LexemeType.Identifier),
+        new("@[a-zA-Z_][a-zA-Z0-9_]*", LexemeType.Label),
     ];
 
     public static IReadOnlyList<LexemePattern> GetPatterns() => _patterns;

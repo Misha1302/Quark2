@@ -19,6 +19,6 @@ public class SetVariableNodeCreator : INodeCreator
 
         nodes.RemoveAt(i + 2);
         nodes.RemoveAt(i);
-        return -1;
+        return 0;
     }
 }

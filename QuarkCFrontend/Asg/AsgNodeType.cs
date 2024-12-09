@@ -33,5 +33,7 @@ public enum AsgNodeType
     Or,
     Xor,
     Not,
-    Identifier
+    Identifier,
+    BrIf,
+    Label
 }

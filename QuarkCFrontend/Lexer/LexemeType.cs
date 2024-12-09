@@ -35,4 +35,6 @@ public enum LexemeType : long
     Or,
     Xor,
     Not,
+    Label,
+    BrIf
 }
