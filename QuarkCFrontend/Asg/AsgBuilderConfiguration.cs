@@ -17,6 +17,9 @@ public static class AsgBuilderConfiguration
             new ScopesNodeCreator(),
         ],
         [
+            new FunctionCallNodeCreator(),
+        ],
+        [
             new PowerNodeCreator(),
         ],
         [
@@ -62,7 +65,6 @@ public static class AsgBuilderConfiguration
         [
             new ImportNodeCreator(),
             new ReturnNodeCreator(),
-            new FunctionCallNodeCreator(),
         ],
         [
             new FunctionCreationNodeCreator(),

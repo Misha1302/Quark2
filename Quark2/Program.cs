@@ -11,13 +11,24 @@ var code2 =
     import "../../../../Libraries"
 
     Number Main() {
-        for (i = 1) (i <= 10) (i = i + 1) { 
-            if i % 2 != 0 {
+        n = InputNumber()
+    
+        found_divisors = 0
+    
+        for (i = 2) (i < n) (i = i + 1) { 
+            if n % i == 0 {
+                Print(n)
+                Print(" divides by ")
                 Print(i)
-                Print(" ")
+                PrintLn("")
+                
+                found_divisors = 1
             }
         }
-        PrintLn("")
+        
+        if (not found_divisors) {
+            PrintLn("n is prime")
+        }
     
         return 0
     }

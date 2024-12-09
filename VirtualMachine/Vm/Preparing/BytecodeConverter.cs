@@ -35,8 +35,11 @@ public class BytecodeConverter
     {
         foreach (var op in ops)
             if (op.Type is InstructionType.LoadLocal or InstructionType.SetLocal)
-                op.Args[0] = VmValue.Create((long)locals.FindIndex(x => x.Name == op.Args[0].GetRef<string>()),
-                    NativeI64);
+            {
+                var index = (long)locals.FindIndex(x => x.Name == op.Args[0].GetRef<string>());
+                Throw.Assert(index >= 0);
+                op.Args[0] = VmValue.Create(index, NativeI64);
+            }
     }
 
     private void PreprocessBranches(List<VmOperation> ops, List<Label> labels, List<BytecodeFunction> functions)
@@ -45,13 +48,15 @@ public class BytecodeConverter
             if (op.Type is InstructionType.BrOp)
             {
                 // int - jump ip = [string - jump label name]
-                var findIndex = (long)labels.FindIndex(x => x.Name == op.Args[1].GetRef<string>());
-                op.Args[1] = VmValue.Create(findIndex, NativeI64);
+                var index = (long)labels.FindIndex(x => x.Name == op.Args[1].GetRef<string>());
+                Throw.Assert(index >= 0);
+                op.Args[1] = VmValue.Create(index, NativeI64);
             }
             else if (op.Type is InstructionType.CallFunc)
             {
-                var findIndex = (long)functions.FindIndex(x => x.Name == op.Args[0].GetRef<string>());
-                op.Args[0] = VmValue.Create(findIndex, NativeI64);
+                var index = (long)functions.FindIndex(x => x.Name == op.Args[0].GetRef<string>());
+                Throw.Assert(index >= 0);
+                op.Args[0] = VmValue.Create(index, NativeI64);
             }
     }
 
