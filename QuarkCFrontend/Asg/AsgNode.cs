@@ -4,6 +4,7 @@ namespace QuarkCFrontend.Asg;
 
 public record AsgNode(AsgNodeType NodeType, LexemeValue LexemeValue, List<AsgNode> Children)
 {
+    // ReSharper disable once ConditionalAccessQualifierIsNonNullableAccordingToAPIContract
     public LexemeType? LexemeType => LexemeValue?.LexemePattern.LexemeType;
     public AsgNodeType NodeType { get; set; } = NodeType;
     public string Text => LexemeValue.Text;
