@@ -33,6 +33,8 @@ public static class AsgBuilderConfiguration
             new GreaterThanNodeCreator(),
             new LessThanOrEqualsNodeCreator(),
             new GreaterThanOrEqualsNodeCreator(),
+            new EqEqNodeCreator(),
+            new NeqNodeCreator(),
         ],
         [
             new NotNodeCreator(),
@@ -50,6 +52,9 @@ public static class AsgBuilderConfiguration
         ],
         [
             new LoadIdentifierNodeCreator(),
+        ],
+        [
+            new IfNodeCreator(),
         ],
         [
             new ForLoopNodeCreator(),

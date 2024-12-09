@@ -72,6 +72,11 @@ public class AsgToBytecodeTranslator
 
                 break;
             case AsgNodeType.If:
+                SimpleBytecodeGenerator.If(
+                    () => Visit(node.Children[0]),
+                    () => Visit(node.Children[1]),
+                    CurFunction.Code
+                );
                 break;
             case AsgNodeType.Else:
                 break;

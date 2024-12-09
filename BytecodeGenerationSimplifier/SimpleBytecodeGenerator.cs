@@ -91,4 +91,16 @@ public static class SimpleBytecodeGenerator
             step();
         }, bytecode);
     }
+
+    public static void If(Action cond, Action body, Bytecode bytecode)
+    {
+        cond();
+        var elseLabel = Guid.NewGuid().ToString();
+        bytecode.Instructions.Add(
+            new BytecodeInstruction(InstructionType.BrOp, [BranchMode.IfFalse.ToAny(), elseLabel]));
+
+        body();
+
+        bytecode.Instructions.Add(new BytecodeInstruction(InstructionType.Label, [elseLabel]));
+    }
 }

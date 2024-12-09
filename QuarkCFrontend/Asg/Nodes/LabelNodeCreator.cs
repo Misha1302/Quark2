@@ -1,7 +1,7 @@
 using QuarkCFrontend.Asg.Nodes.Interfaces;
 using QuarkCFrontend.Lexer;
 
-namespace QuarkCFrontend.Asg;
+namespace QuarkCFrontend.Asg.Nodes;
 
 public class LabelNodeCreator : INodeCreator
 {
