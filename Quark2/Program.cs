@@ -36,10 +36,10 @@ var code2 =
 var quarkStatistics = new QuarkStatistics();
 var lexemes = quarkStatistics.Measure(() => new Lexer().Lexemize(code2));
 var asg = quarkStatistics.Measure(() => new AsgBuilder(AsgBuilderConfiguration.Default).Build(lexemes));
-Console.WriteLine(asg);
+// Console.WriteLine(asg);
 var module = quarkStatistics.Measure(() => new AsgToBytecodeTranslator.AsgToBytecodeTranslator().Translate(asg));
 var executor = (IExecutor)new QuarkVirtualMachine();
-Console.WriteLine(module);
+// Console.WriteLine(module);
 var results = quarkStatistics.Measure(() => executor.RunModule(module, [null]));
 
 Console.WriteLine($"Results: {string.Join(", ", results)}");
