@@ -51,7 +51,7 @@ public static class SimpleBytecodeGenerator
     ];
 
     public static List<BytecodeInstruction> CallSharp(Delegate printLn) =>
-        [new(InstructionType.CallSharp, [printLn.ToAny()])];
+        [new(InstructionType.CallSharp, [printLn.ToAny(BytecodeValueType.SomeSharpObject)])];
 
     public static List<BytecodeInstruction> DefineLocals(params (string, BytecodeValueType)[] locals)
     {

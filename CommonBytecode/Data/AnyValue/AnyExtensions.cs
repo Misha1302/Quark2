@@ -6,8 +6,11 @@ namespace CommonBytecode.Data.AnyValue;
 
 public static class AnyExtensions
 {
-    public static Any ToAny(this IAny value) => new(value.GetObjectValue()) { Type = value.GetAnyType() };
-    public static Any ToAny(this object value) => new(value);
+    public static Any ToAny(this IAny value) =>
+        new(value.GetObjectValue()) { Type = value.GetAnyType() };
+
+    public static Any ToAny(this object value, BytecodeValueType type = BytecodeValueType.Any) =>
+        new(value) { Type = type };
 
     public static string AnyToString(this Any value, BytecodeValueType type)
     {
@@ -38,9 +41,8 @@ public static class AnyExtensions
             Number => value.Get<double>().ToString(CultureInfo.InvariantCulture),
             Str => value.Get<string>(),
             SomeSharpObject => value.Value.ToString() ?? string.Empty,
-            SharpFunctionAddress => value.Get<nint>().ToString("X"),
             NativeI64 => $"n_{value.Get<long>()}",
-            BytecodeValueType.Any => $"any: {value.Get<long>()}",
+            BytecodeValueType.Any => $"any: {value.Value}",
             _ => Throw.InvalidOpEx<string>(),
         };
     }
@@ -72,7 +74,6 @@ public static class AnyExtensions
         {
             Nil => "Nil",
             Number => Unsafe.BitCast<long, double>(value).ToString(CultureInfo.InvariantCulture),
-            SharpFunctionAddress => Unsafe.BitCast<long, nint>(value).ToString("X"),
             NativeI64 => $"n_{value}",
             BytecodeValueType.Any => $"any: {value}",
             _ => Throw.InvalidOpEx<string>(),

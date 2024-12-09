@@ -12,8 +12,7 @@ public enum BytecodeValueType : long
     Number = 1 << 1,
     Str = 1 << 2,
     SomeSharpObject = 1 << 3,
-    SharpFunctionAddress = 1 << 4,
-    NativeI64 = 1 << 5,
+    NativeI64 = 1 << 4,
 
     // long.MaxValue - 0b111111111111111111111111111111111111111111111111111111111111111
     // just 63 enabled bits. It means that Any contains any type

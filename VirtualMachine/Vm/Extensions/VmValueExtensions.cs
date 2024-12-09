@@ -25,7 +25,6 @@ public static class VmValueExtensions
             Nil => "Nil",
             Number => value.Get<double>(),
             Str => value.GetRef<string>(),
-            SharpFunctionAddress => value.Get<nint>(),
             SomeSharpObject => value.GetRef<object>(),
             NativeI64 => value.Get<long>(),
             BytecodeValueType.Any => value.Get<long>(),
