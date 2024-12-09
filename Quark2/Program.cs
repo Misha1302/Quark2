@@ -10,7 +10,11 @@ var code2 =
     import "../../../../Libraries"
 
     Number Main() {
-        PrintLn(2 + 3 ** 5)
+        i = 5
+        j = 7
+        PrintLn(i * 6 + j)
+        j = j * 2
+        PrintLn(i * 6 + j)
     
         return 0
     }

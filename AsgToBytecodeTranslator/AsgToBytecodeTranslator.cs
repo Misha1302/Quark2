@@ -43,6 +43,10 @@ public class AsgToBytecodeTranslator
                 Visit(node.Children[^1]);
                 break;
             case AsgNodeType.SetOperation:
+                Visit(node.Children[^1]);
+                var varName = node.Children[0].Text;
+                CurBytecode.AddRange(SimpleBytecodeGenerator.DefineLocals((varName, BytecodeValueType.Any)));
+                CurBytecode.Add(new BytecodeInstruction(InstructionType.SetLocal, [varName]));
                 break;
             case AsgNodeType.Number:
                 var number = double.Parse(node.Text, CultureInfo.InvariantCulture);
@@ -131,6 +135,9 @@ public class AsgToBytecodeTranslator
                 break;
             case AsgNodeType.Not:
                 Operation(node, MathLogicOp.Not);
+                break;
+            case AsgNodeType.Identifier:
+                CurBytecode.Add(new BytecodeInstruction(InstructionType.LoadLocal, [node.Text]));
                 break;
             default:
                 Throw.InvalidOpEx();

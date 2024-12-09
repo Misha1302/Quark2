@@ -44,6 +44,12 @@ public static class AsgBuilderConfiguration
             new XorNodeCreator(),
         ],
         [
+            new SetVariableNodeCreator(),
+        ],
+        [
+            new LoadIdentifierNodeCreator(),
+        ],
+        [
             new ImportNodeCreator(),
             new ReturnNodeCreator(),
             new FunctionCallNodeCreator(),
