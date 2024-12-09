@@ -40,7 +40,9 @@ public static class AnyExtensions
             Nil => "Nil",
             Number => value.Get<double>().ToString(CultureInfo.InvariantCulture),
             Str => value.Get<string>(),
-            SomeSharpObject => value.Value.ToString() ?? string.Empty,
+            SomeSharpObject => value.Value is not Delegate d
+                ? value.Value.ToString() ?? string.Empty
+                : d.Method.ToString()!,
             NativeI64 => $"n_{value.Get<long>()}",
             BytecodeValueType.Any => $"any: {value.Value}",
             _ => Throw.InvalidOpEx<string>(),

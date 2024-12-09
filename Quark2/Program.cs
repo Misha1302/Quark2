@@ -10,24 +10,22 @@ var code2 =
 
     Number Main() {
         n = InputNumber()
-    
-        found_divisors = 0
-    
-        for (i = 2) (i < n) (i = i + 1) { 
+
+        top = n ** (1 / 2) + 1
+        for (i = 2) (i < top) (i = i + 1) { 
             if n % i == 0 {
                 Print(n)
                 Print(" divides by ")
                 Print(i)
                 PrintLn("")
                 
-                found_divisors = 1
+                PrintLn("n is not prime")
+                return 0
             }
         }
         
-        if (not found_divisors) {
-            PrintLn("n is prime")
-        }
-    
+        PrintLn("n is prime")
+
         return 0
     }
     """;
@@ -39,7 +37,7 @@ var asg = quarkStatistics.Measure(() => new AsgBuilder(AsgBuilderConfiguration.D
 // Console.WriteLine(asg);
 var module = quarkStatistics.Measure(() => new AsgToBytecodeTranslator.AsgToBytecodeTranslator().Translate(asg));
 var executor = (IExecutor)new QuarkVirtualMachine();
-// Console.WriteLine(module);
+Console.WriteLine(module);
 var results = quarkStatistics.Measure(() => executor.RunModule(module, [null]));
 
 Console.WriteLine($"Results: {string.Join(", ", results)}");
