@@ -36,5 +36,5 @@ public enum LexemeType : long
     Xor,
     Not,
     Label,
-    BrIf
+    BrIf,
 }

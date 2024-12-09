@@ -35,5 +35,5 @@ public enum AsgNodeType
     Not,
     Identifier,
     BrIf,
-    Label
+    Label,
 }
