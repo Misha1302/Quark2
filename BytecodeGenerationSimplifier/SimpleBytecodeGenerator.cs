@@ -42,6 +42,21 @@ public static class SimpleBytecodeGenerator
         return instructions;
     }
 
+    public static void While(Action cond, Action body, Bytecode bytecode)
+    {
+        var startLoop = Guid.NewGuid().ToString();
+        var endLoop = Guid.NewGuid().ToString();
+
+        bytecode.Instructions.Add(new BytecodeInstruction(InstructionType.Label, [startLoop]));
+        cond();
+        bytecode.Instructions.Add(new BytecodeInstruction(InstructionType.BrOp, [BranchMode.IfFalse.ToAny(), endLoop]));
+
+        body();
+
+        bytecode.Instructions.Add(new BytecodeInstruction(InstructionType.BrOp, [BranchMode.Basic.ToAny(), startLoop]));
+        bytecode.Instructions.Add(new BytecodeInstruction(InstructionType.Label, [endLoop]));
+    }
+
     public static List<BytecodeInstruction> Inc(string name) =>
     [
         new(InstructionType.LoadLocal, [name]),
@@ -65,5 +80,15 @@ public static class SimpleBytecodeGenerator
     public static List<BytecodeInstruction> ReadParameters(params string[] parameters)
     {
         return parameters.Reverse().Select(x => new BytecodeInstruction(InstructionType.SetLocal, [x])).ToList();
+    }
+
+    public static void For(Action start, Action cond, Action step, Action body, Bytecode bytecode)
+    {
+        start();
+        While(cond, () =>
+        {
+            body();
+            step();
+        }, bytecode);
     }
 }

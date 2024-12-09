@@ -82,6 +82,13 @@ public class AsgToBytecodeTranslator
                 CurBytecode.Add(new BytecodeInstruction(InstructionType.Ret, []));
                 break;
             case AsgNodeType.ForLoop:
+                SimpleBytecodeGenerator.For(
+                    () => Visit(node.Children[0]),
+                    () => Visit(node.Children[1]),
+                    () => Visit(node.Children[2]),
+                    () => Visit(node.Children[3]),
+                    CurFunction.Code
+                );
                 break;
             case AsgNodeType.WhileLoop:
                 break;

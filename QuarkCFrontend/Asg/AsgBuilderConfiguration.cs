@@ -52,6 +52,9 @@ public static class AsgBuilderConfiguration
             new LoadIdentifierNodeCreator(),
         ],
         [
+            new ForLoopNodeCreator(),
+        ],
+        [
             new ImportNodeCreator(),
             new ReturnNodeCreator(),
             new FunctionCallNodeCreator(),

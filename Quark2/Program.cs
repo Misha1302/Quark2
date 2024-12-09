@@ -10,12 +10,10 @@ var code2 =
     import "../../../../Libraries"
 
     Number Main() {
-        i = 0
-        @start
+        for (i = 1) (i <= 10) (i = i + 1) { 
             Print(i)
             Print(" ")
-            i = i + 1
-        brif i <= 10 @start
+        }
         PrintLn("")
     
         return 0
