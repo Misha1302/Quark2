@@ -7,7 +7,7 @@ public class FunctionCallNodeCreator : INodeCreator
 {
     public AsgNodeType NodeType => AsgNodeType.FunctionCall;
 
-    public int TryBuild(List<AsgNode> nodes, int i, AsgBuilder asgBuilder)
+    public int TryBuildImpl(List<AsgNode> nodes, int i, AsgBuilder asgBuilder)
     {
         if (i + 1 >= nodes.Count) return 0;
 
@@ -19,6 +19,9 @@ public class FunctionCallNodeCreator : INodeCreator
         nodes[i].Children.Add(nodes[i + 1]);
         nodes.RemoveAt(i + 1);
         nodes[i].NodeType = AsgNodeType.FunctionCall;
+
+        // asgBuilder.RepeatDfs(nodes[i].Children);
+
         return 0;
     }
 }

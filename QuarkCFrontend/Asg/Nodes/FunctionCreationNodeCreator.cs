@@ -7,7 +7,7 @@ public class FunctionCreationNodeCreator : INodeCreator
 {
     public AsgNodeType NodeType => AsgNodeType.FunctionCreating;
 
-    public int TryBuild(List<AsgNode> nodes, int i, AsgBuilder asgBuilder)
+    public int TryBuildImpl(List<AsgNode> nodes, int i, AsgBuilder asgBuilder)
     {
         if (i + 3 >= nodes.Count) return 0;
 

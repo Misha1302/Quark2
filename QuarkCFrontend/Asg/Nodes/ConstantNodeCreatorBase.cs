@@ -7,7 +7,7 @@ public abstract class ConstantNodeCreatorBase(LexemeType lexemeType, AsgNodeType
 {
     public AsgNodeType NodeType => AsgNodeType.Number;
 
-    public int TryBuild(List<AsgNode> nodes, int i, AsgBuilder asgBuilder)
+    public int TryBuildImpl(List<AsgNode> nodes, int i, AsgBuilder asgBuilder)
     {
         if (nodes[i].LexemeType == lexemeType)
             nodes[i].NodeType = nodeType;

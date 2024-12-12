@@ -7,7 +7,7 @@ public abstract class SingleOpNodeCreatorBase(AsgNodeType nodeType, LexemeType l
 {
     public AsgNodeType NodeType => nodeType;
 
-    public int TryBuild(List<AsgNode> nodes, int i, AsgBuilder asgBuilder)
+    public int TryBuildImpl(List<AsgNode> nodes, int i, AsgBuilder asgBuilder)
     {
         if (i + 1 >= nodes.Count) return 0;
         if (nodes[i].Children.Count != 0) return 0;

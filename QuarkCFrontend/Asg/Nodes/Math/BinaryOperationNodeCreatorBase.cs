@@ -7,7 +7,7 @@ public abstract class BinaryOperationNodeCreatorBase(AsgNodeType nodeType, Lexem
 {
     public AsgNodeType NodeType => nodeType;
 
-    public int TryBuild(List<AsgNode> nodes, int i, AsgBuilder asgBuilder)
+    public int TryBuildImpl(List<AsgNode> nodes, int i, AsgBuilder asgBuilder)
     {
         if (i + 1 >= nodes.Count) return 0;
         if (nodes[i + 1].Children.Count != 0) return 0;
@@ -15,9 +15,6 @@ public abstract class BinaryOperationNodeCreatorBase(AsgNodeType nodeType, Lexem
 
         nodes[i + 1].Children.AddRange([nodes[i], nodes[i + 2]]);
         nodes[i + 1].NodeType = nodeType;
-
-        // asgBuilder.DfsWithMathOps([nodes[i]]);
-        // asgBuilder.DfsWithMathOps([nodes[i + 2]]);
 
         nodes.RemoveAt(i + 2);
         nodes.RemoveAt(i);

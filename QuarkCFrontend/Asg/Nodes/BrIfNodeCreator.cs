@@ -7,7 +7,7 @@ public class BrIfNodeCreator : INodeCreator
 {
     public AsgNodeType NodeType => AsgNodeType.BrIf;
 
-    public int TryBuild(List<AsgNode> nodes, int i, AsgBuilder asgBuilder)
+    public int TryBuildImpl(List<AsgNode> nodes, int i, AsgBuilder asgBuilder)
     {
         if (nodes[i].Children.Count != 0) return 0;
         if (nodes[i].LexemeType != LexemeType.BrIf) return 0;

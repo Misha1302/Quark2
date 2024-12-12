@@ -7,7 +7,7 @@ public class SetVariableNodeCreator : INodeCreator
 {
     public AsgNodeType NodeType => AsgNodeType.SetOperation;
 
-    public int TryBuild(List<AsgNode> nodes, int i, AsgBuilder asgBuilder)
+    public int TryBuildImpl(List<AsgNode> nodes, int i, AsgBuilder asgBuilder)
     {
         if (i + 1 >= nodes.Count) return 0;
         if (nodes[i + 1].LexemeType != LexemeType.Eq) return 0;

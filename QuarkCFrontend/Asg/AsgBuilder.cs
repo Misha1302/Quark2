@@ -5,8 +5,6 @@ namespace QuarkCFrontend.Asg;
 
 public class AsgBuilder(List<List<INodeCreator>> creatorLevels)
 {
-    private List<INodeCreator> _curCreators = null!;
-
     public AsgNode Build(List<LexemeValue> lexemes)
     {
         var nodes = lexemes.Select(x => new AsgNode(AsgNodeType.Unknown, x, [])).ToList();
@@ -14,27 +12,27 @@ public class AsgBuilder(List<List<INodeCreator>> creatorLevels)
         var root = new AsgNode(AsgNodeType.Scope, null!, nodes);
 
 
-        foreach (var level in creatorLevels)
-            Dfs(nodes, level);
+        int prevHashCode;
+        do
+        {
+            prevHashCode = nodes.GetHashCode();
+            foreach (var level in creatorLevels)
+                Dfs(nodes, level);
+        } while (nodes.GetHashCode() != prevHashCode);
 
 
         return root;
     }
 
-    public void DfsWithMathOps(List<AsgNode> nodes)
-    {
-        Dfs(nodes, _curCreators);
-    }
-
     private void Dfs(List<AsgNode> nodes, List<INodeCreator> curCreators)
     {
-        _curCreators = curCreators;
         for (var i = 0; i < nodes.Count; i++)
         {
             var node = nodes[i];
 
             Dfs(node.Children, curCreators);
 
+            // ReSharper disable once ForeachCanBePartlyConvertedToQueryUsingAnotherGetEnumerator
             foreach (var creator in curCreators)
                 if (i < nodes.Count)
                     i += creator.TryBuild(nodes, i, this);

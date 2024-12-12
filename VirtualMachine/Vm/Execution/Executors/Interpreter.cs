@@ -4,7 +4,7 @@ namespace VirtualMachine.Vm.Execution.Executors;
 
 public class Interpreter
 {
-    public readonly Stack<VmFuncFrame> Frames = new();
+    public readonly MyStack<VmFuncFrame> Frames = new(1024);
     public readonly MyStack<VmValue> Stack = new(1024);
     private EngineRuntimeData _engineRuntimeData = null!;
 
@@ -23,13 +23,14 @@ public class Interpreter
         }
     }
 
+    [MethodImpl(MethodImplOptions.NoInlining)]
     public void Step(int stepsCount, EngineRuntimeData engineRuntimeData)
     {
         _engineRuntimeData = engineRuntimeData;
         for (var i = 0; i < stepsCount && Frames.Count != 0; i++)
         {
-            var func = Frames.Peek();
-            var op = func.Ops[func.Ip];
+            var func = Frames.Get(-1);
+            var op = CollectionsMarshal.AsSpan(func.Ops)[func.Ip];
             ExecuteOp(op);
             _engineRuntimeData.LogAction?.Invoke(op, i, func, Stack);
             func.Ip++;
@@ -65,12 +66,12 @@ public class Interpreter
 
     private void LoadLocal(VmOperation vmOperation)
     {
-        Stack.Push(Frames.Peek().Variables[(int)vmOperation.Args[0].Get<long>()].Value);
+        Stack.Push(Frames.Get(-1).Variables[(int)vmOperation.Args[0].Get<long>()].Value);
     }
 
     private void SetLocal(VmOperation vmOperation)
     {
-        Frames.Peek().Variables[(int)vmOperation.Args[0].Get<long>()].Value = Stack.Pop();
+        Frames.Get(-1).Variables[(int)vmOperation.Args[0].Get<long>()].Value = Stack.Pop();
     }
 
     private void CallSharpFunction(VmOperation vmOperation)
@@ -89,7 +90,7 @@ public class Interpreter
 
     private void DoBranch(BranchMode branchMode, long labelIndex)
     {
-        var vmFrame = Frames.Peek();
+        var vmFrame = Frames.Get(-1);
 
         if (branchMode == BranchMode.Basic)
         {

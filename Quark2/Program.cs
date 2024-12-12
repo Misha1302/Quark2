@@ -9,24 +9,20 @@ var code2 =
     import "../../../../Libraries"
 
     Number Main() {
-        n = InputNumber()
-
-        top = n ** (1 / 2) + 1
-        for (i = 2) (i < top) (i = i + 1) { 
-            if n % i == 0 {
-                Print(n)
-                Print(" divides by ")
-                Print(i)
-                PrintLn("")
-                
-                PrintLn("n is not prime")
-                return 0
+        q = 2
+        for (i = 0) (i < 500) (i = i + 1) { 
+            for (j = 0) (j < 10000) (j = j + 1) { 
+                q = q + 1
             }
         }
         
-        PrintLn("n is prime")
-
+        PrintLn(q)
+    
         return 0
+    }
+
+    Number CheckPrime(n) {
+        return 1444444444
     }
     """;
 
