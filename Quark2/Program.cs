@@ -1,5 +1,6 @@
 ﻿using AbstractExecutor;
 using Quark2;
+using QuarkCFrontend;
 using QuarkCFrontend.Asg;
 using QuarkCFrontend.Lexer;
 using VirtualMachine;
@@ -28,9 +29,9 @@ var code2 =
 
 
 var quarkStatistics = new QuarkStatistics();
-var lexemes = quarkStatistics.Measure(() => new Lexer().Lexemize(code2));
+var lexemes = quarkStatistics.Measure(() => new Lexer(LexerConfiguration.GetPatterns().ToList()).Lexemize(code2));
 var asg = quarkStatistics.Measure(() => new AsgBuilder(AsgBuilderConfiguration.Default).Build(lexemes));
-// Console.WriteLine(asg);
+Console.WriteLine(asg);
 var module = quarkStatistics.Measure(() => new AsgToBytecodeTranslator.AsgToBytecodeTranslator().Translate(asg));
 var executor = (IExecutor)new QuarkVirtualMachine();
 Console.WriteLine(module);

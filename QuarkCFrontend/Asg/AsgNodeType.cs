@@ -36,4 +36,5 @@ public enum AsgNodeType
     Identifier,
     BrIf,
     Label,
+    MaxEnumValue,
 }

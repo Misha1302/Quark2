@@ -2,10 +2,8 @@ using System.Text.RegularExpressions;
 
 namespace QuarkCFrontend.Lexer;
 
-public class Lexer
+public class Lexer(List<LexemePattern> patterns)
 {
-    private readonly List<LexemePattern> patterns = Patterns.GetPatterns().ToList();
-
     public List<LexemeValue> Lexemize(string code)
     {
         var allMatches = (List<LexemeValue>) [];

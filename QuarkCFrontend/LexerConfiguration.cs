@@ -2,7 +2,7 @@ using QuarkCFrontend.Lexer;
 
 namespace QuarkCFrontend;
 
-public static class Patterns
+public static class LexerConfiguration
 {
     private static readonly List<LexemePattern> _patterns =
     [

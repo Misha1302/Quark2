@@ -12,19 +12,22 @@ public class AsgBuilder(List<List<INodeCreator>> creatorLevels)
         var root = new AsgNode(AsgNodeType.Scope, null!, nodes);
 
 
-        int prevHashCode;
-        do
+        foreach (var level in creatorLevels)
         {
-            prevHashCode = nodes.GetHashCode();
-            foreach (var level in creatorLevels)
+            long prevHashCode, curHashCode;
+            do
+            {
+                prevHashCode = nodes.CalcHashCodeForNodes();
                 Dfs(nodes, level);
-        } while (nodes.GetHashCode() != prevHashCode);
+                curHashCode = nodes.CalcHashCodeForNodes();
+            } while (curHashCode != prevHashCode);
+        }
 
 
         return root;
     }
 
-    private void Dfs(List<AsgNode> nodes, List<INodeCreator> curCreators)
+    private void Dfs(List<AsgNode> nodes, IReadOnlyList<INodeCreator> curCreators)
     {
         for (var i = 0; i < nodes.Count; i++)
         {
