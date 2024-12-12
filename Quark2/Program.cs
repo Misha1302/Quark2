@@ -13,7 +13,7 @@ var code2 =
         q = 2
         for (i = 0) (i < 500) (i = i + 1) { 
             for (j = 0) (j < 10000) (j = j + 1) { 
-                q = q + 1
+                q = Square(q)
             }
         }
         
@@ -22,8 +22,8 @@ var code2 =
         return 0
     }
 
-    Number CheckPrime(n) {
-        return 1444444444
+    Number Square(n) {
+        return n * n
     }
     """;
 

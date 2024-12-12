@@ -1,3 +1,4 @@
+using System.Buffers;
 using CommonBytecode.Enums;
 
 namespace VirtualMachine.Vm.Execution.Executors;
@@ -56,7 +57,9 @@ public class Interpreter
 
     private void CallFunction(VmOperation vmOperation)
     {
+        // TODO: remake to pool of vmfuncframe
         Frames.Push(new VmFuncFrame(_engineRuntimeData.Module.Functions[(int)vmOperation.Args[0].Get<long>()]));
+        // Console.WriteLine(Frames.Count);
     }
 
     private void BrOp(VmOperation vmOperation)

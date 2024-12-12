@@ -40,6 +40,14 @@ public class AsgToBytecodeTranslator
                 break;
             case AsgNodeType.FunctionCreating:
                 _functions.Add(new BytecodeFunction(node.Text, new Bytecode([])));
+                CurBytecode.AddRange(
+                    SimpleBytecodeGenerator.DefineLocals(
+                        node.Children[1].Children.Select(c => (c.Text, BytecodeValueType.Any)).ToArray()
+                    )
+                );
+                CurBytecode.AddRange(
+                    SimpleBytecodeGenerator.ReadParameters(node.Children[1].Children.Select(c => c.Text).ToArray())
+                );
                 Visit(node.Children[^1]);
                 break;
             case AsgNodeType.SetOperation:
