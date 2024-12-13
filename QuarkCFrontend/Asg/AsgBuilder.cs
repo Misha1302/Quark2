@@ -14,7 +14,7 @@ public class AsgBuilder(List<List<INodeCreator>> creatorLevels)
 
         foreach (var level in creatorLevels)
         {
-            long prevHashCode, curHashCode;
+            Int128 prevHashCode, curHashCode;
             do
             {
                 prevHashCode = nodes.CalcHashCodeForNodes();
