@@ -1,10 +1,14 @@
+using CommonDataStructures;
+
 namespace VirtualMachine.Vm.Execution;
 
-public class MyStack<T>(int maxSize)
+public class MyStack<T>(int maxSize) : IReadOnlyStack<T>
 {
     private readonly T[] _data = new T[maxSize];
 
     public int Count { get; private set; }
+
+    public T Get(int ind) => _data[ind > 0 ? ind : Count + ind];
 
     public void Push(T value)
     {
@@ -17,8 +21,6 @@ public class MyStack<T>(int maxSize)
         Throw.Assert(Count >= 0);
         return _data[Count];
     }
-
-    public T Get(int ind) => _data[ind > 0 ? ind : Count + ind];
 
     public void DropMany(long argsCount)
     {

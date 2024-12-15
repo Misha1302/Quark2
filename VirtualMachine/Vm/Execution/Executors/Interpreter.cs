@@ -83,7 +83,8 @@ public class Interpreter
             Stack,
             vmOperation.Args[0].Get<nint>(),
             vmOperation.Args[1].Get<long>(),
-            vmOperation.Args[2].IsTrue()
+            vmOperation.Args[2].IsTrue(),
+            vmOperation.Args[3].IsTrue()
         );
     }
 

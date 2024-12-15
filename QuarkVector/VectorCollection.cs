@@ -29,10 +29,10 @@ public class VectorCollection<T>
         _data.RemoveAt(_data.Count - 1);
     }
 
-    public void SetSize(int length)
+    public void SetSize(long length)
     {
         if (_data.Count < length)
-            CollectionsMarshal.SetCount(_data, length);
+            CollectionsMarshal.SetCount(_data, (int)length);
     }
 
     public override string ToString() => string.Join(", ", _data);

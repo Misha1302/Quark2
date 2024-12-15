@@ -10,7 +10,7 @@ var code2 =
     import "../../../../Libraries"
 
     Number Main() {
-        PrintLn(Square(5))
+        PrintLn(CreateVector(123, "Hello!", 43.432, 1/3, "Bye", 5))
     
         return 0
     }

@@ -1,15 +1,23 @@
 ﻿using CommonBytecode.Data.AnyValue;
+using CommonDataStructures;
 using Doubles;
 
 namespace QuarkVector;
 
 public static class VectorOperations
 {
-    public static Any CreateVector() =>
-        new(new VectorCollection<Any>());
+    public static Any CreateVector(IReadOnlyStack<Any> stack)
+    {
+        var elementsCount = stack.Get(-1).Get<double>().ToLong();
+        var vec = new VectorCollection<Any>();
+        vec.SetSize(elementsCount);
+        for (var i = 0; i < elementsCount; i++) vec[(int)elementsCount - i - 1] = stack.Get(-(i + 2));
+
+        return new Any(vec) { Type = BytecodeValueType.SomeSharpObject };
+    }
 
     public static void SetSize(Any vector, Any length) =>
-        vector.Get<VectorCollection<Any>>().SetSize((int)length.Get<double>().ToLong());
+        vector.Get<VectorCollection<Any>>().SetSize(length.Get<double>().ToLong());
 
     public static void SetValue(Any vector, Any index, Any value) =>
         vector.Get<VectorCollection<Any>>()[(int)index.Get<double>().ToLong()] = value;

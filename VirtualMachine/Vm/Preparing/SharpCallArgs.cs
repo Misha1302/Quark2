@@ -1,3 +1,5 @@
+using CommonDataStructures;
+
 namespace VirtualMachine.Vm.Preparing;
 
 public static class SharpCallArgs
@@ -11,11 +13,14 @@ public static class SharpCallArgs
     {
         Throw.Assert(func.Method.ReturnType == typeof(void) || func.Method.ReturnType == typeof(Any));
 
+        var parameters = func.Method.GetParameters();
         return
         [
             VmValue.Create(func.Method.MethodHandle.GetFunctionPointer(), NativeI64),
-            VmValue.Create(func.Method.GetParameters().Length, NativeI64),
+            VmValue.Create(parameters.Length, NativeI64),
             VmValue.Create(func.Method.ReturnType == typeof(Any) ? 1.0 : 0.0, Number),
+            VmValue.Create(parameters.Length != 0 && parameters[0].ParameterType == typeof(IReadOnlyStack<Any>) ? 1.0 : 0.0,
+                Number),
         ];
     }
 }
