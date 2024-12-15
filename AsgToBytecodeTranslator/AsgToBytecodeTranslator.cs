@@ -65,7 +65,11 @@ public class AsgToBytecodeTranslator
 
                 var functionName = node.Text;
 
-                if (_importsManager.Have(functionName))
+                if (functionName == "__platform_call")
+                {
+                    CurBytecode.Add(new BytecodeInstruction(InstructionType.PlatformCall, []));
+                }
+                else if (_importsManager.Have(functionName))
                 {
                     var @delegate = _importsManager.GetDelegateByName(functionName);
                     var instructions = (Span<BytecodeInstruction>) [..SimpleBytecodeGenerator.CallSharp(@delegate)];
@@ -73,7 +77,7 @@ public class AsgToBytecodeTranslator
                 }
                 else
                 {
-                    CurBytecode.Add(new BytecodeInstruction(InstructionType.CallFunc, [node.Text]));
+                    CurBytecode.Add(new BytecodeInstruction(InstructionType.CallFunc, [functionName]));
                 }
 
                 break;

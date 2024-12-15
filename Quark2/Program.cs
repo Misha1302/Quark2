@@ -10,7 +10,8 @@ var code2 =
     import "../../../../Libraries"
 
     Number Main() {
-        PrintLn(CreateVector(123, "Hello!", 43.432, 1/3, "Bye", 5))
+        PrintLn(__platform_call("CallFunction", "Square", 5, 2))
+        PrintLn(__platform_call("GetExecutorInfo", 0))
     
         return 0
     }
