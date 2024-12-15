@@ -11,16 +11,19 @@ namespace AsgToBytecodeTranslator;
 
 public class AsgToBytecodeTranslator
 {
-    private readonly List<BytecodeFunction> _functions = [];
+    private readonly Stack<FunctionData> _functionsStack = new();
     private readonly ImportsManager _importsManager = new();
+    private List<FunctionData> _functions = [];
 
-    private BytecodeFunction CurFunction => _functions[^1];
+    private BytecodeFunction CurFunction => _functionsStack.Peek().BytecodeFunction;
     private List<BytecodeInstruction> CurBytecode => CurFunction.Code.Instructions;
 
     public BytecodeModule Translate(AsgNode root)
     {
+        var getter = new PrecompileDataGetter();
+        _functions = getter.GetFunctions(root);
         Visit(root);
-        return new BytecodeModule("Program", _functions);
+        return new BytecodeModule("Program", _functions.Select(x => x.BytecodeFunction).ToList());
     }
 
     // split to classes
@@ -36,15 +39,11 @@ public class AsgToBytecodeTranslator
             case AsgNodeType.String:
                 var str = GetString(node.Text);
                 CurBytecode.Add(new BytecodeInstruction(InstructionType.PushConst, [str]));
-                // ...
                 break;
             case AsgNodeType.FunctionCreating:
-                _functions.Add(new BytecodeFunction(node.Text, new Bytecode([])));
-                CurBytecode.AddRange(
-                    SimpleBytecodeGenerator.DefineLocals(
-                        node.Children[1].Children.Select(c => (c.Text, BytecodeValueType.Any)).ToArray()
-                    )
-                );
+                _functionsStack.Push(_functions.First(x => x.BytecodeFunction.Name == node.Text));
+                DefineVariables(_functionsStack.Peek().Parameters);
+                DefineVariables(_functionsStack.Peek().Locals);
                 CurBytecode.AddRange(
                     SimpleBytecodeGenerator.ReadParameters(node.Children[1].Children.Select(c => c.Text).ToArray())
                 );
@@ -53,7 +52,6 @@ public class AsgToBytecodeTranslator
             case AsgNodeType.SetOperation:
                 Visit(node.Children[^1]);
                 var varName = node.Children[0].Text;
-                CurBytecode.AddRange(SimpleBytecodeGenerator.DefineLocals((varName, BytecodeValueType.Any)));
                 CurBytecode.Add(new BytecodeInstruction(InstructionType.SetLocal, [varName]));
                 break;
             case AsgNodeType.Number:
@@ -174,6 +172,11 @@ public class AsgToBytecodeTranslator
                 Throw.InvalidOpEx();
                 break;
         }
+    }
+
+    private void DefineVariables(List<BytecodeVariable> variables)
+    {
+        CurBytecode.AddRange(SimpleBytecodeGenerator.DefineLocals(variables.Select(x => (x.Name, x.Type)).ToArray()));
     }
 
     private void Operation(AsgNode node, MathLogicOp mathLogicOp)

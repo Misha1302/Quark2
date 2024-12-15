@@ -10,14 +10,7 @@ var code2 =
     import "../../../../Libraries"
 
     Number Main() {
-        q = 2
-        for (i = 0) (i < 500) (i = i + 1) { 
-            for (j = 0) (j < 10000) (j = j + 1) { 
-                q = Square(q)
-            }
-        }
-        
-        PrintLn(q)
+        PrintLn(Square(5))
     
         return 0
     }
