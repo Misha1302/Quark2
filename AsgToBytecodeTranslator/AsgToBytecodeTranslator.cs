@@ -172,6 +172,7 @@ public class AsgToBytecodeTranslator
             case AsgNodeType.Label:
                 CurBytecode.Add(new BytecodeInstruction(InstructionType.Label, [node.Text]));
                 break;
+            case AsgNodeType.MaxEnumValue:
             default:
                 Throw.InvalidOpEx();
                 break;

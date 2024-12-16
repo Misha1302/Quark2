@@ -63,11 +63,11 @@ public class Interpreter
         else if (vmOperation.Type == InstructionType.Label) DoNothing();
         else if (vmOperation.Type == InstructionType.MakeVariables) DoNothing();
         else if (vmOperation.Type == InstructionType.Drop) Stack.Pop();
-        else if (vmOperation.Type == InstructionType.PlatformCall) PlatformCall(vmOperation);
+        else if (vmOperation.Type == InstructionType.PlatformCall) PlatformCall();
         else Throw.InvalidOpEx();
     }
 
-    private void PlatformCall(VmOperation vmOperation)
+    private void PlatformCall()
     {
         var argsCount = Stack.Pop().Get<double>().ToLong();
         var callName = Stack.Get((int)-argsCount - 1).GetRef<string>();
