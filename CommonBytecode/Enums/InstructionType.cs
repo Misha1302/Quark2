@@ -14,5 +14,5 @@ public enum InstructionType
     Label,
     Drop,
     MakeVariables,
-    PlatformCall
+    PlatformCall,
 }

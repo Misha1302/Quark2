@@ -1,10 +1,10 @@
 using AbstractExecutor;
+using CommonBytecode.Data.AnyValue;
 using QuarkCFrontend;
 using QuarkCFrontend.Asg;
 using QuarkCFrontend.Lexer;
 using VirtualMachine;
 using VirtualMachine.Vm.Data;
-using VirtualMachine.Vm.Execution;
 using VirtualMachine.Vm.Execution.Executors;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -25,15 +25,6 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
-var summaries = new[]
-{
-    "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching",
-};
-
-app.MapGet("/weatherforecast", () => { })
-    .WithName("GetWeatherForecast")
-    .WithOpenApi();
-
 InitializeQuark();
 
 app.Run();
@@ -47,29 +38,31 @@ void InitializeQuark()
     var asg = new AsgBuilder(AsgBuilderConfiguration.Default).Build(lexemes);
     // Console.WriteLine(asg);
     var module = new AsgToBytecodeTranslator.AsgToBytecodeTranslator().Translate(asg);
-    var executor = (IExecutor)new QuarkVirtualMachine(GetBuildInFunctions());
+    var executor = (IExecutor)new QuarkVirtualMachine(new ExecutorConfiguration(GetBuildInFunctions()));
 
     // Console.WriteLine(module);
     executor.RunModule(module, [null]);
 }
 
-Dictionary<string, Action<EngineRuntimeData>> GetBuildInFunctions()
+Dictionary<string, Action<Any>> GetBuildInFunctions()
 {
-    var functions = new Dictionary<string, Action<EngineRuntimeData>
+    var functions = new Dictionary<string, Action<Any>>
     {
-        ["AddGetEndpoint"] = (rted) =>
+        ["AddGetEndpoint"] = rted =>
         {
-            var interpreter = rted.CurInterpreter;
+            var interpreter = rted.Get<EngineRuntimeData>().CurInterpreter;
             var stack = interpreter.Stack;
             var name = stack.Pop().GetRef<string>();
-            app.MapGet(name, () => { MakeBody(stack, interpreter, rted); })
+            app.MapGet(name, () => { return Call([], interpreter, rted.Get<EngineRuntimeData>(), name); })
                 .WithName("GetWeatherForecast")
                 .WithOpenApi();
         },
-        ["AddPostEndpoint"] = (stack, rted, interpreter) =>
+        ["AddPostEndpoint"] = rted =>
         {
+            var interpreter = rted.Get<EngineRuntimeData>().CurInterpreter;
+            var stack = interpreter.Stack;
             var name = stack.Pop().GetRef<string>();
-            app.MapPost(name, () => { MakeBody(stack, interpreter, rted); })
+            app.MapPost(name, () => { return Call([], interpreter, rted.Get<EngineRuntimeData>(), name); })
                 .WithName("GetWeatherForecast")
                 .WithOpenApi();
         },
@@ -77,10 +70,7 @@ Dictionary<string, Action<EngineRuntimeData>> GetBuildInFunctions()
     return functions;
 }
 
-void MakeBody(MyStack<VmValue> myStack, Interpreter arg3, EngineRuntimeData engineRuntimeData)
+string Call(Span<VmValue> args, Interpreter interpreter, EngineRuntimeData engineRuntimeData, string funcToCall)
 {
-    var funcToCall = myStack.Pop().GetRef<string>();
-    arg3.Frames.Push(
-        new VmFuncFrame(engineRuntimeData.Module.Functions.First(x => x.Name == funcToCall))
-    );
+    return interpreter.ExecuteFunction(funcToCall, args, engineRuntimeData).GetRef<string>();
 }

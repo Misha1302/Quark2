@@ -17,9 +17,9 @@
     </ItemGroup>
 
     <ItemGroup>
-      <None Update="Code\Main">
-        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      </None>
+        <None Update="Code\Main">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </None>
     </ItemGroup>
 
 </Project>

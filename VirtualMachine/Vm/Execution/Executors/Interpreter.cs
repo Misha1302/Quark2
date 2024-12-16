@@ -38,6 +38,16 @@ public class Interpreter
         }
     }
 
+    public VmValue ExecuteFunction(string name, Span<VmValue> args, EngineRuntimeData engineRuntimeData)
+    {
+        Stack.PushMany(args);
+        Frames.Push(
+            new VmFuncFrame(engineRuntimeData.Module.Functions.First(x => x.Name == name))
+        );
+        Step(int.MaxValue, engineRuntimeData);
+        return Stack.Pop();
+    }
+
     private void ExecuteOp(VmOperation vmOperation)
     {
         if (vmOperation.Type == InstructionType.PushConst) Stack.Push(vmOperation.Args[0]);
@@ -68,6 +78,10 @@ public class Interpreter
         else if (callName == "GetExecutorInfo")
         {
             Stack.Push(VmValue.CreateRef("Interpreter v0.0.0", Str));
+        }
+        else if (_engineRuntimeData.Configuration.BuildInFunctions.TryGetValue(callName, out var func))
+        {
+            func(new Any(_engineRuntimeData));
         }
         else
         {

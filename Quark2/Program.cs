@@ -13,7 +13,7 @@ var lexemes = quarkStatistics.Measure(() => new Lexer(LexerConfiguration.GetPatt
 var asg = quarkStatistics.Measure(() => new AsgBuilder(AsgBuilderConfiguration.Default).Build(lexemes));
 Console.WriteLine(asg);
 var module = quarkStatistics.Measure(() => new AsgToBytecodeTranslator.AsgToBytecodeTranslator().Translate(asg));
-var executor = (IExecutor)new QuarkVirtualMachine();
+var executor = (IExecutor)new QuarkVirtualMachine(new ExecutorConfiguration([]));
 Console.WriteLine(module);
 var results = quarkStatistics.Measure(() => executor.RunModule(module, [null]));
 

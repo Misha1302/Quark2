@@ -1,15 +1,11 @@
 import "../Libraries"
 
 Number Main() {
-    PrintLn(HelloWorld())
+    __platform_call("AddGetEndpoint", "HelloWorld", 1)
 
     return 0
 }
 
 Any HelloWorld() {
     return "Hello, World!"
-}
-
-Number Square(n) {
-    return n * n
 }

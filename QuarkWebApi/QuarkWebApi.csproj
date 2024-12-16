@@ -12,13 +12,13 @@
     </ItemGroup>
 
     <ItemGroup>
-      <None Update="Code\Main">
-        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      </None>
+        <None Update="Code\Main">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </None>
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\Quark2\Quark2.csproj" />
+        <ProjectReference Include="..\Quark2\Quark2.csproj"/>
     </ItemGroup>
 
 </Project>

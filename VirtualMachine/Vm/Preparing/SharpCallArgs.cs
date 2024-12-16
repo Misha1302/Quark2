@@ -19,7 +19,8 @@ public static class SharpCallArgs
             VmValue.Create(func.Method.MethodHandle.GetFunctionPointer(), NativeI64),
             VmValue.Create(parameters.Length, NativeI64),
             VmValue.Create(func.Method.ReturnType == typeof(Any) ? 1.0 : 0.0, Number),
-            VmValue.Create(parameters.Length != 0 && parameters[0].ParameterType == typeof(IReadOnlyStack<Any>) ? 1.0 : 0.0,
+            VmValue.Create(
+                parameters.Length != 0 && parameters[0].ParameterType == typeof(IReadOnlyStack<Any>) ? 1.0 : 0.0,
                 Number),
         ];
     }

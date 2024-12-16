@@ -1,6 +1,8 @@
+using AbstractExecutor;
+
 namespace VirtualMachine.Vm.Execution.Executors;
 
-public class Engine
+public class Engine(ExecutorConfiguration configuration)
 {
     private EngineRuntimeData _engineRuntimeData = null!;
 
@@ -25,7 +27,7 @@ public class Engine
 
     private void InitRuntimeData(VmModule module, Action<VmOperation, int, VmFuncFrame, MyStack<VmValue>>? logAction)
     {
-        _engineRuntimeData = new EngineRuntimeData(module, logAction, []);
+        _engineRuntimeData = new EngineRuntimeData(module, logAction, [], configuration);
     }
 
     private void ExecuteEveryInterpreter(List<VmValue> output)

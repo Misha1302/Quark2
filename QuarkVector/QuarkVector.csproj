@@ -16,7 +16,7 @@
 
     <ItemGroup>
         <ProjectReference Include="..\CommonBytecode\CommonBytecode.csproj"/>
-        <ProjectReference Include="..\CommonDataStructures\CommonDataStructures.csproj" />
+        <ProjectReference Include="..\CommonDataStructures\CommonDataStructures.csproj"/>
         <ProjectReference Include="..\Doubles\Doubles.csproj"/>
     </ItemGroup>
 

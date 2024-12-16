@@ -6,7 +6,7 @@ using VirtualMachine.Vm.Preparing;
 
 namespace VirtualMachine;
 
-public class QuarkVirtualMachine(Dictionary<string, Action<EngineRuntimeData>> getBuildInFunctions) : IExecutor
+public class QuarkVirtualMachine(ExecutorConfiguration configuration) : IExecutor
 {
     public IEnumerable<Any> RunModule(BytecodeModule module, object?[] arguments)
     {
@@ -14,7 +14,7 @@ public class QuarkVirtualMachine(Dictionary<string, Action<EngineRuntimeData>> g
 
         var converter = new BytecodeConverter();
         var vmModule = converter.MakeVmModule(module);
-        var engine = new Engine();
+        var engine = new Engine(configuration);
         var results = engine.Run(vmModule, logAction);
         return results.Select(x => x.ToAny());
     }
