@@ -28,7 +28,7 @@ public class PrecompileDataGetter
         {
             if (x.NodeType != AsgNodeType.SetOperation) return;
 
-            var varName = node.Children[0].Text;
+            var varName = x.Children[0].Text;
             locals.Add(new BytecodeVariable(varName, BytecodeValueType.Any));
         });
         return locals;
