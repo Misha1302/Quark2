@@ -5,21 +5,7 @@ using QuarkCFrontend.Asg;
 using QuarkCFrontend.Lexer;
 using VirtualMachine;
 
-var code2 =
-    """
-    import "../../../../Libraries"
-
-    Number Main() {
-        PrintLn(__platform_call("CallFunction", "Square", 5, 2))
-        PrintLn(__platform_call("GetExecutorInfo", 0))
-    
-        return 0
-    }
-
-    Number Square(n) {
-        return n * n
-    }
-    """;
+var code2 = File.ReadAllText("Code/Main");
 
 
 var quarkStatistics = new QuarkStatistics();

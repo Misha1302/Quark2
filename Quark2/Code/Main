@@ -1,0 +1,15 @@
+import "../../../../Libraries"
+
+Number Main() {
+    
+
+    return 0
+}
+
+Any HelloWorld() {
+    return "Hello, World!"
+}
+
+Number Square(n) {
+    return n * n
+}

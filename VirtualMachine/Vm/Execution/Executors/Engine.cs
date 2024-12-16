@@ -33,7 +33,10 @@ public class Engine
         while (_engineRuntimeData.Interpreters.Count > 0)
         {
             foreach (var interpreter in _engineRuntimeData.Interpreters)
+            {
+                _engineRuntimeData.CurInterpreter = interpreter;
                 interpreter.Step(1000, _engineRuntimeData);
+            }
 
             RemoveHaltedInterpreters(output);
         }

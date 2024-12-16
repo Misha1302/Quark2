@@ -6,7 +6,7 @@ using VirtualMachine.Vm.Preparing;
 
 namespace VirtualMachine;
 
-public class QuarkVirtualMachine : IExecutor
+public class QuarkVirtualMachine(Dictionary<string, Action<EngineRuntimeData>> getBuildInFunctions) : IExecutor
 {
     public IEnumerable<Any> RunModule(BytecodeModule module, object?[] arguments)
     {

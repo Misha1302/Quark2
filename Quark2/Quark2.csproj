@@ -16,4 +16,10 @@
         <ProjectReference Include="..\VirtualMachine\VirtualMachine.csproj"/>
     </ItemGroup>
 
+    <ItemGroup>
+      <None Update="Code\Main">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </None>
+    </ItemGroup>
+
 </Project>
