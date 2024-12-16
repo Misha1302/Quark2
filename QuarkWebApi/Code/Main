@@ -2,10 +2,15 @@ import "../Libraries"
 
 Number Main() {
     __platform_call("AddGetEndpoint", "HelloWorld", 1)
+    __platform_call("AddPostEndpoint", "Say", 1)
 
     return 0
 }
 
 Any HelloWorld() {
     return "Hello, World!"
+}
+
+Any Say(text) {
+    return Concat("Say: ", text)
 }

@@ -53,8 +53,9 @@ Dictionary<string, Action<Any>> GetBuildInFunctions()
             var interpreter = rted.Get<EngineRuntimeData>().CurInterpreter;
             var stack = interpreter.Stack;
             var name = stack.Pop().GetRef<string>();
-            app.MapGet(name, () => { return Call([], interpreter, rted.Get<EngineRuntimeData>(), name); })
-                .WithName("GetWeatherForecast")
+            stack.Pop();
+            app.MapGet("Quark/" + name, () => Call([], interpreter, rted.Get<EngineRuntimeData>(), name))
+                //.WithName("GetWeatherForecast")
                 .WithOpenApi();
         },
         ["AddPostEndpoint"] = rted =>
@@ -62,8 +63,11 @@ Dictionary<string, Action<Any>> GetBuildInFunctions()
             var interpreter = rted.Get<EngineRuntimeData>().CurInterpreter;
             var stack = interpreter.Stack;
             var name = stack.Pop().GetRef<string>();
-            app.MapPost(name, () => { return Call([], interpreter, rted.Get<EngineRuntimeData>(), name); })
-                .WithName("GetWeatherForecast")
+            stack.Pop();
+            app.MapPost("Quark/" + name,
+                    (string str) => Call([VmValue.CreateRef(str, BytecodeValueType.Str)], interpreter,
+                        rted.Get<EngineRuntimeData>(), name))
+                //.WithName("GetWeatherForecast")
                 .WithOpenApi();
         },
     };

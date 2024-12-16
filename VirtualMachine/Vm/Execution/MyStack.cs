@@ -52,4 +52,9 @@ public class MyStack<T>(int maxSize) : IReadOnlyStack<T>
         foreach (var vmValue in vmValues)
             Push(vmValue);
     }
+
+    public void Clear()
+    {
+        Count = 0;
+    }
 }

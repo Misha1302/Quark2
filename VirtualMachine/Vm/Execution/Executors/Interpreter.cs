@@ -41,6 +41,7 @@ public class Interpreter
     public VmValue ExecuteFunction(string name, Span<VmValue> args, EngineRuntimeData engineRuntimeData)
     {
         Stack.PushMany(args);
+        Frames.Clear();
         Frames.Push(
             new VmFuncFrame(engineRuntimeData.Module.Functions.First(x => x.Name == name))
         );
