@@ -13,6 +13,8 @@ public static class SharpCallArgs
     {
         Throw.Assert(func.Method.ReturnType == typeof(void) || func.Method.ReturnType == typeof(Any));
 
+        RuntimeHelpers.PrepareDelegate(func);
+
         var parameters = func.Method.GetParameters();
         return
         [

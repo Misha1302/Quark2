@@ -1,6 +1,8 @@
 import "../Libraries"
 
 Number Main() {
+    SetStatic("Hi", "Hello")
+
     __platform_call("AddGetEndpoint", "HelloWorld", 1)
     __platform_call("AddPostEndpoint", "Say", 1)
 
@@ -12,5 +14,6 @@ Any HelloWorld() {
 }
 
 Any Say(text) {
-    return Concat("Say: ", text)
+    SetStatic("Hi", Concat(GetStatic("Hi"), text))
+    return Concat("Say: ", GetStatic("Hi"))
 }

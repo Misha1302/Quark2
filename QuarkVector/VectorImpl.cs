@@ -2,7 +2,7 @@ using System.Runtime.InteropServices;
 
 namespace QuarkVector;
 
-public class VectorCollection<T>
+public class VectorImpl<T>
 {
     private readonly List<T> _data = [];
 

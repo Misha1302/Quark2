@@ -29,7 +29,7 @@ public class ImportsManager
         if (!path.EndsWith(".dll")) Throw.InvalidOpEx("File is not a dll");
 
         var fullPath = Path.GetFullPath(path);
-        var assembly = Assembly.LoadFile(fullPath);
+        var assembly = Assembly.LoadFrom(fullPath);
 
         ImportAssembly(assembly);
     }

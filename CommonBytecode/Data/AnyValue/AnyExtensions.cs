@@ -81,4 +81,13 @@ public static class AnyExtensions
             _ => Throw.InvalidOpEx<string>(),
         };
     }
+
+    public static bool EqualExt(this Any? x, Any? y)
+    {
+        if (ReferenceEquals(x, y)) return true;
+        if (x is null) return false;
+        if (y is null) return false;
+        if (x.GetType() != y.GetType()) return false;
+        return x.Type == y.Type && x.Value.Equals(y.Value);
+    }
 }
