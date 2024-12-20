@@ -32,7 +32,7 @@ app.Run();
 
 void InitializeQuark()
 {
-    var code2 = File.ReadAllText("Code/Main");
+    var code2 = File.ReadAllText("Code/Main.lua");
 
     var lexemes = new Lexer(LexerConfiguration.GetPatterns().ToList()).Lexemize(code2);
     var asg = new AsgBuilder(AsgBuilderConfiguration.Default).Build(lexemes);

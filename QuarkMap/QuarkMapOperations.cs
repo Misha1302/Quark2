@@ -5,9 +5,9 @@ namespace QuarkMap;
 
 public static class QuarkMapOperations
 {
-    public static Any GetFromMap(Any dict, Any key) => dict.Get<StdDict>().Get(key);
+    public static Any GetMapValue(Any dict, Any key) => dict.Get<StdDict>().Get(key);
 
-    public static void SetFromMap(Any dict, Any key, Any value) => dict.Get<StdDict>().Set(key, value);
+    public static void SetMapValue(Any dict, Any key, Any value) => dict.Get<StdDict>().Set(key, value);
 
     public static Any CreateMap() => new(new StdDict()) { Type = BytecodeValueType.SomeSharpObject };
 }

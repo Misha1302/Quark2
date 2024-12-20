@@ -1,15 +1,11 @@
 import "../../../../Libraries"
 
 Number Main() {
-    
+    PrintLn(HelloWorld())
 
     return 0
 }
 
 Any HelloWorld() {
     return "Hello, World!"
-}
-
-Number Square(n) {
-    return n * n
 }
