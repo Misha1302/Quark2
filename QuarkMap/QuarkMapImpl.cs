@@ -23,4 +23,6 @@ public class QuarkMapImpl<TKey, TValue> : IEnumerable<KeyValuePair<TKey, TValue>
     {
         return string.Join("\n", _dictionary.Select(x => x.Key + ": " + x.Value));
     }
+
+    public void Remove(TKey key) => _dictionary.Remove(key);
 }
