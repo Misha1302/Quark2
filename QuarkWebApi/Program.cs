@@ -36,7 +36,7 @@ void InitializeQuark()
 
     var lexemes = new Lexer(LexerConfiguration.GetPatterns().ToList()).Lexemize(code2);
     var asg = new AsgBuilder(AsgBuilderConfiguration.Default).Build(lexemes);
-    // Console.WriteLine(asg);
+    Console.WriteLine(asg);
     var module = new AsgToBytecodeTranslator.AsgToBytecodeTranslator().Translate(asg);
     var executor = (IExecutor)new QuarkVirtualMachine(new ExecutorConfiguration(GetBuildInFunctions()));
 

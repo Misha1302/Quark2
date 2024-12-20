@@ -9,6 +9,7 @@ public static class AsgBuilderConfiguration
     public static readonly List<List<INodeCreator>> Default =
     [
         [
+            new CommentNodeCreator(),
             new NumberNodeCreator(),
             new StringNodeCreator(),
             new LabelNodeCreator(),

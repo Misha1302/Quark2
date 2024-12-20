@@ -37,4 +37,5 @@ public enum AsgNodeType
     BrIf,
     Label,
     MaxEnumValue,
+    Removed
 }

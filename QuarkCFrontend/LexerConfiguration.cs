@@ -6,6 +6,7 @@ public static class LexerConfiguration
 {
     private static readonly List<LexemePattern> _patterns =
     [
+        new("//.*", LexemeType.Comment),
         new(@"\(", LexemeType.LeftPar),
         new(@"\)", LexemeType.RightPar),
         new(@"\{", LexemeType.LeftBrace),
