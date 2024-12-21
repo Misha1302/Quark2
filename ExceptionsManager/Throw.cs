@@ -1,4 +1,5 @@
-﻿using System.Diagnostics.CodeAnalysis;
+﻿using System.Diagnostics;
+using System.Diagnostics.CodeAnalysis;
 using System.Runtime.CompilerServices;
 
 namespace ExceptionsManager;
@@ -11,6 +12,7 @@ public static class Throw
 
     public static T InvalidOpEx<T>(string message = "") => throw new InvalidOperationException(message);
 
+    [Conditional("DEBUG")]
     public static void Assert(
         [DoesNotReturnIf(false)] bool cond,
         string errorMessage = "",
@@ -18,8 +20,6 @@ public static class Throw
         string expression = ""
     )
     {
-#if DEBUG
         if (!cond) AssertationFail(errorMessage == "" ? expression : errorMessage);
-#endif
     }
 }
