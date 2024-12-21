@@ -7,7 +7,7 @@ public class ReturnNodeCreator : INodeCreator
 {
     public AsgNodeType NodeType => AsgNodeType.Return;
 
-    public int TryBuildImpl(List<AsgNode> nodes, int i, AsgBuilder asgBuilder)
+    public int TryBuildImpl(List<AsgNode> nodes, int i)
     {
         if (nodes[i].LexemeType != LexemeType.Return) return 0;
 

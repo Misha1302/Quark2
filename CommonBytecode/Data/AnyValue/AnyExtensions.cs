@@ -88,6 +88,11 @@ public static class AnyExtensions
         if (x is null) return false;
         if (y is null) return false;
         if (x.GetType() != y.GetType()) return false;
+
+        if (x.Type == Nil && y.Type == Nil) return true;
+        if (x.Type == Nil) return false;
+        if (y.Type == Nil) return false;
+
         return x.Type == y.Type && x.Value.Equals(y.Value);
     }
 }

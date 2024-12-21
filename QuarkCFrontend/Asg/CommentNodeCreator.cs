@@ -8,7 +8,7 @@ public class CommentNodeCreator : INodeCreator
     public AsgNodeType NodeType => AsgNodeType.Removed;
 
     // just remove comment
-    public int TryBuildImpl(List<AsgNode> nodes, int i, AsgBuilder asgBuilder)
+    public int TryBuildImpl(List<AsgNode> nodes, int i)
     {
         if (nodes[i].LexemeType != LexemeType.Comment) return 0;
 

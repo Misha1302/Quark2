@@ -50,24 +50,41 @@ Dictionary<string, Action<Any>> GetBuildInFunctions()
     {
         ["AddGetEndpoint"] = rted =>
         {
-            var interpreter = rted.Get<EngineRuntimeData>().CurInterpreter;
-            var stack = interpreter.Stack;
-            var name = stack.Pop().GetRef<string>();
-            stack.Pop();
+            ExtractArgs(rted, out var interpreter, out var name);
             app.MapGet("Quark/" + name, () => Call([], interpreter, rted.Get<EngineRuntimeData>(), name))
-                //.WithName("GetWeatherForecast")
                 .WithOpenApi();
         },
         ["AddPostEndpoint"] = rted =>
         {
-            var interpreter = rted.Get<EngineRuntimeData>().CurInterpreter;
-            var stack = interpreter.Stack;
-            var name = stack.Pop().GetRef<string>();
-            stack.Pop();
+            ExtractArgs(rted, out var interpreter, out var name);
             app.MapPost("Quark/" + name,
                     (string str) => Call([VmValue.CreateRef(str, BytecodeValueType.Str)], interpreter,
                         rted.Get<EngineRuntimeData>(), name))
-                //.WithName("GetWeatherForecast")
+                .WithOpenApi();
+        },
+        ["AddDeleteEndpoint"] = rted =>
+        {
+            var interpreter = rted.Get<EngineRuntimeData>().CurInterpreter;
+            var stack = interpreter.Stack;
+            var needArgument = stack.Pop().IsTrue();
+            var name = stack.Pop().GetRef<string>();
+            stack.Pop();
+            if (needArgument)
+                app.MapDelete("Quark/" + name,
+                        (string str) => Call([VmValue.CreateRef(str, BytecodeValueType.Str)], interpreter,
+                            rted.Get<EngineRuntimeData>(), name))
+                    .WithOpenApi();
+            else
+                app.MapDelete("Quark/" + name,
+                        () => Call([], interpreter, rted.Get<EngineRuntimeData>(), name))
+                    .WithOpenApi();
+        },
+        ["AddPutEndpoint"] = rted =>
+        {
+            ExtractArgs(rted, out var interpreter, out var name);
+            app.MapPut("Quark/" + name,
+                    (string str) => Call([VmValue.CreateRef(str, BytecodeValueType.Str)], interpreter,
+                        rted.Get<EngineRuntimeData>(), name))
                 .WithOpenApi();
         },
     };
@@ -77,4 +94,12 @@ Dictionary<string, Action<Any>> GetBuildInFunctions()
 string Call(Span<VmValue> args, Interpreter interpreter, EngineRuntimeData engineRuntimeData, string funcToCall)
 {
     return interpreter.ExecuteFunction(funcToCall, args, engineRuntimeData).GetRef<string>();
+}
+
+void ExtractArgs(Any rted, out Interpreter interpreter, out string name)
+{
+    interpreter = rted.Get<EngineRuntimeData>().CurInterpreter;
+    var stack = interpreter.Stack;
+    name = stack.Pop().GetRef<string>();
+    stack.Pop();
 }

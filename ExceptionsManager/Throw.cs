@@ -1,4 +1,5 @@
 ﻿using System.Diagnostics.CodeAnalysis;
+using System.Runtime.CompilerServices;
 
 namespace ExceptionsManager;
 
@@ -10,10 +11,15 @@ public static class Throw
 
     public static T InvalidOpEx<T>(string message = "") => throw new InvalidOperationException(message);
 
-    public static void Assert([DoesNotReturnIf(false)] bool cond, string errorMessage = "")
+    public static void Assert(
+        [DoesNotReturnIf(false)] bool cond,
+        string errorMessage = "",
+        [CallerArgumentExpression(nameof(cond))]
+        string expression = ""
+    )
     {
 #if DEBUG
-        if (!cond) AssertationFail(errorMessage);
+        if (!cond) AssertationFail(errorMessage == "" ? expression : errorMessage);
 #endif
     }
 }

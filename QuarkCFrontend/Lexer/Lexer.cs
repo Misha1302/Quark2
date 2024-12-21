@@ -11,7 +11,7 @@ public class Lexer(List<LexemePattern> patterns)
         foreach (var pattern in patterns)
             allMatches.AddRange(
                 Regex.Matches(code, pattern.Pattern)
-                    .Select(x => new LexemeValue(x.Value, pattern, x.Index))
+                    .Select(x => new LexemeValue(x.Value, pattern, x.Index, code))
             );
 
         allMatches = allMatches

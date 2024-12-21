@@ -10,9 +10,9 @@ public interface INodeCreator
         if (i < 0 || i >= nodes.Count) return 0;
         if (nodes[i].NodeType == NodeType) return 0;
 
-        return TryBuildImpl(nodes, i, asgBuilder);
+        return TryBuildImpl(nodes, i);
     }
 
     // returns offset for i
-    int TryBuildImpl(List<AsgNode> nodes, int i, AsgBuilder asgBuilder);
+    int TryBuildImpl(List<AsgNode> nodes, int i);
 }

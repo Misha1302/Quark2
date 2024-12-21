@@ -1,8 +1,8 @@
-﻿using System.Text;
-using System.Text.Json;
+﻿using System.Diagnostics.CodeAnalysis;
+using System.Text;
 using CommonBytecode.Data.AnyValue;
-using ExceptionsManager;
 using QuarkMap;
+using JsonSerializer = System.Text.Json.JsonSerializer;
 
 namespace QuarkSerializaton;
 
@@ -10,13 +10,45 @@ public static class QuarkSerializer
 {
     public static Any DeserializeIntoMap(Any json)
     {
-        var values = JsonSerializer.Deserialize<Dictionary<string, string>>(json.Get<string>());
-        Throw.Assert(values != null, nameof(values) + " != null");
+        if (!TryDeserialize<Dictionary<string, string>>(json, out var values))
+            return Any.Nil;
 
         var map = new QuarkMapImpl<Any, Any>();
         foreach (var value in values)
             map.Set(value.Key, value.Value);
+
         return map.ToAny(BytecodeValueType.SomeSharpObject);
+    }
+
+    public static Any DeserializeIntoMapOfMaps(Any json)
+    {
+        if (!TryDeserialize<Dictionary<string, Dictionary<string, string>>>(json, out var values))
+            return Any.Nil;
+
+        var map = new QuarkMapImpl<Any, Any>();
+        foreach (var value in values)
+        {
+            var map2 = new QuarkMapImpl<Any, Any>();
+            map.Set(value.Key, map2.ToAny(BytecodeValueType.SomeSharpObject));
+            foreach (var pair in value.Value)
+                map2.Set(pair.Key, pair.Value);
+        }
+
+        return map.ToAny(BytecodeValueType.SomeSharpObject);
+    }
+
+    private static bool TryDeserialize<T>(Any json, [NotNullWhen(true)] out T? values)
+    {
+        try
+        {
+            values = JsonSerializer.Deserialize<T>(json.Get<string>());
+            return values != null;
+        }
+        catch
+        {
+            values = default;
+            return false;
+        }
     }
 
     public static Any SerializeMap(Any json)
@@ -27,9 +59,10 @@ public static class QuarkSerializer
 
         foreach (var pair in (IEnumerable<KeyValuePair<Any, Any>>)map)
             sb.Append(
-                $"{pair.Key}:{(pair.Value.Value is QuarkMapImpl<Any, Any> ? SerializeMap(pair.Value) : pair.Value)},");
+                $"\"{pair.Key}\":{(pair.Value.Value is QuarkMapImpl<Any, Any> ? SerializeMap(pair.Value) : '"' + pair.Value.ToString() + '"')},");
 
-        sb.Remove(sb.Length - 1, 1);
+        if (map.Count != 0)
+            sb.Remove(sb.Length - 1, 1);
         sb.Append('}');
         return sb.ToString();
     }

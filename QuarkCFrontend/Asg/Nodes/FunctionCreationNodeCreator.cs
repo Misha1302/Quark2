@@ -7,11 +7,11 @@ public class FunctionCreationNodeCreator : INodeCreator
 {
     public AsgNodeType NodeType => AsgNodeType.FunctionCreating;
 
-    public int TryBuildImpl(List<AsgNode> nodes, int i, AsgBuilder asgBuilder)
+    public int TryBuildImpl(List<AsgNode> nodes, int i)
     {
         if (i + 3 >= nodes.Count) return 0;
 
-        var a = nodes[i].LexemeType == Identifier;
+        var a = nodes[i].LexemeType == Def;
         var b = nodes[i + 1].LexemeType == Identifier;
         var c = nodes[i + 2].NodeType == AsgNodeType.Scope;
         var d = nodes[i + 3].NodeType == AsgNodeType.Scope;

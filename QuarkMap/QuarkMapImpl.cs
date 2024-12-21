@@ -7,8 +7,10 @@ public class QuarkMapImpl<TKey, TValue> : IEnumerable<KeyValuePair<TKey, TValue>
 {
     private readonly Dictionary<TKey, TValue> _dictionary =
         typeof(TKey) == typeof(Any)
-            ? new Dictionary<TKey, TValue>((IEqualityComparer<TKey>?)Any.Nil)
+            ? new Dictionary<TKey, TValue>((IEqualityComparer<TKey>?)AnyEqualityComparer.Instance)
             : new Dictionary<TKey, TValue>();
+
+    public int Count => _dictionary.Count;
 
     IEnumerator<KeyValuePair<TKey, TValue>> IEnumerable<KeyValuePair<TKey, TValue>>.GetEnumerator() =>
         _dictionary.GetEnumerator();
@@ -25,4 +27,6 @@ public class QuarkMapImpl<TKey, TValue> : IEnumerable<KeyValuePair<TKey, TValue>
     }
 
     public void Remove(TKey key) => _dictionary.Remove(key);
+
+    public bool HasKey(TKey key) => _dictionary.ContainsKey(key);
 }

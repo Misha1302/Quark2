@@ -1,17 +1,29 @@
 import "../Libraries"
 
 // // // Enter point \\ \\ \\
-Number Main() {
+def Main() {
     SetStatic("GlobalData", CreateMap())
-    SetMapValue(GetStatic("GlobalData"), "Notes", CreateMap())
+    LoadNotesFromDrive()
 
     AddPostEndpoint("AddNote")
     AddGetEndpoint("PrintNotes")
-    AddPostEndpoint("UpdateTextInNote")
-    AddPostEndpoint("DeleteNote")
+    AddPutEndpoint("UpdateTextInNote")
+    AddDeleteEndpoint("DeleteNote", 1)
+    AddDeleteEndpoint("DeleteAll", 0)
 
     return 0
 }
+
+
+
+
+
+// requests examples:
+// add note: { "name":"1", "text":"111" }
+// print nodes
+// update text in note: { "name":"1", "text":"new text" }
+// delete note: 1
+
 
 
 
@@ -19,53 +31,106 @@ Number Main() {
 // // // Application request handlers \\ \\ \\
 
 // Create
-Any AddNote(text) {
+def AddNote(text) {
     map = DeserializeIntoMap(text)
+    if not IsValidNodeMap(map) { return "Invalid enter data" }    
     SetMapValue(Get("Notes"), GetMapValue(map, "name"), map)
+    Save()
     return "Added"
 }
 
 // Read
-Any PrintNotes() {
+def PrintNotes() {
     return SerializeMap(Get("Notes"))
 }
 
 // Update
-Any UpdateTextInNote(text) {
+def UpdateTextInNote(text) {
     // do the same as add note function
-    AddNote(text)
-    return "Updated"
+    result = AddNote(text)
+    if result == "Added" { return "Updated" }
+    return result
 }
 
 // Delete
-Any DeleteNote(text) {
+def DeleteNote(text) {
     RemoveMapValue(Get("Notes"), text)
+    Save()
     return "Removed"
 }
+
+// Delete
+def DeleteAll(text) {
+    Set("Notes", CreateMap())
+    Save()
+    return "Removed all notes"
+}
+
+
+
+
+
+// // // Enter data validators \\ \\ \\
+def IsValidNodeMap(map) {
+    if IsNil(map) { return 0 }
+    if not MapContains(map, "name") { return 0 }
+    if not MapContains(map, "text") { return 0 }
+
+    return 1
+}
+
+
+
+
+
+// // // Save changes to drive \\ \\ \\
+def Save() {
+    map = Get("Notes")
+    str = SerializeMap(map)
+    WriteText("Code/NotesJsonFile", str)
+    return 0
+}
+
+def LoadNotesFromDrive() {
+    SetMapValue(GetStatic("GlobalData"), "Notes", DeserializeIntoMapOfMaps(ReadText("Code/NotesJsonFile")))
+    return 0
+}
+
 
 
 
 
 // // // Application global data getter/setter \\ \\ \\
-Any Set(name, value) {
+def Set(name, value) {
     SetMapValue(GetStatic("GlobalData"), name, value)
     return 0
 }
 
-Any Get(name) {
+def Get(name) {
     return GetMapValue(GetStatic("GlobalData"), name)
 }
 
 
 
 
+
 // // // Platform Calls \\ \\ \\
-Any AddGetEndpoint(name) {
+def AddGetEndpoint(name) {
     __platform_call("AddGetEndpoint", name, 1)
     return 0
 }
 
-Any AddPostEndpoint(name) {
+def AddPostEndpoint(name) {
     __platform_call("AddPostEndpoint", name, 1)
+    return 0
+}
+
+def AddDeleteEndpoint(name, needArgument) {
+    __platform_call("AddDeleteEndpoint", name, needArgument, 2)
+    return 0
+}
+
+def AddPutEndpoint(name) {
+    __platform_call("AddPutEndpoint", name, 1)
     return 0
 }

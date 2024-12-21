@@ -16,6 +16,7 @@ public static class LexerConfiguration
         new(@"\<\=", LexemeType.Le),
         new(@"\>\=", LexemeType.Ge),
         new(@"\<", LexemeType.Lt),
+        new(@"def", LexemeType.Def),
         new(@"and", LexemeType.And),
         new(@"or", LexemeType.Or),
         new(@"not", LexemeType.Not),
