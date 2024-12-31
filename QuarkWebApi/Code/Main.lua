@@ -3,13 +3,13 @@ import "../Libraries"
 // // // Enter point \\ \\ \\
 def Main() {
     SetStatic("GlobalData", CreateMap())
-    LoadNotesFromDrive()
+    _ = LoadNotesFromDrive()
 
-    AddPostEndpoint("AddNote")
-    AddGetEndpoint("PrintNotes")
-    AddPutEndpoint("UpdateTextInNote")
-    AddDeleteEndpoint("DeleteNote", 1)
-    AddDeleteEndpoint("DeleteAll", 0)
+    _ = AddPostEndpoint("AddNote")
+    _ = AddGetEndpoint("PrintNotes")
+    _ = AddPutEndpoint("UpdateTextInNote")
+    _ = AddDeleteEndpoint("DeleteNote", 1)
+    _ = AddDeleteEndpoint("DeleteAll", 0)
 
     return 0
 }
@@ -35,7 +35,7 @@ def AddNote(text) {
     map = DeserializeIntoMap(text)
     if not IsValidNodeMap(map) { return "Invalid enter data" }    
     SetMapValue(Get("Notes"), GetMapValue(map, "name"), map)
-    Save()
+    _ = Save()
     return "Added"
 }
 
@@ -55,14 +55,14 @@ def UpdateTextInNote(text) {
 // Delete
 def DeleteNote(text) {
     RemoveMapValue(Get("Notes"), text)
-    Save()
+    _ = Save()
     return "Removed"
 }
 
 // Delete
 def DeleteAll(text) {
-    Set("Notes", CreateMap())
-    Save()
+    _ = Set("Notes", CreateMap())
+    _ = Save()
     return "Removed all notes"
 }
 

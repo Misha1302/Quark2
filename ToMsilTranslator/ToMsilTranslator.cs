@@ -120,6 +120,9 @@ public class ToMsilTranslator(ExecutorConfiguration executorConfiguration) : IEx
 
         il.Call(method);
 
+        if (method.ReturnType != typeof(void))
+            il.Call(GetInfo(TranslatorValueExtensions.MakeTranslationValue));
+
         var q = new TranslatorValue();
         var w = (IAny)q;
         w.GetAnyType();
@@ -127,7 +130,7 @@ public class ToMsilTranslator(ExecutorConfiguration executorConfiguration) : IEx
 
     private void PushConst(GroboIL il, BytecodeInstruction instruction, List<TranslatorValue> constants)
     {
-        constants.Add(instruction.Arguments[0].MakeTranslationValue()[0]);
+        constants.Add(instruction.Arguments[0].MakeTranslationValue());
         il.Ldc_I4(constants.Count - 1);
         il.Call(GetInfo(RuntimeLibrary.GetConst));
     }
