@@ -43,7 +43,11 @@ public class Measurer
             var module =
                 quarkStatistics.Measure(() => new AsgToBytecodeTranslator.AsgToBytecodeTranslator().Translate(asg));
             var executor = executorMaker();
+            
+            var stdOut = Console.Out;
+            Console.SetOut(TextWriter.Null);
             quarkStatistics.Measure(() => executor.RunModule(module, [null]));
+            Console.SetOut(stdOut);
 
             min = Math.Min(min, quarkStatistics.Times[^1].Item1);
         }
