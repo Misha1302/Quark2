@@ -15,12 +15,32 @@ public class ToMsilTranslator(ExecutorConfiguration executorConfiguration) : IEx
 {
     public IEnumerable<Any> RunModule(BytecodeModule module, object?[] arguments)
     {
-        var (methods, constants) = CompileModule(module);
-        RuntimeLibrary.RuntimeData =
-            new ToMsilTranslatorRuntimeData(constants, methods.ToDictionary(x => x.Name, x => x),
-                new Stack<TranslatorValue>());
+        Init(module);
         var result = RuntimeLibrary.CallFunc("Main");
         return [result.ToAny()];
+    }
+
+    public IEnumerable<Any> RunFunction(BytecodeModule module, string name, Span<Any> arguments)
+    {
+        Init(module);
+        foreach (var argument in arguments)
+            RuntimeLibrary.RuntimeData.IntermediateData.Push(argument.MakeTranslationValue());
+        var result = RuntimeLibrary.CallFunc(name);
+        return [result.ToAny()];
+    }
+
+    private void Init(BytecodeModule module)
+    {
+        // ReSharper disable once ConditionalAccessQualifierIsNonNullableAccordingToAPIContract
+        if (RuntimeLibrary.RuntimeData?.Module == module) return;
+        var (methods, constants) = CompileModule(module);
+        RuntimeLibrary.RuntimeData =
+            new ToMsilTranslatorRuntimeData(
+                constants,
+                methods.ToDictionary(x => x.Name, x => x),
+                new Stack<TranslatorValue>(),
+                module
+            );
     }
 
     private (List<DynamicMethod>, List<TranslatorValue>) CompileModule(BytecodeModule module)
@@ -81,8 +101,6 @@ public class ToMsilTranslator(ExecutorConfiguration executorConfiguration) : IEx
             il.Pop();
         else if (instruction.Type == InstructionType.MakeVariables)
             DoNothing();
-        else if (instruction.Type == InstructionType.PlatformCall)
-            Throw.NotImplementedException();
     }
 
     private void CallSharp(GroboIL il, BytecodeInstruction instruction, FunctionCompileData data)
@@ -114,7 +132,7 @@ public class ToMsilTranslator(ExecutorConfiguration executorConfiguration) : IEx
         for (var i = 0; i < parameters.Length; i++)
         {
             il.Ldloc(arrLoc);
-            il.Ldc_I4(i);
+            il.Ldc_I4(parameters.Length - i - 1);
             il.Ldelem(typeof(Any));
         }
 

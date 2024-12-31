@@ -8,14 +8,30 @@ namespace VirtualMachine;
 
 public class QuarkVirtualMachine(ExecutorConfiguration configuration) : IExecutor
 {
+    private Engine _engine = null!;
+
     public IEnumerable<Any> RunModule(BytecodeModule module, object?[] arguments)
+    {
+        var logAction = Init(module, arguments, out var vmModule);
+        var results = _engine.Run(vmModule, logAction);
+        return results.Select(x => x.ToAny());
+    }
+
+    public IEnumerable<Any> RunFunction(BytecodeModule module, string name, Span<Any> arguments)
+    {
+        var args = arguments.ToArray().Select(x => x.MakeVmValue()[0]).ToArray();
+        var results = _engine.EngineRuntimeData.CurInterpreter.ExecuteFunction(name, args, _engine.EngineRuntimeData);
+        return [results.ToAny()];
+    }
+
+    private Action<VmOperation, int, VmFuncFrame, MyStack<VmValue>>? Init(BytecodeModule module, object?[] arguments,
+        out VmModule vmModule)
     {
         var logAction = (Action<VmOperation, int, VmFuncFrame, MyStack<VmValue>>?)arguments[0];
 
         var converter = new BytecodeConverter();
-        var vmModule = converter.MakeVmModule(module);
-        var engine = new Engine(configuration);
-        var results = engine.Run(vmModule, logAction);
-        return results.Select(x => x.ToAny());
+        vmModule = converter.MakeVmModule(module);
+        _engine = new Engine(configuration);
+        return logAction;
     }
 }

@@ -65,11 +65,7 @@ public class AsgToBytecodeTranslator
 
                 var functionName = node.Text;
 
-                if (functionName == "__platform_call")
-                {
-                    CurBytecode.Add(new BytecodeInstruction(InstructionType.PlatformCall, []));
-                }
-                else if (_importsManager.Have(functionName))
+                if (_importsManager.Have(functionName))
                 {
                     var @delegate = _importsManager.GetDelegateByName(functionName);
                     var instructions = (Span<BytecodeInstruction>) [..SimpleBytecodeGenerator.CallSharp(@delegate)];

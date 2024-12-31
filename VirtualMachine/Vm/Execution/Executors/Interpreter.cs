@@ -1,5 +1,4 @@
 using CommonBytecode.Enums;
-using Doubles;
 
 namespace VirtualMachine.Vm.Execution.Executors;
 
@@ -63,38 +62,12 @@ public class Interpreter
         else if (vmOperation.Type == InstructionType.Label) DoNothing();
         else if (vmOperation.Type == InstructionType.MakeVariables) DoNothing();
         else if (vmOperation.Type == InstructionType.Drop) Stack.Pop();
-        else if (vmOperation.Type == InstructionType.PlatformCall) PlatformCall();
         else Throw.InvalidOpEx();
-    }
-
-    private void PlatformCall()
-    {
-        var argsCount = Stack.Pop().Get<double>().ToLong();
-        var callName = Stack.Get((int)-argsCount - 1).GetRef<string>();
-        if (callName == "CallFunction")
-        {
-            var funcToCall = Stack.Get((int)-argsCount).GetRef<string>();
-            Frames.Push(new VmFuncFrame(_engineRuntimeData.Module.Functions.First(x => x.Name == funcToCall)));
-        }
-        else if (callName == "GetExecutorInfo")
-        {
-            Stack.Push(VmValue.CreateRef("Interpreter v0.0.0", Str));
-        }
-        else if (_engineRuntimeData.Configuration.BuildInFunctions.TryGetValue(callName, out var func))
-        {
-            func(new Any(_engineRuntimeData));
-        }
-        else
-        {
-            Throw.InvalidOpEx("Unknown platform call");
-        }
     }
 
     private void CallFunction(VmOperation vmOperation)
     {
-        // TODO: remake to pool of vmfuncframe
         Frames.Push(new VmFuncFrame(_engineRuntimeData.Module.Functions[(int)vmOperation.Args[0].Get<long>()]));
-        // Console.WriteLine(Frames.Count);
     }
 
     private void BrOp(VmOperation vmOperation)

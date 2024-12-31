@@ -49,9 +49,22 @@ public class ImportsManager
     private void ImportAssembly(Assembly assembly)
     {
         foreach (var type in assembly.GetTypes())
-        foreach (var methodInfo in type.GetMethods(BindingFlags.Static | BindingFlags.Public)
-                     .Where(x => !x.IsGenericMethod))
-            _methods.Add(methodInfo, methodInfo.CreateDelegateCustom(null));
+        foreach (var methodInfo in SelectMethods(type))
+            _methods.TryAdd(methodInfo, methodInfo.CreateDelegateCustom(null));
+    }
+
+    private static IEnumerable<MethodInfo> SelectMethods(Type type)
+    {
+        return type
+            .GetMethods(BindingFlags.Static | BindingFlags.Public)
+            .Where(x => !x.IsGenericMethod)
+            .Where(x => x.IsStatic)
+            .Where(x => x.GetParameters().All(y => !y.ParameterType.IsByRef))
+            .Where(x => !x.ReturnType.IsByRef)
+            .Where(x => !x.ReturnType.IsGenericType)
+            .Where(x => !x.ContainsGenericParameters)
+            .Where(x => !x.IsGenericMethod)
+            .Where(x => !x.DeclaringType?.IsGenericType ?? false);
     }
 
     public bool Have(string functionName)

@@ -4,7 +4,7 @@ namespace VirtualMachine.Vm.Execution.Executors;
 
 public class Engine(ExecutorConfiguration configuration)
 {
-    private EngineRuntimeData _engineRuntimeData = null!;
+    public EngineRuntimeData EngineRuntimeData { get; private set; } = null!;
 
     public List<VmValue> Run(VmModule module,
         Action<VmOperation, int, VmFuncFrame, MyStack<VmValue>>? logAction = null)
@@ -22,22 +22,22 @@ public class Engine(ExecutorConfiguration configuration)
     {
         var item = new Interpreter();
         item.Frames.Push(new VmFuncFrame(module["Main"]));
-        _engineRuntimeData.Interpreters.Add(item);
+        EngineRuntimeData.Interpreters.Add(item);
     }
 
     private void InitRuntimeData(VmModule module, Action<VmOperation, int, VmFuncFrame, MyStack<VmValue>>? logAction)
     {
-        _engineRuntimeData = new EngineRuntimeData(module, logAction, [], configuration);
+        EngineRuntimeData = new EngineRuntimeData(module, logAction, [], configuration);
     }
 
     private void ExecuteEveryInterpreter(List<VmValue> output)
     {
-        while (_engineRuntimeData.Interpreters.Count > 0)
+        while (EngineRuntimeData.Interpreters.Count > 0)
         {
-            foreach (var interpreter in _engineRuntimeData.Interpreters)
+            foreach (var interpreter in EngineRuntimeData.Interpreters)
             {
-                _engineRuntimeData.CurInterpreter = interpreter;
-                interpreter.Step(1000, _engineRuntimeData);
+                EngineRuntimeData.CurInterpreter = interpreter;
+                interpreter.Step(1000, EngineRuntimeData);
             }
 
             RemoveHaltedInterpreters(output);
@@ -46,11 +46,11 @@ public class Engine(ExecutorConfiguration configuration)
 
     private void RemoveHaltedInterpreters(List<VmValue> output)
     {
-        for (var i = _engineRuntimeData.Interpreters.Count - 1; i >= 0; i--)
-            if (_engineRuntimeData.Interpreters[i].Halted)
+        for (var i = EngineRuntimeData.Interpreters.Count - 1; i >= 0; i--)
+            if (EngineRuntimeData.Interpreters[i].Halted)
             {
-                output.Add(_engineRuntimeData.Interpreters[i].Stack.Pop());
-                _engineRuntimeData.Interpreters.RemoveAt(i);
+                output.Add(EngineRuntimeData.Interpreters[i].Stack.Pop());
+                EngineRuntimeData.Interpreters.RemoveAt(i);
             }
     }
 }

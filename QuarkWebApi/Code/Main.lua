@@ -1,15 +1,18 @@
 import "../Libraries"
+import "../QuarkWebApi"
 
 // // // Enter point \\ \\ \\
 def Main() {
     SetStatic("GlobalData", CreateMap())
+    PrintLn("Hi!!!")
     _ = LoadNotesFromDrive()
+    
 
-    _ = AddPostEndpoint("AddNote")
-    _ = AddGetEndpoint("PrintNotes")
-    _ = AddPutEndpoint("UpdateTextInNote")
-    _ = AddDeleteEndpoint("DeleteNote", 1)
-    _ = AddDeleteEndpoint("DeleteAll", 0)
+    AddPostEndpoint("AddNote")
+    AddGetEndpoint("PrintNotes")
+    AddPutEndpoint("UpdateTextInNote")
+    AddDeleteEndpoint("DeleteNote", 1)
+    AddDeleteEndpoint("DeleteAll", 0)
 
     return 0
 }
@@ -115,22 +118,22 @@ def Get(name) {
 
 
 // // // Platform Calls \\ \\ \\
-def AddGetEndpoint(name) {
-    __platform_call("AddGetEndpoint", name, 1)
-    return 0
-}
-
-def AddPostEndpoint(name) {
-    __platform_call("AddPostEndpoint", name, 1)
-    return 0
-}
-
-def AddDeleteEndpoint(name, needArgument) {
-    __platform_call("AddDeleteEndpoint", name, needArgument, 2)
-    return 0
-}
-
-def AddPutEndpoint(name) {
-    __platform_call("AddPutEndpoint", name, 1)
-    return 0
-}
+// def AddGetEndpoint(name) {
+//     __platform_call("AddGetEndpoint", name, 1)
+//     return 0
+// }
+// 
+// def AddPostEndpoint(name) {
+//     __platform_call("AddPostEndpoint", name, 1)
+//     return 0
+// }
+// 
+// def AddDeleteEndpoint(name, needArgument) {
+//     __platform_call("AddDeleteEndpoint", name, needArgument, 2)
+//     return 0
+// }
+// 
+// def AddPutEndpoint(name) {
+//     __platform_call("AddPutEndpoint", name, 1)
+//     return 0
+// }

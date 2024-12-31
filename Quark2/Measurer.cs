@@ -14,14 +14,14 @@ public class Measurer
 
         // something about 1655
         var min1 = Measure(
-            () => new QuarkVirtualMachine(new ExecutorConfiguration([])),
+            () => new QuarkVirtualMachine(new ExecutorConfiguration()),
             repeatTimes, code
         );
         Console.WriteLine($"Interpreter min execution time: {min1}");
 
         // something about 173
         var min2 = Measure(
-            () => new ToMsilTranslator.ToMsilTranslator(new ExecutorConfiguration([])),
+            () => new ToMsilTranslator.ToMsilTranslator(new ExecutorConfiguration()),
             repeatTimes, code
         );
         Console.WriteLine($"Translator to msil min execution time: {min2}");
