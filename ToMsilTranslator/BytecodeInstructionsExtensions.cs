@@ -14,7 +14,7 @@ public static class BytecodeInstructionsExtensions
             .Select(x => x.Arguments[0].Get<string>())
             .Distinct();
 
-        return locals.ToDictionary(local => local, _ => il.DeclareLocal(typeof(Any)));
+        return locals.ToDictionary(local => local, _ => il.DeclareLocal(typeof(TranslatorValue)));
     }
 
     public static Dictionary<string, GroboIL.Label> GetLabels(this BytecodeFunction function, GroboIL il)

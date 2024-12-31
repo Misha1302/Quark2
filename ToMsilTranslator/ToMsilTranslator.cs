@@ -16,23 +16,23 @@ public class ToMsilTranslator(ExecutorConfiguration executorConfiguration) : IEx
     {
         var (methods, constants) = CompileModule(module);
         RuntimeLibrary.RuntimeData =
-            new ToMsilTranslatorRuntimeData(constants, methods.ToDictionary(x => x.Name, x => x), new Stack<Any>());
+            new ToMsilTranslatorRuntimeData(constants, methods.ToDictionary(x => x.Name, x => x), new Stack<TranslatorValue>());
         var result = RuntimeLibrary.CallFunc("Main");
-        return [result];
+        return [result.ToAny()];
     }
 
-    private (List<DynamicMethod>, List<Any>) CompileModule(BytecodeModule module)
+    private (List<DynamicMethod>, List<TranslatorValue>) CompileModule(BytecodeModule module)
     {
-        var constants = new List<Any>();
+        var constants = new List<TranslatorValue>();
         var methods = module.Functions.Select(function => CompileFunction(module, function, constants)).ToList();
         return (methods, constants);
     }
 
-    private DynamicMethod CompileFunction(BytecodeModule module, BytecodeFunction function, List<Any> constants)
+    private DynamicMethod CompileFunction(BytecodeModule module, BytecodeFunction function, List<TranslatorValue> constants)
     {
         var dynamicMethod = new DynamicMethod(
             function.Name,
-            typeof(Any),
+            typeof(TranslatorValue),
             [typeof(ToMsilTranslatorRuntimeData)]
         );
 
@@ -54,7 +54,7 @@ public class ToMsilTranslator(ExecutorConfiguration executorConfiguration) : IEx
 
 
     private void CompileInstruction(GroboIL il, BytecodeInstruction instruction, FunctionCompileData data,
-        BytecodeModule module, List<Any> constants)
+        BytecodeModule module, List<TranslatorValue> constants)
     {
         if (instruction.Type == InstructionType.PushConst)
             PushConst(il, instruction, constants);
@@ -82,9 +82,9 @@ public class ToMsilTranslator(ExecutorConfiguration executorConfiguration) : IEx
             Throw.NotImplementedException();
     }
 
-    private void PushConst(GroboIL il, BytecodeInstruction instruction, List<Any> constants)
+    private void PushConst(GroboIL il, BytecodeInstruction instruction, List<TranslatorValue> constants)
     {
-        constants.Add(instruction.Arguments[0]);
+        constants.Add(instruction.Arguments[0].MakeTranslationValue()[0]);
         il.Ldc_I4(constants.Count - 1);
         il.Call(GetInfo(RuntimeLibrary.GetConst));
     }
