@@ -1,6 +1,3 @@
-using CommonBytecode.Data.AnyValue;
-using ExceptionsManager;
-
 namespace ToMsilTranslator;
 
 public static class TranslatorValueExtensions
@@ -9,11 +6,11 @@ public static class TranslatorValueExtensions
     {
         return value.Type switch
         {
-            BytecodeValueType.Nil => "Nil",
-            BytecodeValueType.Number => value.Get<double>(),
-            BytecodeValueType.Str => value.GetRef<string>(),
-            BytecodeValueType.SomeSharpObject => value.GetRef<object>(),
-            BytecodeValueType.NativeI64 => value.Get<long>(),
+            Nil => "Nil",
+            Number => value.Get<double>(),
+            Str => value.GetRef<string>(),
+            SomeSharpObject => value.GetRef<object>(),
+            NativeI64 => value.Get<long>(),
             BytecodeValueType.Any => value.Get<long>(),
             _ => Throw.InvalidOpEx<string>(),
         };
@@ -23,13 +20,13 @@ public static class TranslatorValueExtensions
     {
         return any.Value switch
         {
-            double d => TranslatorValue.Create(d, BytecodeValueType.Number),
-            long l => TranslatorValue.Create(l, BytecodeValueType.NativeI64),
-            bool l => TranslatorValue.Create(l ? 1L : 0L, BytecodeValueType.NativeI64),
-            string s => TranslatorValue.CreateRef(s, BytecodeValueType.Str),
-            Enum e => TranslatorValue.Create((long)Convert.ToInt32(e), BytecodeValueType.NativeI64),
+            double d => TranslatorValue.Create(d, Number),
+            long l => TranslatorValue.Create(l, NativeI64),
+            bool l => TranslatorValue.Create(l ? 1L : 0L, NativeI64),
+            string s => TranslatorValue.CreateRef(s, Str),
+            Enum e => TranslatorValue.Create((long)Convert.ToInt32(e), NativeI64),
             null => TranslatorValue.NilValue,
-            var obj => TranslatorValue.CreateRef(obj, BytecodeValueType.SomeSharpObject),
+            var obj => TranslatorValue.CreateRef(obj, SomeSharpObject),
         };
     }
 }

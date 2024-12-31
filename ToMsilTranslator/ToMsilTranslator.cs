@@ -1,17 +1,9 @@
 ﻿using System.Reflection;
-using System.Reflection.Emit;
 using AbstractExecutor;
-using CommonBytecode.Data.AnyValue;
-using CommonBytecode.Data.Structures;
-using CommonBytecode.Enums;
-using CommonBytecode.Interfaces;
-using ExceptionsManager;
-using GrEmit;
-using static CommonBytecode.Enums.MathLogicOp;
 
 namespace ToMsilTranslator;
 
-public class ToMsilTranslator(ExecutorConfiguration executorConfiguration) : IExecutor
+public class ToMsilTranslator : IExecutor
 {
     public IEnumerable<Any> RunModule(BytecodeModule module, object?[] arguments)
     {
@@ -90,7 +82,7 @@ public class ToMsilTranslator(ExecutorConfiguration executorConfiguration) : IEx
         else if (instruction.Type == InstructionType.BrOp)
             CompileBrOp(il, instruction, data);
         else if (instruction.Type == InstructionType.CallSharp)
-            CallSharp(il, instruction, data);
+            CallSharp(il, instruction);
         else if (instruction.Type == InstructionType.CallFunc)
             CallFunc(il, instruction, module);
         else if (instruction.Type == InstructionType.Ret)
@@ -103,7 +95,7 @@ public class ToMsilTranslator(ExecutorConfiguration executorConfiguration) : IEx
             DoNothing();
     }
 
-    private void CallSharp(GroboIL il, BytecodeInstruction instruction, FunctionCompileData data)
+    private void CallSharp(GroboIL il, BytecodeInstruction instruction)
     {
         var method = GetInfo(instruction.Arguments[0].Get<Delegate>());
         var parameters = method.GetParameters();

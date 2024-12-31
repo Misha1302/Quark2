@@ -1,8 +1,3 @@
-using CommonBytecode.Data.AnyValue;
-using CommonBytecode.Data.Structures;
-using CommonBytecode.Enums;
-using GrEmit;
-
 namespace ToMsilTranslator;
 
 public static class BytecodeInstructionsExtensions

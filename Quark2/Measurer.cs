@@ -21,7 +21,7 @@ public class Measurer
 
         // something about 173
         var min2 = Measure(
-            () => new ToMsilTranslator.ToMsilTranslator(new ExecutorConfiguration()),
+            () => new ToMsilTranslator.ToMsilTranslator(),
             repeatTimes, code
         );
         Console.WriteLine($"Translator to msil min execution time: {min2}");

@@ -21,7 +21,8 @@ public static class QuarkEndpoints
     {
         _app
             .MapPost("Quark/" + name,
-                (string text) => _executor.RunFunction(_module, name.Get<string>(), [text.ToAny()]).First().Get<string>())
+                (string text) =>
+                    _executor.RunFunction(_module, name.Get<string>(), [text.ToAny()]).First().Get<string>())
             .WithOpenApi();
     }
 
@@ -30,11 +31,13 @@ public static class QuarkEndpoints
         if (needArgument.IsTrue())
             _app
                 .MapDelete("Quark/" + name,
-                    (string text) => _executor.RunFunction(_module, name.Get<string>(), [text.ToAny()]).First().Get<string>())
+                    (string text) => _executor.RunFunction(_module, name.Get<string>(), [text.ToAny()]).First()
+                        .Get<string>())
                 .WithOpenApi();
         else
             _app
-                .MapDelete("Quark/" + name, () => _executor.RunFunction(_module, name.Get<string>(), []).First().Get<string>())
+                .MapDelete("Quark/" + name,
+                    () => _executor.RunFunction(_module, name.Get<string>(), []).First().Get<string>())
                 .WithOpenApi();
     }
 
@@ -42,7 +45,8 @@ public static class QuarkEndpoints
     {
         _app
             .MapPut("Quark/" + name,
-                (string text) => _executor.RunFunction(_module, name.Get<string>(), [text.ToAny()]).First().Get<string>())
+                (string text) =>
+                    _executor.RunFunction(_module, name.Get<string>(), [text.ToAny()]).First().Get<string>())
             .WithOpenApi();
     }
 

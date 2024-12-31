@@ -1,5 +1,4 @@
-﻿using AbstractExecutor;
-using Quark2;
+﻿using Quark2;
 using QuarkCFrontend;
 using QuarkCFrontend.Asg;
 using QuarkCFrontend.Lexer;
@@ -16,7 +15,7 @@ var lexemes =
 var asg = quarkStatistics.Measure(() => new AsgBuilder(AsgBuilderConfiguration.Default).Build(lexemes));
 var module =
     quarkStatistics.Measure(() => new AsgToBytecodeTranslator.AsgToBytecodeTranslator().Translate(asg));
-var executor = new ToMsilTranslator.ToMsilTranslator(new ExecutorConfiguration());
+var executor = new ToMsilTranslator.ToMsilTranslator();
 var results = quarkStatistics.Measure(() => executor.RunModule(module, [null]));
 
 Console.WriteLine($"Results: {string.Join(", ", results)}");

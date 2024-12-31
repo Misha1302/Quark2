@@ -3,7 +3,6 @@ using QuarkCFrontend;
 using QuarkCFrontend.Asg;
 using QuarkCFrontend.Lexer;
 using QuarkWebApi;
-using VirtualMachine;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -36,7 +35,7 @@ void InitializeQuark()
     var lexemes = new Lexer(LexerConfiguration.GetPatterns().ToList()).Lexemize(code2);
     var asg = new AsgBuilder(AsgBuilderConfiguration.Default).Build(lexemes);
     var module = new AsgToBytecodeTranslator.AsgToBytecodeTranslator().Translate(asg);
-    var executor = (IExecutor)new ToMsilTranslator.ToMsilTranslator(new ExecutorConfiguration());
+    var executor = (IExecutor)new ToMsilTranslator.ToMsilTranslator();
     // var executor = (IExecutor)new QuarkVirtualMachine(new ExecutorConfiguration());
 
     QuarkEndpoints.Init(executor, module, app);

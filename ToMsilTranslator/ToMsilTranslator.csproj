@@ -7,12 +7,12 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <PackageReference Include="GrEmit" Version="3.5.1" />
+        <PackageReference Include="GrEmit" Version="3.5.1"/>
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\AbstractExecutor\AbstractExecutor.csproj" />
-      <ProjectReference Include="..\Doubles\Doubles.csproj" />
+        <ProjectReference Include="..\AbstractExecutor\AbstractExecutor.csproj"/>
+        <ProjectReference Include="..\Doubles\Doubles.csproj"/>
     </ItemGroup>
 
 </Project>

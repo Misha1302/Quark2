@@ -1,5 +1,4 @@
 using Doubles;
-using static CommonBytecode.Data.AnyValue.BytecodeValueType;
 
 namespace ToMsilTranslator;
 

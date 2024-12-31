@@ -1,8 +1,17 @@
 import "../../../../Libraries"
 
 def Main() {
-    PrintLn(2)
-    _ = IsPrime(122344388900113)
+    // 1 - prime, 0 - not prime
+    n = 122344388900113
+    
+    Print(n)
+    
+    if (IsPrime(n)) {
+        PrintLn(" is prime")
+        return 0
+    }
+    
+    PrintLn(" is not prime")
 
     return 0
 }

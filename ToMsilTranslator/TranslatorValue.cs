@@ -1,14 +1,11 @@
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
-using CommonBytecode.Data.AnyValue;
-using CommonBytecode.Interfaces;
-using ExceptionsManager;
 
 namespace ToMsilTranslator;
 
 public readonly struct TranslatorValue : IAny
 {
-    public readonly BytecodeValueType Type = BytecodeValueType.Nil;
+    public readonly BytecodeValueType Type = Nil;
 
     private readonly long _value = 0;
     private readonly object _ref = null!;
@@ -31,7 +28,7 @@ public readonly struct TranslatorValue : IAny
         Type = type;
     }
 
-    public static readonly TranslatorValue NilValue = new(0, BytecodeValueType.Nil);
+    public static readonly TranslatorValue NilValue = new(0, Nil);
 
     /// <summary>
     ///     Create new instance of VmValue
