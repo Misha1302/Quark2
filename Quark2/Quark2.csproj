@@ -13,6 +13,7 @@
         <ProjectReference Include="..\BytecodeGenerationSimplifier\BytecodeGenerationSimplifier.csproj"/>
         <ProjectReference Include="..\CommonBytecode\CommonBytecode.csproj"/>
         <ProjectReference Include="..\SharpLibrariesImporter\SharpLibrariesImporter.csproj"/>
+        <ProjectReference Include="..\ToMsilTranslator\ToMsilTranslator.csproj" />
         <ProjectReference Include="..\VirtualMachine\VirtualMachine.csproj"/>
     </ItemGroup>
 

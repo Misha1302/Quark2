@@ -38,7 +38,7 @@ void InitializeQuark()
     var asg = new AsgBuilder(AsgBuilderConfiguration.Default).Build(lexemes);
     Console.WriteLine(asg);
     var module = new AsgToBytecodeTranslator.AsgToBytecodeTranslator().Translate(asg);
-    var executor = (IExecutor)new QuarkVirtualMachine(new ExecutorConfiguration(GetBuildInFunctions()));
+    var executor = (IExecutor)new ToMsilTranslator.ToMsilTranslator(new ExecutorConfiguration(GetBuildInFunctions()));
 
     // Console.WriteLine(module);
     executor.RunModule(module, [null]);

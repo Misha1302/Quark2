@@ -82,11 +82,8 @@ public static class AnyExtensions
         };
     }
 
-    public static bool EqualExt(this Any? x, Any? y)
+    public static bool EqualExt(this Any x, Any y)
     {
-        if (ReferenceEquals(x, y)) return true;
-        if (x is null) return false;
-        if (y is null) return false;
         if (x.GetType() != y.GetType()) return false;
 
         if (x.Type == Nil && y.Type == Nil) return true;

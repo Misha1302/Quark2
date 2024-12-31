@@ -22,4 +22,6 @@ public static class Throw
     {
         if (!cond) AssertationFail(errorMessage == "" ? expression : errorMessage);
     }
+
+    public static void NotImplementedException() => throw new NotImplementedException();
 }
