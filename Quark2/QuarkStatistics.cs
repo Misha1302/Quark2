@@ -6,6 +6,7 @@ namespace Quark2;
 public class QuarkStatistics
 {
     private readonly List<(long, string)> _times = [];
+    public IReadOnlyList<(long, string)> Times => _times;
 
     public T Measure<T>(Func<T> func, [CallerArgumentExpression(nameof(func))] string expression = null!)
     {

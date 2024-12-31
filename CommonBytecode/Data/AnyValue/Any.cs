@@ -1,22 +1,22 @@
 namespace CommonBytecode.Data.AnyValue;
 
-public struct Any(object value, BytecodeValueType type = BytecodeValueType.Any) : IEquatable<Any>
+public readonly struct Any(object value, BytecodeValueType type = BytecodeValueType.Any) : IEquatable<Any>
 {
-    public static readonly Any Nil = new(null!) { Type = BytecodeValueType.Nil };
+    public static readonly Any Nil = new(null!, BytecodeValueType.Nil);
 
     public readonly object Value = value;
 
-    public BytecodeValueType Type = type;
+    public readonly BytecodeValueType Type = type;
 
     public override bool Equals(object? obj) =>
-        AnyEqualityComparer.Instance.Equals(this, obj is Any ? (Any)obj : default);
+        AnyEqualityComparer.Instance.Equals(this, obj as Any? ?? default);
 
     public override int GetHashCode() => AnyEqualityComparer.Instance.GetHashCode(this);
 
     public T Get<T>() => (T)Value;
 
-    public static implicit operator Any(double value) => new(value) { Type = Number };
-    public static implicit operator Any(string value) => new(value) { Type = Str };
+    public static implicit operator Any(double value) => new(value, Number);
+    public static implicit operator Any(string value) => new(value, Str);
 
     public override string ToString() => this.AnyToString(Type);
 

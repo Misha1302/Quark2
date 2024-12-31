@@ -13,5 +13,5 @@ public static class QuarkMapOperations
 
     public static Any MapContains(Any dict, Any key) => dict.Get<StdDict>().HasKey(key).ToAny();
 
-    public static Any CreateMap() => new(new StdDict()) { Type = BytecodeValueType.SomeSharpObject };
+    public static Any CreateMap() => new(new StdDict(), BytecodeValueType.SomeSharpObject);
 }

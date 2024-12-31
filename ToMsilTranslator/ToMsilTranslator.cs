@@ -49,7 +49,6 @@ public class ToMsilTranslator(ExecutorConfiguration executorConfiguration) : IEx
         foreach (var instruction in function.Code.Instructions)
             CompileInstruction(il, instruction, data, module, constants);
 
-        Console.WriteLine(il.GetILCode());
         return dynamicMethod;
     }
 

@@ -13,7 +13,7 @@ public static class VectorOperations
         vec.SetSize(elementsCount);
         for (var i = 0; i < elementsCount; i++) vec[(int)elementsCount - i - 1] = stack.Get(-(i + 2));
 
-        return new Any(vec) { Type = BytecodeValueType.SomeSharpObject };
+        return new Any(vec, BytecodeValueType.SomeSharpObject);
     }
 
     public static void SetSize(Any vector, Any length) =>

@@ -7,10 +7,10 @@ namespace CommonBytecode.Data.AnyValue;
 public static class AnyExtensions
 {
     public static Any ToAny(this IAny value) =>
-        new(value.GetObjectValue()) { Type = value.GetAnyType() };
+        new(value.GetObjectValue(), value.GetAnyType());
 
     public static Any ToAny(this object value, BytecodeValueType type = BytecodeValueType.Any) =>
-        new(value) { Type = type };
+        new(value, type);
 
     public static string AnyToString(this Any value, BytecodeValueType type)
     {
