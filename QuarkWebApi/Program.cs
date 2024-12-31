@@ -3,7 +3,6 @@ using CommonBytecode.Data.AnyValue;
 using QuarkCFrontend;
 using QuarkCFrontend.Asg;
 using QuarkCFrontend.Lexer;
-using VirtualMachine;
 using VirtualMachine.Vm.Data;
 using VirtualMachine.Vm.Execution.Executors;
 
@@ -40,7 +39,6 @@ void InitializeQuark()
     var module = new AsgToBytecodeTranslator.AsgToBytecodeTranslator().Translate(asg);
     var executor = (IExecutor)new ToMsilTranslator.ToMsilTranslator(new ExecutorConfiguration(GetBuildInFunctions()));
 
-    // Console.WriteLine(module);
     executor.RunModule(module, [null]);
 }
 

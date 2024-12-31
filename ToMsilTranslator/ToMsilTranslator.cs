@@ -4,6 +4,7 @@ using AbstractExecutor;
 using CommonBytecode.Data.AnyValue;
 using CommonBytecode.Data.Structures;
 using CommonBytecode.Enums;
+using CommonBytecode.Interfaces;
 using ExceptionsManager;
 using GrEmit;
 using static CommonBytecode.Enums.MathLogicOp;
@@ -16,7 +17,8 @@ public class ToMsilTranslator(ExecutorConfiguration executorConfiguration) : IEx
     {
         var (methods, constants) = CompileModule(module);
         RuntimeLibrary.RuntimeData =
-            new ToMsilTranslatorRuntimeData(constants, methods.ToDictionary(x => x.Name, x => x), new Stack<TranslatorValue>());
+            new ToMsilTranslatorRuntimeData(constants, methods.ToDictionary(x => x.Name, x => x),
+                new Stack<TranslatorValue>());
         var result = RuntimeLibrary.CallFunc("Main");
         return [result.ToAny()];
     }
@@ -28,7 +30,8 @@ public class ToMsilTranslator(ExecutorConfiguration executorConfiguration) : IEx
         return (methods, constants);
     }
 
-    private DynamicMethod CompileFunction(BytecodeModule module, BytecodeFunction function, List<TranslatorValue> constants)
+    private DynamicMethod CompileFunction(BytecodeModule module, BytecodeFunction function,
+        List<TranslatorValue> constants)
     {
         var dynamicMethod = new DynamicMethod(
             function.Name,
@@ -67,7 +70,7 @@ public class ToMsilTranslator(ExecutorConfiguration executorConfiguration) : IEx
         else if (instruction.Type == InstructionType.BrOp)
             CompileBrOp(il, instruction, data);
         else if (instruction.Type == InstructionType.CallSharp)
-            il.Call(GetInfo(instruction.Arguments[0].Get<Delegate>()));
+            CallSharp(il, instruction, data);
         else if (instruction.Type == InstructionType.CallFunc)
             CallFunc(il, instruction, module);
         else if (instruction.Type == InstructionType.Ret)
@@ -80,6 +83,46 @@ public class ToMsilTranslator(ExecutorConfiguration executorConfiguration) : IEx
             DoNothing();
         else if (instruction.Type == InstructionType.PlatformCall)
             Throw.NotImplementedException();
+    }
+
+    private void CallSharp(GroboIL il, BytecodeInstruction instruction, FunctionCompileData data)
+    {
+        var method = GetInfo(instruction.Arguments[0].Get<Delegate>());
+        var parameters = method.GetParameters();
+
+        var arrLoc = il.DeclareLocal(typeof(Any[]));
+        il.Ldc_I4(parameters.Length);
+        il.Newarr(typeof(Any));
+        il.Stloc(arrLoc);
+        for (var i = 0; i < parameters.Length; i++)
+        {
+            var temp = il.DeclareLocal(typeof(Any));
+
+            il.Box(typeof(TranslatorValue));
+            il.Castclass(typeof(IAny));
+            il.Call(GetInfo((Func<IAny, Any>)AnyExtensions.ToAny));
+            il.Stloc(temp);
+
+            il.Ldloc(arrLoc);
+            il.Ldc_I4(i);
+            il.Ldelema(typeof(Any));
+            il.Ldloc(temp);
+
+            il.Stobj(typeof(Any));
+        }
+
+        for (var i = 0; i < parameters.Length; i++)
+        {
+            il.Ldloc(arrLoc);
+            il.Ldc_I4(i);
+            il.Ldelem(typeof(Any));
+        }
+
+        il.Call(method);
+
+        var q = new TranslatorValue();
+        var w = (IAny)q;
+        w.GetAnyType();
     }
 
     private void PushConst(GroboIL il, BytecodeInstruction instruction, List<TranslatorValue> constants)

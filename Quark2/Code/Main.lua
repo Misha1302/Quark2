@@ -1,6 +1,7 @@
 import "../../../../Libraries"
 
 def Main() {
+    PrintLn(2)
     _ = IsPrime(122344388900113)
 
     return 0
