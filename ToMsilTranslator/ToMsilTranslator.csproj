@@ -12,6 +12,7 @@
 
     <ItemGroup>
         <ProjectReference Include="..\AbstractExecutor\AbstractExecutor.csproj"/>
+        <ProjectReference Include="..\CommonDataStructures\CommonDataStructures.csproj"/>
         <ProjectReference Include="..\Doubles\Doubles.csproj"/>
     </ItemGroup>
 

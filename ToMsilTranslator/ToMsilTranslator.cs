@@ -1,5 +1,6 @@
 ﻿using System.Reflection;
 using AbstractExecutor;
+using CommonDataStructures;
 
 namespace ToMsilTranslator;
 
@@ -16,7 +17,7 @@ public class ToMsilTranslator : IExecutor
     {
         Init(module);
         foreach (var argument in arguments)
-            RuntimeLibrary.RuntimeData.IntermediateData.Push(argument.MakeTranslationValue());
+            RuntimeLibrary.RuntimeData.IntermediateData.Push(argument.MakeAnyOpt());
         var result = RuntimeLibrary.CallFunc(name);
         return [result.ToAny()];
     }
@@ -30,24 +31,24 @@ public class ToMsilTranslator : IExecutor
             new ToMsilTranslatorRuntimeData(
                 constants,
                 methods.ToDictionary(x => x.Name, x => x),
-                new Stack<TranslatorValue>(),
+                new Stack<AnyOpt>(),
                 module
             );
     }
 
-    private (List<DynamicMethod>, List<TranslatorValue>) CompileModule(BytecodeModule module)
+    private (List<DynamicMethod>, List<AnyOpt>) CompileModule(BytecodeModule module)
     {
-        var constants = new List<TranslatorValue>();
+        var constants = new List<AnyOpt>();
         var methods = module.Functions.Select(function => CompileFunction(module, function, constants)).ToList();
         return (methods, constants);
     }
 
     private DynamicMethod CompileFunction(BytecodeModule module, BytecodeFunction function,
-        List<TranslatorValue> constants)
+        List<AnyOpt> constants)
     {
         var dynamicMethod = new DynamicMethod(
             function.Name,
-            typeof(TranslatorValue),
+            typeof(AnyOpt),
             [typeof(ToMsilTranslatorRuntimeData)]
         );
 
@@ -69,7 +70,7 @@ public class ToMsilTranslator : IExecutor
 
 
     private void CompileInstruction(GroboIL il, BytecodeInstruction instruction, FunctionCompileData data,
-        BytecodeModule module, List<TranslatorValue> constants)
+        BytecodeModule module, List<AnyOpt> constants)
     {
         if (instruction.Type == InstructionType.PushConst)
             PushConst(il, instruction, constants);
@@ -108,7 +109,7 @@ public class ToMsilTranslator : IExecutor
         {
             var temp = il.DeclareLocal(typeof(Any));
 
-            il.Box(typeof(TranslatorValue));
+            il.Box(typeof(AnyOpt));
             il.Castclass(typeof(IAny));
             il.Call(GetInfo((Func<IAny, Any>)AnyExtensions.ToAny));
             il.Stloc(temp);
@@ -131,16 +132,16 @@ public class ToMsilTranslator : IExecutor
         il.Call(method);
 
         if (method.ReturnType != typeof(void))
-            il.Call(GetInfo(TranslatorValueExtensions.MakeTranslationValue));
+            il.Call(GetInfo(AnyOptExtensions.MakeAnyOpt));
 
-        var q = new TranslatorValue();
+        var q = new AnyOpt();
         var w = (IAny)q;
         w.GetAnyType();
     }
 
-    private void PushConst(GroboIL il, BytecodeInstruction instruction, List<TranslatorValue> constants)
+    private void PushConst(GroboIL il, BytecodeInstruction instruction, List<AnyOpt> constants)
     {
-        constants.Add(instruction.Arguments[0].MakeTranslationValue());
+        constants.Add(instruction.Arguments[0].MakeAnyOpt());
         il.Ldc_I4(constants.Count - 1);
         il.Call(GetInfo(RuntimeLibrary.GetConst));
     }

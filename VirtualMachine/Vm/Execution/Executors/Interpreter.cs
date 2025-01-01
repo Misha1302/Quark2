@@ -1,11 +1,12 @@
 using CommonBytecode.Enums;
+using CommonDataStructures;
 
 namespace VirtualMachine.Vm.Execution.Executors;
 
 public class Interpreter
 {
     public readonly MyStack<VmFuncFrame> Frames = new(1024);
-    public readonly MyStack<VmValue> Stack = new(1024);
+    public readonly MyStack<AnyOpt> Stack = new(1024);
     private EngineRuntimeData _engineRuntimeData = null!;
 
     private double _numbersCompareAccuracy = 0.00001;
@@ -37,7 +38,7 @@ public class Interpreter
         }
     }
 
-    public VmValue ExecuteFunction(string name, Span<VmValue> args, EngineRuntimeData engineRuntimeData)
+    public AnyOpt ExecuteFunction(string name, Span<AnyOpt> args, EngineRuntimeData engineRuntimeData)
     {
         Stack.PushMany(args);
         Frames.Clear();
@@ -145,7 +146,7 @@ public class Interpreter
             Gt => VmCalc.Gt(a, b),
             LtOrEq => VmCalc.LtOrEq(a, b, NumbersCompareAccuracy),
             GtOrEq => VmCalc.GtOrEq(a, b, NumbersCompareAccuracy),
-            _ => Throw.InvalidOpEx<VmValue>(),
+            _ => Throw.InvalidOpEx<AnyOpt>(),
         };
 
         Stack.Push(c);

@@ -1,5 +1,6 @@
 ﻿using CommonBytecode.Data.Structures;
 using CommonBytecode.Enums;
+using CommonDataStructures;
 
 namespace VirtualMachine.Vm.Preparing;
 
@@ -38,7 +39,7 @@ public class BytecodeConverter
             {
                 var index = (long)locals.FindIndex(x => x.Name == op.Args[0].GetRef<string>());
                 Throw.Assert(index >= 0);
-                op.Args[0] = VmValue.Create(index, NativeI64);
+                op.Args[0] = AnyOpt.Create(index, NativeI64);
             }
     }
 
@@ -50,22 +51,22 @@ public class BytecodeConverter
                 // int - jump ip = [string - jump label name]
                 var index = (long)labels.FindIndex(x => x.Name == op.Args[1].GetRef<string>());
                 Throw.Assert(index >= 0);
-                op.Args[1] = VmValue.Create(index, NativeI64);
+                op.Args[1] = AnyOpt.Create(index, NativeI64);
             }
             else if (op.Type is InstructionType.CallFunc)
             {
                 var index = (long)functions.FindIndex(x => x.Name == op.Args[0].GetRef<string>());
                 Throw.Assert(index >= 0);
-                op.Args[0] = VmValue.Create(index, NativeI64);
+                op.Args[0] = AnyOpt.Create(index, NativeI64);
             }
     }
 
-    private List<VmValue> ConvertToVmValues(List<Any> anies)
+    private List<AnyOpt> ConvertToVmValues(List<Any> anies)
     {
-        var vmValues = new List<VmValue>();
+        var vmValues = new List<AnyOpt>();
         foreach (var any in anies)
             if (any.Value is BytecodeVariable) DoNothing();
-            else vmValues.AddRange(any.MakeVmValue());
+            else vmValues.AddRange(any.MakeAnyOptList());
 
         return vmValues;
     }

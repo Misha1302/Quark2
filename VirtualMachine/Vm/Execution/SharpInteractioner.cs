@@ -5,7 +5,7 @@ namespace VirtualMachine.Vm.Execution;
 public static class SharpInteractioner
 {
     public static unsafe void CallStaticSharpFunction(
-        MyStack<VmValue> stack, nint ptr, long argsCount, bool returnsValue, bool isVarArgs
+        MyStack<AnyOpt> stack, nint ptr, long argsCount, bool returnsValue, bool isVarArgs
     )
     {
         // https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/proposals/csharp-9.0/function-pointers
@@ -50,7 +50,7 @@ public static class SharpInteractioner
 
             stack.DropMany(argsCount);
 
-            stack.PushMany(CollectionsMarshal.AsSpan(result.MakeVmValue()));
+            stack.PushMany(CollectionsMarshal.AsSpan(result.MakeAnyOptList()));
         }
     }
 }

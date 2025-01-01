@@ -1,5 +1,6 @@
 using AbstractExecutor;
 using CommonBytecode.Data.Structures;
+using CommonDataStructures;
 using VirtualMachine.Vm.Execution;
 using VirtualMachine.Vm.Execution.Executors;
 using VirtualMachine.Vm.Preparing;
@@ -19,15 +20,15 @@ public class QuarkVirtualMachine(ExecutorConfiguration configuration) : IExecuto
 
     public IEnumerable<Any> RunFunction(BytecodeModule module, string name, Span<Any> arguments)
     {
-        var args = arguments.ToArray().Select(x => x.MakeVmValue()[0]).ToArray();
+        var args = arguments.ToArray().Select(x => x.MakeAnyOptList()[0]).ToArray();
         var results = _engine.EngineRuntimeData.CurInterpreter.ExecuteFunction(name, args, _engine.EngineRuntimeData);
         return [results.ToAny()];
     }
 
-    private Action<VmOperation, int, VmFuncFrame, MyStack<VmValue>>? Init(BytecodeModule module, object?[] arguments,
+    private Action<VmOperation, int, VmFuncFrame, MyStack<AnyOpt>>? Init(BytecodeModule module, object?[] arguments,
         out VmModule vmModule)
     {
-        var logAction = (Action<VmOperation, int, VmFuncFrame, MyStack<VmValue>>?)arguments[0];
+        var logAction = (Action<VmOperation, int, VmFuncFrame, MyStack<AnyOpt>>?)arguments[0];
 
         var converter = new BytecodeConverter();
         vmModule = converter.MakeVmModule(module);

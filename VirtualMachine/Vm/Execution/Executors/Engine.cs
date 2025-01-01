@@ -1,4 +1,5 @@
 using AbstractExecutor;
+using CommonDataStructures;
 
 namespace VirtualMachine.Vm.Execution.Executors;
 
@@ -6,10 +7,10 @@ public class Engine(ExecutorConfiguration configuration)
 {
     public EngineRuntimeData EngineRuntimeData { get; private set; } = null!;
 
-    public List<VmValue> Run(VmModule module,
-        Action<VmOperation, int, VmFuncFrame, MyStack<VmValue>>? logAction = null)
+    public List<AnyOpt> Run(VmModule module,
+        Action<VmOperation, int, VmFuncFrame, MyStack<AnyOpt>>? logAction = null)
     {
-        var output = new List<VmValue>();
+        var output = new List<AnyOpt>();
 
         InitRuntimeData(module, logAction);
         InitMainInterpreter(module);
@@ -25,12 +26,12 @@ public class Engine(ExecutorConfiguration configuration)
         EngineRuntimeData.Interpreters.Add(item);
     }
 
-    private void InitRuntimeData(VmModule module, Action<VmOperation, int, VmFuncFrame, MyStack<VmValue>>? logAction)
+    private void InitRuntimeData(VmModule module, Action<VmOperation, int, VmFuncFrame, MyStack<AnyOpt>>? logAction)
     {
         EngineRuntimeData = new EngineRuntimeData(module, logAction, [], configuration);
     }
 
-    private void ExecuteEveryInterpreter(List<VmValue> output)
+    private void ExecuteEveryInterpreter(List<AnyOpt> output)
     {
         while (EngineRuntimeData.Interpreters.Count > 0)
         {
@@ -44,7 +45,7 @@ public class Engine(ExecutorConfiguration configuration)
         }
     }
 
-    private void RemoveHaltedInterpreters(List<VmValue> output)
+    private void RemoveHaltedInterpreters(List<AnyOpt> output)
     {
         for (var i = EngineRuntimeData.Interpreters.Count - 1; i >= 0; i--)
             if (EngineRuntimeData.Interpreters[i].Halted)

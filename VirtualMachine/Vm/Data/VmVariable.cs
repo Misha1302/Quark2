@@ -1,12 +1,14 @@
+using CommonDataStructures;
+
 namespace VirtualMachine.Vm.Data;
 
 public class VmVariable(string name, BytecodeValueType varType)
 {
-    private VmValue _value;
+    private AnyOpt _value;
     public string Name { get; } = name;
     public BytecodeValueType VarType { get; } = varType;
 
-    public VmValue Value
+    public AnyOpt Value
     {
         get => _value;
         set

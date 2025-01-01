@@ -4,7 +4,6 @@ import "../QuarkWebApi"
 // // // Enter point \\ \\ \\
 def Main() {
     SetStatic("GlobalData", CreateMap())
-    PrintLn("Hi!!!")
     _ = LoadNotesFromDrive()
     
 
@@ -14,6 +13,8 @@ def Main() {
     AddDeleteEndpoint("DeleteNote", 1)
     AddDeleteEndpoint("DeleteAll", 0)
 
+    PrintLn("Program on Quark was successfully initialized")
+    
     return 0
 }
 

@@ -1,11 +1,12 @@
 using AbstractExecutor;
+using CommonDataStructures;
 
 namespace VirtualMachine.Vm.Execution.Executors;
 
 // ReSharper disable once NotAccessedPositionalProperty.Global
 public record EngineRuntimeData(
     VmModule Module,
-    Action<VmOperation, int, VmFuncFrame, MyStack<VmValue>>? LogAction,
+    Action<VmOperation, int, VmFuncFrame, MyStack<AnyOpt>>? LogAction,
     List<Interpreter> Interpreters,
     ExecutorConfiguration Configuration)
 {

@@ -43,7 +43,7 @@ public class Measurer
             var module =
                 quarkStatistics.Measure(() => new AsgToBytecodeTranslator.AsgToBytecodeTranslator().Translate(asg));
             var executor = executorMaker();
-            
+
             var stdOut = Console.Out;
             Console.SetOut(TextWriter.Null);
             quarkStatistics.Measure(() => executor.RunModule(module, [null]));

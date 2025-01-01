@@ -1,3 +1,5 @@
+using CommonDataStructures;
+
 namespace ToMsilTranslator;
 
 public static class BytecodeInstructionsExtensions
@@ -9,7 +11,7 @@ public static class BytecodeInstructionsExtensions
             .Select(x => x.Arguments[0].Get<string>())
             .Distinct();
 
-        return locals.ToDictionary(local => local, _ => il.DeclareLocal(typeof(TranslatorValue)));
+        return locals.ToDictionary(local => local, _ => il.DeclareLocal(typeof(AnyOpt)));
     }
 
     public static Dictionary<string, GroboIL.Label> GetLabels(this BytecodeFunction function, GroboIL il)

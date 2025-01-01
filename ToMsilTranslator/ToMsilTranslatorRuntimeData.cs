@@ -1,8 +1,10 @@
+using CommonDataStructures;
+
 namespace ToMsilTranslator;
 
 public record ToMsilTranslatorRuntimeData(
-    List<TranslatorValue> Constants,
+    List<AnyOpt> Constants,
     Dictionary<string, DynamicMethod> DynamicMethods,
-    Stack<TranslatorValue> IntermediateData,
+    Stack<AnyOpt> IntermediateData,
     BytecodeModule Module
 );

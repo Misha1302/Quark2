@@ -1,10 +1,4 @@
-using AbstractExecutor;
-using QuarkCFrontend;
-using QuarkCFrontend.Asg;
-using QuarkCFrontend.Lexer;
-using QuarkWebApi;
-
-var builder = WebApplication.CreateBuilder(args);
+using QuarkWebApi;var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
@@ -22,23 +16,9 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
-InitializeQuark();
+// you can use:
+// 1. RunningUsingMsilTranslator
+// 2. RunningUsingInterpreter
+new QuarkInitializer().InitializeQuark(app, RunType.RunningUsingMsilTranslator);
 
 app.Run();
-return;
-
-
-void InitializeQuark()
-{
-    var code2 = File.ReadAllText("Code/Main.lua");
-
-    var lexemes = new Lexer(LexerConfiguration.GetPatterns().ToList()).Lexemize(code2);
-    var asg = new AsgBuilder(AsgBuilderConfiguration.Default).Build(lexemes);
-    var module = new AsgToBytecodeTranslator.AsgToBytecodeTranslator().Translate(asg);
-    var executor = (IExecutor)new ToMsilTranslator.ToMsilTranslator();
-    // var executor = (IExecutor)new QuarkVirtualMachine(new ExecutorConfiguration());
-
-    QuarkEndpoints.Init(executor, module, app);
-
-    executor.RunModule(module, [null]);
-}

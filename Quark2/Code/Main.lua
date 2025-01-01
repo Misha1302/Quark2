@@ -1,7 +1,6 @@
 import "../../../../Libraries"
 
 def Main() {
-    // 1 - prime, 0 - not prime
     n = 122344388900113
     
     Print(n)

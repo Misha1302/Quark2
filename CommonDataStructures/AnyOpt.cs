@@ -1,34 +1,38 @@
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
+using CommonBytecode.Data.AnyValue;
+using CommonBytecode.Interfaces;
+using ExceptionsManager;
+using static CommonBytecode.Data.AnyValue.BytecodeValueType;
 
-namespace ToMsilTranslator;
+namespace CommonDataStructures;
 
-public readonly struct TranslatorValue : IAny
+public readonly struct AnyOpt : IAny
 {
     public readonly BytecodeValueType Type = Nil;
 
     private readonly long _value = 0;
     private readonly object _ref = null!;
 
-    private TranslatorValue(object @ref, BytecodeValueType type)
+    private AnyOpt(object @ref, BytecodeValueType type)
     {
         _ref = @ref;
         Type = type;
     }
 
-    private TranslatorValue(long value, BytecodeValueType type)
+    private AnyOpt(long value, BytecodeValueType type)
     {
         _value = value;
         Type = type;
     }
 
-    public TranslatorValue(double value, BytecodeValueType type)
+    public AnyOpt(double value, BytecodeValueType type)
     {
         _value = Unsafe.As<double, long>(ref value);
         Type = type;
     }
 
-    public static readonly TranslatorValue NilValue = new(0, Nil);
+    public static readonly AnyOpt NilValue = new(0, Nil);
 
     /// <summary>
     ///     Create new instance of VmValue
@@ -37,10 +41,10 @@ public readonly struct TranslatorValue : IAny
     /// <param name="type">VmValueType value describing type of value</param>
     /// <typeparam name="T">TranslatorValue unmanaged 8-byte type</typeparam>
     /// <returns>new VmValue instance</returns>
-    public static TranslatorValue Create<T>(T value, BytecodeValueType type) where T : unmanaged
+    public static AnyOpt Create<T>(T value, BytecodeValueType type) where T : unmanaged
     {
         if (typeof(T) == typeof(int))
-            return new TranslatorValue((int)(object)value, type);
+            return new AnyOpt((int)(object)value, type);
 
         if (typeof(T).IsEnum)
             Throw.Assert(Marshal.SizeOf(Enum.GetUnderlyingType(typeof(T))) == 8);
@@ -48,7 +52,7 @@ public readonly struct TranslatorValue : IAny
         else if (Marshal.SizeOf<T>() != 8)
             Throw.InvalidOpEx();
 
-        return new TranslatorValue(Unsafe.BitCast<T, long>(value), type);
+        return new AnyOpt(Unsafe.BitCast<T, long>(value), type);
     }
 
     /// <summary>
@@ -58,7 +62,7 @@ public readonly struct TranslatorValue : IAny
     /// <param name="type">VmValueType value describing type of value</param>
     /// <typeparam name="T">TranslatorValue reference type of value</typeparam>
     /// <returns>New Vmvalue instance</returns>
-    public static TranslatorValue CreateRef<T>(T value, BytecodeValueType type) where T : class => new(value, type);
+    public static AnyOpt CreateRef<T>(T value, BytecodeValueType type) where T : class => new(value, type);
 
     /// <summary>
     ///     Unsafe get TranslatorValue 8-byte unmanaged type value
