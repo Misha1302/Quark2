@@ -12,29 +12,43 @@ public class Measurer
     {
         var code = File.ReadAllText("Code/Main.lua");
 
+        GetExecutionTimes(repeatTimes, code, out var times1, out var times2);
+        PrintExecutionStatistics(times1, times2);
+    }
+
+    private void PrintExecutionStatistics(List<long> times1, List<long> times2)
+    {
+        // something about 9,566473988439306
+        Console.WriteLine(
+            $"Translator faster than interpreter in {(double)times1.Min() / times2.Min()} times (if we take the minimum execution time)");
+
+        Console.WriteLine(
+            $"Translator average faster than interpreter in {times1.Average() / times2.Average()} times (if we take the average execution time)");
+    }
+
+    private void GetExecutionTimes(int repeatTimes, string code, out List<long> times1, out List<long> times2)
+    {
         // something about 1655
-        var min1 = Measure(
+        times1 = Measure(
             () => new QuarkVirtualMachine(new ExecutorConfiguration()),
             repeatTimes, code
         );
-        Console.WriteLine($"Interpreter min execution time: {min1}");
+        Console.WriteLine($"Interpreter min execution time: {times1.Min()} ms");
 
         // something about 173
-        var min2 = Measure(
+        times2 = Measure(
             () => new ToMsilTranslator.ToMsilTranslator(),
             repeatTimes, code
         );
-        Console.WriteLine($"Translator to msil min execution time: {min2}");
-
-        // something about 9,566473988439306
-        Console.WriteLine($"Translator faster than interpreter in {(double)min1 / min2} times");
+        Console.WriteLine($"Translator to msil min execution time: {times2.Min()} ms");
     }
 
-    private long Measure(Func<IExecutor> executorMaker, int times, string code)
+    private List<long> Measure(Func<IExecutor> executorMaker, int times, string code)
     {
-        var min = long.MaxValue;
+        var executionTimes = new List<long>(times);
 
-        for (var i = 0; i < times; i++)
+        // + 1 'cause we need to prerun code for best perfomance
+        for (var i = 0; i < times + 1; i++)
         {
             var quarkStatistics = new QuarkStatistics();
             var lexemes =
@@ -49,9 +63,9 @@ public class Measurer
             quarkStatistics.Measure(() => executor.RunModule(module, [null]));
             Console.SetOut(stdOut);
 
-            min = Math.Min(min, quarkStatistics.Times[^1].Item1);
+            executionTimes.Add(quarkStatistics.Times[^1].Item1);
         }
 
-        return min;
+        return executionTimes;
     }
 }
