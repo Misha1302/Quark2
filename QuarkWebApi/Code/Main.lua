@@ -113,28 +113,3 @@ def Set(name, value) {
 def Get(name) {
     return GetMapValue(GetStatic("GlobalData"), name)
 }
-
-
-
-
-
-// // // Platform Calls \\ \\ \\
-// def AddGetEndpoint(name) {
-//     __platform_call("AddGetEndpoint", name, 1)
-//     return 0
-// }
-// 
-// def AddPostEndpoint(name) {
-//     __platform_call("AddPostEndpoint", name, 1)
-//     return 0
-// }
-// 
-// def AddDeleteEndpoint(name, needArgument) {
-//     __platform_call("AddDeleteEndpoint", name, needArgument, 2)
-//     return 0
-// }
-// 
-// def AddPutEndpoint(name) {
-//     __platform_call("AddPutEndpoint", name, 1)
-//     return 0
-// }
