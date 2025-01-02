@@ -64,7 +64,7 @@ def DeleteNote(text) {
 }
 
 // Delete
-def DeleteAll(text) {
+def DeleteAll() {
     _ = Set("Notes", CreateMap())
     _ = Save()
     return "Removed all notes"

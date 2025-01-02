@@ -1,4 +1,5 @@
 using AbstractExecutor;
+using CommonBytecode.Data.Structures;
 using QuarkCFrontend;
 using QuarkCFrontend.Asg;
 using QuarkCFrontend.Lexer;
@@ -8,21 +9,53 @@ namespace QuarkWebApi;
 
 public class QuarkInitializer
 {
-    public void InitializeQuark(IEndpointRouteBuilder app, RunType runType)
+    public WebApplication InitializeQuark(WebApplicationBuilder builder, RunType runType)
+    {
+        var module = CreateBytecodeModule();
+        var executor = CreateExecutor(runType);
+
+        AddSingletons(builder, module, executor);
+
+        var app = CreateApp(builder);
+
+        QuarkEndpoints.Init(app);
+
+        executor.RunModule(module, [null]);
+
+        return app;
+    }
+
+    private static void AddSingletons(WebApplicationBuilder builder, BytecodeModule module, IExecutor executor)
+    {
+        builder.Services.AddSingleton(module);
+        builder.Services.AddSingleton(executor);
+    }
+
+    private IExecutor CreateExecutor(RunType runType)
+    {
+        var executor = (IExecutor)(runType != RunType.RunningUsingInterpreter
+            ? new QuarkVirtualMachine(new ExecutorConfiguration())
+            : new ToMsilTranslator.ToMsilTranslator());
+        return executor;
+    }
+
+    private static BytecodeModule CreateBytecodeModule()
     {
         var code2 = File.ReadAllText("Code/Main.lua");
 
-        var lexemes = new Lexer(LexerConfiguration.GetPatterns().ToList()).Lexemize(code2);
+        var lexemes = new Lexer(LexerConfiguration.Default).Lexemize(code2);
         var asg = new AsgBuilder(AsgBuilderConfiguration.Default).Build(lexemes);
         var module = new AsgToBytecodeTranslator.AsgToBytecodeTranslator().Translate(asg);
-        var executor = (IExecutor)(
-            runType != RunType.RunningUsingInterpreter
-                ? new QuarkVirtualMachine(new ExecutorConfiguration())
-                : new ToMsilTranslator.ToMsilTranslator()
-        );
+        return module;
+    }
 
-        QuarkEndpoints.Init(executor, module, app);
+    private static WebApplication CreateApp(WebApplicationBuilder builder)
+    {
+        var app = builder.Build();
 
-        executor.RunModule(module, [null]);
+        app.UseSwagger();
+        app.UseSwaggerUI();
+
+        return app;
     }
 }
