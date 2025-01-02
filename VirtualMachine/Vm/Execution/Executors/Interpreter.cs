@@ -24,7 +24,7 @@ public class Interpreter
         }
     }
 
-    [MethodImpl(MethodImplOptions.NoInlining)]
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public void Step(int stepsCount, EngineRuntimeData engineRuntimeData)
     {
         _engineRuntimeData = engineRuntimeData;
