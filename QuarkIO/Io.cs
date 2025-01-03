@@ -17,5 +17,6 @@ public static class Io
     }
 
     public static Any InputStr() => Console.ReadLine() ?? Throw.InvalidOpEx<string>("Input was null.");
+
     public static Any InputNumber() => double.Parse(InputStr().Get<string>());
 }

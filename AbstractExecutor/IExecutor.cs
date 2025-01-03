@@ -6,17 +6,19 @@ namespace AbstractExecutor;
 public interface IExecutor
 {
     /// <summary>
-    /// Executes a bytecode module with the provided arguments and returns the result of execution.
-    /// The method takes in a BytecodeModule instance and an array of optional objects as arguments,
-    /// then runs the module's code and produces a sequence of Any values representing the output.
+    ///     Executes a given bytecode module and returns the result as an enumeration of Any values.
     /// </summary>
+    /// <param name="module">The bytecode module to execute.</param>
+    /// <returns>An enumeration of Any values representing the execution results.</returns>
     IEnumerable<Any> RunModule(BytecodeModule module);
 
     /// <summary>
-    /// Executes a function within a bytecode module by its specified name using the given arguments.
-    /// This method locates the named function inside the provided BytecodeModule, executes it with
-    /// the supplied arguments encapsulated in a Span of Any instances, and returns the resulting
-    /// sequence of Any values produced by the function.
+    ///     Executes a named function within a given bytecode module with specified arguments and returns the result as an
+    ///     enumeration of Any values.
     /// </summary>
+    /// <param name="module">The bytecode module containing the function to execute.</param>
+    /// <param name="name">The name of the function to execute.</param>
+    /// <param name="functionArguments">A span of Any values representing the arguments for the function.</param>
+    /// <returns>An enumeration of Any values representing the execution results.</returns>
     IEnumerable<Any> RunFunction(BytecodeModule module, string name, Span<Any> functionArguments);
 }

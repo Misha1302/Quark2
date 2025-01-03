@@ -39,5 +39,5 @@ public enum LexemeType : long
     BrIf,
     Comment,
     Def,
-    WhiteSpace
+    WhiteSpace,
 }
