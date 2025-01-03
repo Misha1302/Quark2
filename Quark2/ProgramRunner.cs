@@ -26,7 +26,7 @@ public class ProgramRunner
             var module =
                 quarkStatistics.Measure(() => new AsgToBytecodeTranslator.AsgToBytecodeTranslator().Translate(asg));
             var executor = CreateExecutor(runType);
-            var results = quarkStatistics.Measure(() => executor.RunModule(module, [null]));
+            var results = quarkStatistics.Measure(() => executor.RunModule(module));
 
             Console.WriteLine($"Results: {string.Join(", ", results)}");
             Console.WriteLine("Statistics:");

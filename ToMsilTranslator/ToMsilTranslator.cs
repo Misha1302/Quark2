@@ -6,17 +6,17 @@ namespace ToMsilTranslator;
 
 public class ToMsilTranslator : IExecutor
 {
-    public IEnumerable<Any> RunModule(BytecodeModule module, object?[] arguments)
+    public IEnumerable<Any> RunModule(BytecodeModule module)
     {
         Init(module);
         var result = RuntimeLibrary.CallFunc("Main");
         return [result.ToAny()];
     }
 
-    public IEnumerable<Any> RunFunction(BytecodeModule module, string name, Span<Any> arguments)
+    public IEnumerable<Any> RunFunction(BytecodeModule module, string name, Span<Any> functionArguments)
     {
         Init(module);
-        foreach (var argument in arguments)
+        foreach (var argument in functionArguments)
             RuntimeLibrary.RuntimeData.IntermediateData.Push(argument.MakeAnyOpt());
         var result = RuntimeLibrary.CallFunc(name);
         return [result.ToAny()];

@@ -60,7 +60,7 @@ public class Measurer
 
             var stdOut = Console.Out;
             Console.SetOut(TextWriter.Null);
-            quarkStatistics.Measure(() => executor.RunModule(module, [null]));
+            quarkStatistics.Measure(() => executor.RunModule(module));
             Console.SetOut(stdOut);
 
             executionTimes.Add(quarkStatistics.Times[^1].Item1);

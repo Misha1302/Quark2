@@ -20,7 +20,7 @@ public class QuarkInitializer
 
         QuarkEndpoints.Init(app);
 
-        executor.RunModule(module, [null]);
+        executor.RunModule(module);
 
         return app;
     }

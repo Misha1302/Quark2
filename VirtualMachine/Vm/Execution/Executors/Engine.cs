@@ -7,28 +7,32 @@ public class Engine(ExecutorConfiguration configuration)
 {
     public EngineRuntimeData EngineRuntimeData { get; private set; } = null!;
 
-    public List<AnyOpt> Run(VmModule module,
-        Action<VmOperation, int, VmFuncFrame, MyStack<AnyOpt>>? logAction = null)
+    public List<AnyOpt> RunFunction(VmModule module, string funcNameToRun, Span<Any> funcArgs)
     {
         var output = new List<AnyOpt>();
 
-        InitRuntimeData(module, logAction);
-        InitMainInterpreter(module);
+        InitRuntimeDataIfNeed(module);
+        InitMainInterpreter(module, funcNameToRun, funcArgs);
         ExecuteEveryInterpreter(output);
 
         return output;
     }
 
-    private void InitMainInterpreter(VmModule module)
+    private void InitMainInterpreter(VmModule module, string funcNameToRun, Span<Any> funcArgs)
     {
         var item = new Interpreter();
-        item.Frames.Push(new VmFuncFrame(module["Main"]));
+        item.Frames.Push(new VmFuncFrame(module[funcNameToRun]));
+
+        var args = funcArgs.ToArray().Select(x => x.MakeAnyOptList()[0]).ToArray();
+        item.Stack.PushMany(args);
+
         EngineRuntimeData.Interpreters.Add(item);
     }
 
-    private void InitRuntimeData(VmModule module, Action<VmOperation, int, VmFuncFrame, MyStack<AnyOpt>>? logAction)
+    private void InitRuntimeDataIfNeed(VmModule module)
     {
-        EngineRuntimeData = new EngineRuntimeData(module, logAction, [], configuration);
+        // ReSharper disable once NullCoalescingConditionIsAlwaysNotNullAccordingToAPIContract
+        EngineRuntimeData ??= new EngineRuntimeData(module, null, [], configuration);
     }
 
     private void ExecuteEveryInterpreter(List<AnyOpt> output)
