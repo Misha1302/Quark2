@@ -38,17 +38,6 @@ public class Interpreter
         }
     }
 
-    public AnyOpt ExecuteFunction(string name, Span<AnyOpt> args, EngineRuntimeData engineRuntimeData)
-    {
-        Stack.PushMany(args);
-        Frames.Clear();
-        Frames.Push(
-            new VmFuncFrame(engineRuntimeData.Module.Functions.First(x => x.Name == name))
-        );
-        Step(int.MaxValue, engineRuntimeData);
-        return Stack.Pop();
-    }
-
     private void ExecuteOp(VmOperation vmOperation)
     {
         if (vmOperation.Type == InstructionType.PushConst) Stack.Push(vmOperation.Args[0]);
