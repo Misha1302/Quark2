@@ -1,5 +1,6 @@
 using System.Globalization;
 using System.Runtime.CompilerServices;
+using ConfigurationManager;
 using ExceptionsManager;
 
 namespace CommonBytecode.Data.AnyValue;
@@ -12,14 +13,10 @@ public static class AnyExtensions
     public static Any ToAny(this object value, BytecodeValueType type = BytecodeValueType.Any) =>
         new(value, type);
 
-    public static string AnyToString(this Any value, BytecodeValueType type)
-    {
-#if DEBUG
-        return CatchExceptionsAnyToString(value, type);
-#else
-        return BasicAnyToString(value, type);
-#endif
-    }
+    public static string AnyToString(this Any value, BytecodeValueType type) =>
+        Configuration.IsDebug
+            ? CatchExceptionsAnyToString(value, type)
+            : BasicAnyToString(value, type);
 
     private static string CatchExceptionsAnyToString(Any value, BytecodeValueType type)
     {
@@ -49,14 +46,10 @@ public static class AnyExtensions
         };
     }
 
-    public static string UnsafeI64ToString(this long value, BytecodeValueType type)
-    {
-#if DEBUG
-        return CatchExceptionsUnsafeI64ToString(value, type);
-#else
-        return BasicUnsafeI64ToString(value, type);
-#endif
-    }
+    public static string UnsafeI64ToString(this long value, BytecodeValueType type) =>
+        Configuration.IsDebug
+            ? CatchExceptionsUnsafeI64ToString(value, type)
+            : BasicUnsafeI64ToString(value, type);
 
     private static string CatchExceptionsUnsafeI64ToString(long value, BytecodeValueType type)
     {

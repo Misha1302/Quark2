@@ -6,9 +6,4 @@
         <Nullable>enable</Nullable>
     </PropertyGroup>
 
-    <ItemGroup>
-        <ProjectReference Include="..\ConfigurationManager\ConfigurationManager.csproj"/>
-        <ProjectReference Include="..\ExceptionsManager\ExceptionsManager.csproj"/>
-    </ItemGroup>
-
 </Project>
