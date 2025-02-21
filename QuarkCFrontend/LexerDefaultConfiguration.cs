@@ -1,4 +1,5 @@
-using QuarkCFrontend.Lexer;
+using DefaultLexerImpl;
+using DefaultLexerImpl.Lexer;
 
 namespace QuarkCFrontend;
 

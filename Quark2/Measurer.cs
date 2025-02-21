@@ -1,7 +1,7 @@
 using AbstractExecutor;
+using DefaultAstImpl.Asg;
+using DefaultLexerImpl.Lexer;
 using QuarkCFrontend;
-using QuarkCFrontend.Asg;
-using QuarkCFrontend.Lexer;
 using VirtualMachine;
 
 namespace Quark2;
@@ -52,8 +52,9 @@ public class Measurer
         {
             var quarkStatistics = new QuarkStatistics();
             var lexemes =
-                quarkStatistics.Measure(() => new Lexer(LexerConfiguration.Default).Lexemize(code));
-            var asg = quarkStatistics.Measure(() => new AsgBuilder(AsgBuilderConfiguration.Default).Build(lexemes));
+                quarkStatistics.Measure(() => new Lexer(LexerDefaultConfiguration.CreateDefault()).Lexemize(code));
+            var asg = quarkStatistics.Measure(() =>
+                new AsgBuilder(AsgBuilderConfiguration.CreateDefault()).Build(lexemes));
             var module =
                 quarkStatistics.Measure(() => new AsgToBytecodeTranslator.AsgToBytecodeTranslator().Translate(asg));
             var executor = executorMaker();

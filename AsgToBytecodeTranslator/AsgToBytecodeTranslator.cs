@@ -3,8 +3,8 @@ using BytecodeGenerationSimplifier;
 using CommonBytecode.Data.AnyValue;
 using CommonBytecode.Data.Structures;
 using CommonBytecode.Enums;
+using DefaultAstImpl.Asg;
 using ExceptionsManager;
-using QuarkCFrontend.Asg;
 using SharpLibrariesImporter;
 
 namespace AsgToBytecodeTranslator;

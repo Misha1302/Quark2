@@ -1,6 +1,6 @@
 using CommonBytecode.Data.AnyValue;
 using CommonBytecode.Data.Structures;
-using QuarkCFrontend.Asg;
+using DefaultAstImpl.Asg;
 
 namespace AsgToBytecodeTranslator;
 

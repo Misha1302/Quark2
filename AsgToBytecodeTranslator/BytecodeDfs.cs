@@ -1,4 +1,4 @@
-using QuarkCFrontend.Asg;
+using DefaultAstImpl.Asg;
 
 namespace AsgToBytecodeTranslator;
 
