@@ -38,7 +38,7 @@ public class BytecodeConverter
             if (op.Type is InstructionType.LoadLocal or InstructionType.SetLocal)
             {
                 var index = (long)locals.FindIndex(x => x.Name == op.Args[0].GetRef<string>());
-                Throw.Assert(index >= 0);
+                Throw.AssertDebug(index >= 0);
                 op.Args[0] = AnyOpt.Create(index, NativeI64);
             }
     }
@@ -50,13 +50,13 @@ public class BytecodeConverter
             {
                 // int - jump ip = [string - jump label name]
                 var index = (long)labels.FindIndex(x => x.Name == op.Args[1].GetRef<string>());
-                Throw.Assert(index >= 0);
+                Throw.AssertDebug(index >= 0);
                 op.Args[1] = AnyOpt.Create(index, NativeI64);
             }
             else if (op.Type is InstructionType.CallFunc)
             {
                 var index = (long)functions.FindIndex(x => x.Name == op.Args[0].GetRef<string>());
-                Throw.Assert(index >= 0);
+                Throw.AssertDebug(index >= 0);
                 op.Args[0] = AnyOpt.Create(index, NativeI64);
             }
     }

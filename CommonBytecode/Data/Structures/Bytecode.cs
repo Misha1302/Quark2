@@ -9,8 +9,8 @@ public record Bytecode(List<BytecodeInstruction> Instructions)
 
     public int GetParametersCount()
     {
-        Throw.Assert(Instructions.Count != 0);
-        Throw.Assert(Instructions[0].Type == InstructionType.MakeVariables);
+        Throw.AssertDebug(Instructions.Count != 0);
+        Throw.AssertDebug(Instructions[0].Type == InstructionType.MakeVariables);
         return Instructions[0].Arguments.Count;
     }
 }

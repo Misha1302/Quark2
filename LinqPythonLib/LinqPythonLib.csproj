@@ -7,8 +7,7 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\DefaultLexerImpl\DefaultLexerImpl.csproj"/>
-        <ProjectReference Include="..\ExceptionsManager\ExceptionsManager.csproj"/>
+        <ProjectReference Include="..\LinqFrontend\LinqFrontend.csproj"/>
     </ItemGroup>
 
 </Project>

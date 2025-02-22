@@ -3,7 +3,7 @@ using DefaultLexerImpl.Lexer;
 
 namespace LinqFrontend;
 
-public static class LexerDefaultConfiguration
+public static class LinqLexerDefaultConfiguration
 {
     public static LexerConfiguration CreateDefault()
     {
@@ -14,13 +14,15 @@ public static class LexerDefaultConfiguration
                 new LexemePattern("over", LexemeType.Over),
                 new LexemePattern("all", LexemeType.All),
                 new LexemePattern("any", LexemeType.Any),
+                new LexemePattern("skip", LexemeType.Skip),
+                new LexemePattern("select", LexemeType.Select),
                 new LexemePattern("average", LexemeType.Average),
                 new LexemePattern("count", LexemeType.Count),
+                new LexemePattern("sum", LexemeType.Sum),
+                new LexemePattern("mul", LexemeType.Mul),
                 new LexemePattern("first", LexemeType.First),
                 new LexemePattern("where", LexemeType.Where),
-                new LexemePattern(@"\(", LexemeType.LeftBrace),
-                new LexemePattern(@"\)", LexemeType.RightBrace),
-                new LexemePattern("[ \n\t]+", LexemeType.WhiteSpace),
+                new LexemePattern("end", LexemeType.End),
             ];
 
         var lexemesToIgnore = (List<LexemeType>) [LexemeType.WhiteSpace];

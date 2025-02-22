@@ -13,7 +13,17 @@ public static class Throw
     public static T InvalidOpEx<T>(string message = "") => throw new InvalidOperationException(message);
 
     [Conditional("DEBUG")]
-    public static void Assert(
+    public static void AssertDebug(
+        [DoesNotReturnIf(false)] bool cond,
+        string errorMessage = "",
+        [CallerArgumentExpression(nameof(cond))]
+        string expression = ""
+    )
+    {
+        AssertAlways(cond, errorMessage, expression);
+    }
+
+    public static void AssertAlways(
         [DoesNotReturnIf(false)] bool cond,
         string errorMessage = "",
         [CallerArgumentExpression(nameof(cond))]
@@ -23,5 +33,5 @@ public static class Throw
         if (!cond) AssertationFail(errorMessage == "" ? expression : errorMessage);
     }
 
-    public static void NotImplementedException() => throw new NotImplementedException();
+    public static void NotImplementedException(string msg = "") => throw new NotImplementedException(msg);
 }

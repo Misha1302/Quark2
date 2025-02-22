@@ -2,7 +2,8 @@ namespace DefaultLexerImpl.Lexer;
 
 public record LexemeValue(string Text, LexemePattern LexemePattern, int StartIndex)
 {
-    private readonly Lazy<int> _lineNumber = null!;
+    private readonly Lazy<int>? _lineNumber;
+    public string Text = Text;
 
     public LexemeValue(string text, LexemePattern lexemePattern, int startIndex, string code)
         : this(text, lexemePattern, startIndex)
@@ -10,7 +11,7 @@ public record LexemeValue(string Text, LexemePattern LexemePattern, int StartInd
         _lineNumber = new Lazy<int>(() => CalcLineNumber(code, StartIndex));
     }
 
-    public int LineNumber => _lineNumber.Value;
+    public int LineNumber => _lineNumber?.Value ?? -1;
 
     public static int CalcLineNumber(string code, int startIndex)
     {

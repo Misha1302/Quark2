@@ -11,7 +11,7 @@ public static class SharpCallArgs
     /// <returns>list of arguments</returns>
     public static List<AnyOpt> MakeCallSharpOperationArguments(Delegate func)
     {
-        Throw.Assert(func.Method.ReturnType == typeof(void) || func.Method.ReturnType == typeof(Any));
+        Throw.AssertDebug(func.Method.ReturnType == typeof(void) || func.Method.ReturnType == typeof(Any));
 
         RuntimeHelpers.PrepareDelegate(func);
 

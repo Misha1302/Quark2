@@ -47,7 +47,7 @@ public readonly struct AnyOpt : IAny
             return new AnyOpt((int)(object)value, type);
 
         if (typeof(T).IsEnum)
-            Throw.Assert(Marshal.SizeOf(Enum.GetUnderlyingType(typeof(T))) == 8);
+            Throw.AssertDebug(Marshal.SizeOf(Enum.GetUnderlyingType(typeof(T))) == 8);
 
         else if (Marshal.SizeOf<T>() != 8)
             Throw.InvalidOpEx();

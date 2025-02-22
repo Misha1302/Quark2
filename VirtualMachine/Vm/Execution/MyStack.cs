@@ -11,27 +11,27 @@ public class MyStack<T>(int maxSize) : IReadOnlyStack<T>
     public T Get(int ind)
     {
         var ind2 = ind > 0 ? ind : Count + ind;
-        Throw.Assert(ind2 >= 0 && ind2 < Count);
+        Throw.AssertDebug(ind2 >= 0 && ind2 < Count);
         return _data[ind2];
     }
 
     public void Push(T value)
     {
-        Throw.Assert(Count < _data.Length, "Stack is full");
+        Throw.AssertDebug(Count < _data.Length, "Stack is full");
         _data[Count++] = value;
     }
 
     public T Pop()
     {
         Count--;
-        Throw.Assert(Count >= 0);
+        Throw.AssertDebug(Count >= 0);
         return _data[Count];
     }
 
     public void DropMany(long argsCount)
     {
         Count -= (int)argsCount;
-        Throw.Assert(Count >= 0);
+        Throw.AssertDebug(Count >= 0);
     }
 
     public override string ToString()
