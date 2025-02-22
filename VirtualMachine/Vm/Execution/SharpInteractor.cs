@@ -1,8 +1,9 @@
 using CommonDataStructures;
+using Doubles;
 
 namespace VirtualMachine.Vm.Execution;
 
-public static class SharpInteractioner
+public static class SharpInteractor
 {
     public static unsafe void CallStaticSharpFunction(
         MyStack<AnyOpt> stack, nint ptr, long argsCount, bool returnsValue, bool isVarArgs
@@ -15,7 +16,9 @@ public static class SharpInteractioner
             // call with no return value
             if (isVarArgs)
             {
+                var argsCountStack = stack.Get(-1).Get<double>().ToLong();
                 ((delegate*<IReadOnlyStack<Any>, void>)ptr)(new StackOfAnies(stack));
+                stack.DropMany(argsCountStack + 1);
             }
             else
             {
@@ -32,12 +35,16 @@ public static class SharpInteractioner
 
                 stack.DropMany(argsCount);
             }
+
+            stack.Push(AnyOpt.NilValue);
         }
         else
         {
             // call with Any return type
-            var result = !isVarArgs
-                ? argsCount switch
+            Any result;
+            if (!isVarArgs)
+            {
+                result = argsCount switch
                 {
                     0 => ((delegate*<Any>)ptr)(),
                     1 => ((delegate*<Any, Any>)ptr)(stack.Get(-1).ToAny()),
@@ -45,10 +52,16 @@ public static class SharpInteractioner
                     3 => ((delegate*<Any, Any, Any, Any>)ptr)(stack.Get(-3).ToAny(), stack.Get(-2).ToAny(),
                         stack.Get(-1).ToAny()),
                     _ => Throw.InvalidOpEx<Any>(),
-                }
-                : ((delegate*<IReadOnlyStack<Any>, Any>)ptr)(new StackOfAnies(stack));
+                };
 
-            stack.DropMany(argsCount);
+                stack.DropMany(argsCount);
+            }
+            else
+            {
+                var argsCountStack = stack.Get(-1).Get<double>().ToLong();
+                result = ((delegate*<IReadOnlyStack<Any>, Any>)ptr)(new StackOfAnies(stack));
+                stack.DropMany(argsCountStack + 1);
+            }
 
             stack.PushMany(CollectionsMarshal.AsSpan(result.MakeAnyOptList()));
         }

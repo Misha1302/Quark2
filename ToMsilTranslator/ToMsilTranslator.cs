@@ -1,6 +1,8 @@
 ﻿using System.Reflection;
 using AbstractExecutor;
 using CommonDataStructures;
+using Doubles;
+using Any = CommonBytecode.Data.AnyValue.Any;
 
 namespace ToMsilTranslator;
 
@@ -62,14 +64,19 @@ public class ToMsilTranslator : IExecutor
         var parametersCount = function.Code.GetParametersCount();
         for (var i = 0; i < parametersCount; i++) il.Call(GetInfo(RuntimeLibrary.PopFromStack));
         // il.Stloc(data.Locals[function.Code.Instructions[parametersCount].Arguments[0].Get<BytecodeVariable>().Name]);
-        foreach (var instruction in function.Code.Instructions)
-            CompileInstruction(il, instruction, data, module, constants);
+        for (var index = 0; index < function.Code.Instructions.Count; index++)
+        {
+            var instruction = function.Code.Instructions[index];
+            var prevInstruction = index - 1 >= 0 ? function.Code.Instructions[index - 1] : null;
+            CompileInstruction(il, instruction, prevInstruction, data, module, constants);
+        }
 
         return dynamicMethod;
     }
 
 
-    private void CompileInstruction(GroboIL il, BytecodeInstruction instruction, FunctionCompileData data,
+    private void CompileInstruction(GroboIL il, BytecodeInstruction instruction, BytecodeInstruction? prevInstruction,
+        FunctionCompileData data,
         BytecodeModule module, List<AnyOpt> constants)
     {
         if (instruction.Type == InstructionType.PushConst)
@@ -83,7 +90,7 @@ public class ToMsilTranslator : IExecutor
         else if (instruction.Type == InstructionType.BrOp)
             CompileBrOp(il, instruction, data);
         else if (instruction.Type == InstructionType.CallSharp)
-            CallSharp(il, instruction);
+            CallSharp(il, instruction, prevInstruction ?? Throw.InvalidOpEx<BytecodeInstruction>());
         else if (instruction.Type == InstructionType.CallFunc)
             CallFunc(il, instruction, module);
         else if (instruction.Type == InstructionType.Ret)
@@ -96,16 +103,19 @@ public class ToMsilTranslator : IExecutor
             DoNothing();
     }
 
-    private void CallSharp(GroboIL il, BytecodeInstruction instruction)
+    private void CallSharp(GroboIL il, BytecodeInstruction instruction, BytecodeInstruction prevInstruction)
     {
         var method = GetInfo(instruction.Arguments[0].Get<Delegate>());
         var parameters = method.GetParameters();
 
+        var isVarArgs = parameters.Any(x => x.ParameterType == typeof(IReadOnlyStack<Any>));
+        var size = !isVarArgs ? parameters.Length : prevInstruction.Arguments[0].Get<double>().ToLong() + 1;
+
         var arrLoc = il.DeclareLocal(typeof(Any[]));
-        il.Ldc_I4(parameters.Length);
+        il.Ldc_I4((int)size);
         il.Newarr(typeof(Any));
         il.Stloc(arrLoc);
-        for (var i = 0; i < parameters.Length; i++)
+        for (var i = 0; i < size; i++)
         {
             var temp = il.DeclareLocal(typeof(Any));
 
@@ -122,21 +132,29 @@ public class ToMsilTranslator : IExecutor
             il.Stobj(typeof(Any));
         }
 
-        for (var i = 0; i < parameters.Length; i++)
+        if (!isVarArgs)
         {
+            for (var i = 0; i < size; i++)
+            {
+                il.Ldloc(arrLoc);
+                il.Ldc_I4(parameters.Length - i - 1);
+                il.Ldelem(typeof(Any));
+            }
+
+            il.Call(method);
+        }
+        else
+        {
+            // Any[] args, nint ptr, bool returnsValue
             il.Ldloc(arrLoc);
-            il.Ldc_I4(parameters.Length - i - 1);
-            il.Ldelem(typeof(Any));
+            il.Ldc_IntPtr(method.MethodHandle.GetFunctionPointer());
+            il.Ldc_I4(method.ReturnType != typeof(void) ? 1 : 0);
+            il.Call(typeof(MsilSharpInteractioner).GetMethod("CallStaticSharpFunction"));
         }
 
-        il.Call(method);
-
-        if (method.ReturnType != typeof(void))
+        if (method.ReturnType != typeof(void) || isVarArgs)
             il.Call(GetInfo(AnyOptExtensions.MakeAnyOpt));
-
-        var q = new AnyOpt();
-        var w = (IAny)q;
-        w.GetAnyType();
+        else il.Ldfld(typeof(AnyOpt).GetField("NilValue"));
     }
 
     private void PushConst(GroboIL il, BytecodeInstruction instruction, List<AnyOpt> constants)

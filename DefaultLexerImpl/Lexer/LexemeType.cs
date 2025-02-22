@@ -56,5 +56,5 @@ public enum LexemeType : long
     Sum,
     Mul,
     Sort,
-    Reverse
+    Reverse,
 }

@@ -28,6 +28,7 @@ public static class VectorOperations
     public static Any GetSize(Any vector) =>
         vector.Get<VectorImpl<Any>>().Count;
 
+
     public static void SwapValues(Any vectorAny, Any index1Any, Any index2Any)
     {
         var index1 = (int)index1Any.Get<double>().ToLong();

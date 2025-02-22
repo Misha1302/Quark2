@@ -77,7 +77,7 @@ public class Interpreter
 
     private void CallSharpFunction(VmOperation vmOperation)
     {
-        SharpInteractioner.CallStaticSharpFunction(
+        SharpInteractor.CallStaticSharpFunction(
             Stack,
             vmOperation.Args[0].Get<nint>(),
             vmOperation.Args[1].Get<long>(),
