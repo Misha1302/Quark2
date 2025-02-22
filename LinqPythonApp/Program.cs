@@ -1,12 +1,15 @@
 ﻿if (args.Length == 0)
-    args = ["LinqPythonApp"];
+    args = ["-input:Code/Main.lua", "-output:console"];
 
-if (args.Length == 1)
-    args = [args[0], "-input:Code/Main.lua", "-output:console"];
-
-var argsDict = args.Skip(1).ToDictionary(x => x.Split(":")[0].Replace("-", ""), x => x.Split(":")[1]);
+var argsDict = args.ToDictionary(x => x.Split(":")[0].Replace("-", ""), x => x.Split(":")[1]);
 
 var linqPython = new LinqPythonLib.LinqPythonLib();
-if (argsDict["output"] == "console")
-    linqPython.Run(File.ReadAllText(argsDict["input"]), Console.WriteLine);
+var code = File.ReadAllText(argsDict["input"]);
+var output = argsDict["output"];
+
+if (output == "console")
+    linqPython.Run(code, Console.WriteLine);
+else if (output.Contains('.'))
+    linqPython.Run(code, s => File.WriteAllText(output, s));
+// go around the folder recursively and find all files with the extension .py
 else Console.WriteLine("Unknown output");
