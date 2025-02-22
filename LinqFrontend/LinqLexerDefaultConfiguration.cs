@@ -22,6 +22,7 @@ public static class LinqLexerDefaultConfiguration
                 new LexemePattern("mul", LexemeType.Mul),
                 new LexemePattern("first", LexemeType.First),
                 new LexemePattern("where", LexemeType.Where),
+                new LexemePattern("last", LexemeType.Last),
                 new LexemePattern("end", LexemeType.End),
             ];
 

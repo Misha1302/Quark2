@@ -9,7 +9,7 @@ public class AsgToTextTranslator
     private readonly string _ansName = CreateUniqueName();
     private readonly string _executeName = CreateUniqueName();
 
-    public string Translate(List<LexemeValue> lexemes)
+    public string Translate(List<LexemeValue> lexemes, bool intoOneLine = false)
     {
         var output = "";
 
@@ -19,8 +19,14 @@ public class AsgToTextTranslator
         {
             var lexeme = lexemes[index];
             if (lexeme.LexemePattern.LexemeType == LexemeType.Use)
-                output += MakeLinq(lexemes, ref index);
-            else output += lexeme.Text;
+            {
+                var linqCode = MakeLinq(lexemes, ref index);
+                output += intoOneLine ? linqCode.Replace("\n", "\\n") : linqCode;
+            }
+            else
+            {
+                output += lexeme.Text;
+            }
         }
 
         return output;
@@ -35,6 +41,8 @@ public class AsgToTextTranslator
 
     private string MakeLinq(List<LexemeValue> lexemes, ref int index)
     {
+        // TODO: convert into class
+        var identifiersToSetGlobal = (List<string>) [];
         var sbTop = new StringBuilder();
         var sbMiddle = new StringBuilder();
         var sbBottom = new StringBuilder();
@@ -43,6 +51,18 @@ public class AsgToTextTranslator
         var xName = "";
         var iName = "";
         var overName = "";
+
+        for (var i = index; lexemes[i].LexemePattern.LexemeType != LexemeType.End; i++)
+            identifiersToSetGlobal.AddRange(lexemes[i].Text.Split('(', ')', '[', ']', ' ', '\t'));
+
+        identifiersToSetGlobal = identifiersToSetGlobal
+            .Where(x => !string.IsNullOrWhiteSpace(x))
+            .Where(x => x.All(c => char.IsLetter(c) || c == '_'))
+            .Where(x => !IsPythonKeyword(x))
+            .ToList();
+
+        foreach (var identifier in identifiersToSetGlobal)
+            sbTop.AppendLine($"try: global {identifier}\nexcept: pass");
 
         sbTop.AppendLine($"global {_ansName}");
         sbTop.AppendLine($"{_ansName} = None");
@@ -176,7 +196,16 @@ public class AsgToTextTranslator
             else if (type == LexemeType.Skip)
             {
                 offset.AppendLine($"{iName} += ({lexemes[index + 1].Text})");
-
+                index++;
+            }
+            else if (type == LexemeType.First)
+            {
+                sbMiddle.AppendLine($"{_ansName} = {_ansName}[0]");
+                index++;
+            }
+            else if (type == LexemeType.Last)
+            {
+                sbMiddle.AppendLine($"{_ansName} = {_ansName}[-1]");
                 index++;
             }
             else if (type == LexemeType.End)
@@ -191,10 +220,45 @@ public class AsgToTextTranslator
             index++;
         }
 
-        // var str = $"{sbTop.Replace("\n", "\\n")}\n{sbMiddle.Replace("\n", "\\n")}\n{sbBottom.Replace("\n", "\\n")}";
         var str = $"{sbTop}\n{sbMiddle}\n{sbBottom}";
         return _executeName + "(" + "\"\"\"" + str + "\"\"\"" + ")";
     }
+
+    private bool IsPythonKeyword(string s) =>
+        s
+            is "and"
+            or "as"
+            or "assert"
+            or "break"
+            or "class"
+            or "continue"
+            or "def"
+            or "del"
+            or "elif"
+            or "else"
+            or "except"
+            or "False"
+            or "finally"
+            or "for"
+            or "from"
+            or "global"
+            or "if"
+            or "import"
+            or "in"
+            or "is"
+            or "lambda"
+            or "None"
+            or "nonlocal"
+            or "not"
+            or "or"
+            or "pass"
+            or "raise"
+            or "return"
+            or "True"
+            or "try"
+            or "while"
+            or "with"
+            or "yield";
 
     private static string CreateLoopInitializer(string xName, string iName) =>
         $"{xName} = None\n" +

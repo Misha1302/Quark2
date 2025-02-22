@@ -48,6 +48,7 @@ public enum LexemeType : long
     Count,
     First,
     Where,
+    Last,
     Skip,
     Select,
     SomeUnknownText,
