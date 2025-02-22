@@ -21,6 +21,8 @@ public static class LinqLexerDefaultConfiguration
                 new LexemePattern("sum", LexemeType.Sum),
                 new LexemePattern("mul", LexemeType.Mul),
                 new LexemePattern("first", LexemeType.First),
+                new LexemePattern("sort", LexemeType.Sort),
+                new LexemePattern("reverse", LexemeType.Reverse),
                 new LexemePattern("where", LexemeType.Where),
                 new LexemePattern("last", LexemeType.Last),
                 new LexemePattern("end", LexemeType.End),

@@ -65,6 +65,10 @@ public class AsgToTextTranslator
                 linqCreator.Skip(ref index);
             else if (type == LexemeType.First)
                 linqCreator.First(ref index);
+            else if (type == LexemeType.Sort)
+                linqCreator.Sort(ref index);
+            else if (type == LexemeType.Reverse)
+                linqCreator.Reverse(ref index);
             else if (type == LexemeType.Last)
                 linqCreator.Last(ref index);
             else if (type == LexemeType.End)

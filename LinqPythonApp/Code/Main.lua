@@ -1,3 +1,11 @@
+def main2():
+    global a, b
+    a = ["Tom", "Vasya", "Nick", "Ivan", "Anastasia", "Nick", "Miroslav", "Bogdan"]
+    b = use x, i over a where len(x) <= 4 sort end
+    c = use x, i over b first end
+    
+    print(b, c)
+
 def main():
     global n
     n = int(input("Enter fib number index: "))
@@ -15,4 +23,4 @@ def main():
         
     print(nth_fib_number)
     
-main()
+main2()

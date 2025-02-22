@@ -49,7 +49,7 @@ public class PythonLinqCreator(string ansName, List<LexemeValue> lexemes)
     public void Over(ref int index)
     {
         _overName = PythonLinqHelper.CreateUniqueName();
-        _sbTop.AppendLine($"{_overName} = ({lexemes[index + 1].Text})");
+        _sbTop.AppendLine($"{ansName} = ({_overName} := ({lexemes[index + 1].Text}))");
         index++;
     }
 
@@ -191,7 +191,7 @@ public class PythonLinqCreator(string ansName, List<LexemeValue> lexemes)
              {topName} = len({_overName})
              {"\n" + start(result, topName) + "\n"}
 
-             {loop(topName, expr, result)}
+             {loop(topName, expr, result).Replace("\n", "\n    ")}
                 
              {ansName} = {result}
              {"\n" + end(result, topName) + "\n"}
@@ -211,6 +211,18 @@ public class PythonLinqCreator(string ansName, List<LexemeValue> lexemes)
     public void First(ref int index)
     {
         _sbMiddle.AppendLine($"{ansName} = {ansName}[0]");
+        index++;
+    }
+
+    public void Sort(ref int index)
+    {
+        _sbMiddle.AppendLine($"{ansName} = sorted({ansName})");
+        index++;
+    }
+
+    public void Reverse(ref int index)
+    {
+        _sbMiddle.AppendLine($"reverse({ansName})");
         index++;
     }
 
