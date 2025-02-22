@@ -4,26 +4,25 @@ The main idea is make many components with common API. It should help create DSL
 Minimal example of hello world using implemented components:
 
 ```C#
+using AbstractExecutor;
+using DefaultAstImpl.Asg;
+using DefaultLexerImpl.Lexer;
 using QuarkCFrontend;
-using QuarkCFrontend.Asg;
-using QuarkCFrontend.Lexer;
-
+using VirtualMachine;
 
 const string code =
     """
     import "../../../../Libraries"
 
     def Main() {
-        PrintLn("Hello, World!")
+        PrintLn("Hello World!")
         return 0
     }
     """;
 
-var lexemes = new Lexer(LexerConfiguration.Default).Lexemize(code);
-var asg = new AsgBuilder(AsgBuilderConfiguration.Default).Build(lexemes);
+var lexemes = new Lexer(LexerDefaultConfiguration.CreateDefault()).Lexemize(code);
+var asg = new AsgBuilder(AsgBuilderConfiguration.CreateDefault()).Build(lexemes);
 var module = new AsgToBytecodeTranslator.AsgToBytecodeTranslator().Translate(asg);
-var executor = new ToMsilTranslator.ToMsilTranslator();
-var results = executor.RunModule(module);
-
-Console.WriteLine($"Results: {string.Join(", ", results)}");
+var interpreter = new QuarkVirtualMachine(new ExecutorConfiguration());
+interpreter.RunModule(module);
 ```
