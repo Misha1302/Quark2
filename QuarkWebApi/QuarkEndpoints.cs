@@ -13,10 +13,9 @@ public static class QuarkEndpoints
     {
         _app
             .MapGet("Quark/" + name, (
-                    [FromServices] IExecutor executor,
-                    [FromServices] BytecodeModule module
+                    [FromServices] IExecutor executor
                 ) =>
-                executor.RunFunction(module, name.Get<string>(), []).First().Get<string>());
+                executor.RunFunction(name.Get<string>(), []).First().Get<string>());
     }
 
     public static void AddPostEndpoint(Any name)
@@ -24,10 +23,9 @@ public static class QuarkEndpoints
         _app
             .MapPost("Quark/" + name, (
                     string text,
-                    [FromServices] IExecutor executor,
-                    [FromServices] BytecodeModule module
+                    [FromServices] IExecutor executor
                 ) =>
-                executor.RunFunction(module, name.Get<string>(), [text.ToAny()]).First().Get<string>());
+                executor.RunFunction(name.Get<string>(), [text.ToAny()]).First().Get<string>());
     }
 
     public static void AddDeleteEndpoint(Any name, Any needArgument)
@@ -36,19 +34,17 @@ public static class QuarkEndpoints
             _app
                 .MapDelete("Quark/" + name, (
                         string text,
-                        [FromServices] IExecutor executor,
-                        [FromServices] BytecodeModule module
+                        [FromServices] IExecutor executor
                     ) =>
-                    executor.RunFunction(module, name.Get<string>(), [text.ToAny()]).First()
+                    executor.RunFunction(name.Get<string>(), [text.ToAny()]).First()
                         .Get<string>());
 
         else
             _app
                 .MapDelete("Quark/" + name,
                     (
-                        [FromServices] IExecutor executor,
-                        [FromServices] BytecodeModule module
-                    ) => executor.RunFunction(module, name.Get<string>(), []).First().Get<string>());
+                        [FromServices] IExecutor executor
+                    ) => executor.RunFunction(name.Get<string>(), []).First().Get<string>());
     }
 
     public static void AddPutEndpoint(Any name)
@@ -56,10 +52,9 @@ public static class QuarkEndpoints
         _app
             .MapPut("Quark/" + name, (
                     string text,
-                    [FromServices] IExecutor executor,
-                    [FromServices] BytecodeModule module
+                    [FromServices] IExecutor executor
                 ) =>
-                executor.RunFunction(module, name.Get<string>(), [text.ToAny()]).First().Get<string>());
+                executor.RunFunction(name.Get<string>(), [text.ToAny()]).First().Get<string>());
     }
 
     public static void Init(IEndpointRouteBuilder app)

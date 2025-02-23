@@ -58,10 +58,11 @@ public class Measurer
             var module =
                 quarkStatistics.Measure(() => new AsgToBytecodeTranslator.AsgToBytecodeTranslator().Translate(asg));
             var executor = executorMaker();
+            executor.PrepareToRun(module);
 
             var stdOut = Console.Out;
             Console.SetOut(TextWriter.Null);
-            quarkStatistics.Measure(() => executor.RunModule(module));
+            quarkStatistics.Measure(() => executor.RunModule());
             Console.SetOut(stdOut);
 
             executionTimes.Add(quarkStatistics.Times[^1].Item1);
