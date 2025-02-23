@@ -32,8 +32,6 @@ public class ToMsilTranslator : IExecutor
     {
         if (_inited) return;
 
-        // ReSharper disable once ConditionalAccessQualifierIsNonNullableAccordingToAPIContract
-        if (RuntimeLibrary.RuntimeData?.Module == module) return;
         var (methods, constants) = CompileModule(module);
         RuntimeLibrary.RuntimeData =
             new ToMsilTranslatorRuntimeData(
