@@ -8,10 +8,13 @@ namespace ToMsilTranslator;
 
 public class ToMsilTranslator : IExecutor
 {
+    private bool _inited;
+
     public IEnumerable<Any> RunModule(BytecodeModule module)
     {
         Init(module);
         var result = RuntimeLibrary.CallFunc("Main");
+        _inited = false;
         return [result.ToAny()];
     }
 
@@ -21,11 +24,14 @@ public class ToMsilTranslator : IExecutor
         foreach (var argument in functionArguments)
             RuntimeLibrary.RuntimeData.IntermediateData.Push(argument.MakeAnyOpt());
         var result = RuntimeLibrary.CallFunc(name);
+        _inited = false;
         return [result.ToAny()];
     }
 
     private void Init(BytecodeModule module)
     {
+        if (_inited) return;
+
         // ReSharper disable once ConditionalAccessQualifierIsNonNullableAccordingToAPIContract
         if (RuntimeLibrary.RuntimeData?.Module == module) return;
         var (methods, constants) = CompileModule(module);
@@ -36,6 +42,8 @@ public class ToMsilTranslator : IExecutor
                 new Stack<AnyOpt>(),
                 module
             );
+
+        _inited = true;
     }
 
     private (List<DynamicMethod>, List<AnyOpt>) CompileModule(BytecodeModule module)
@@ -233,4 +241,9 @@ public class ToMsilTranslator : IExecutor
     }
 
     private MethodInfo GetInfo(Delegate del) => del.Method;
+
+    public void PrepareToExecute(BytecodeModule module)
+    {
+        Init(module);
+    }
 }

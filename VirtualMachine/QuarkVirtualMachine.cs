@@ -27,4 +27,9 @@ public class QuarkVirtualMachine(ExecutorConfiguration configuration) : IExecuto
         _engine ??= new Engine(configuration);
         return vmModule;
     }
+
+    public void PrepareToExecute(BytecodeModule module)
+    {
+        InitIfNeed(module);
+    }
 }
