@@ -12,30 +12,30 @@ public class QuarkInitializer
     public WebApplication InitializeQuark(WebApplicationBuilder builder, RunType runType)
     {
         var module = CreateBytecodeModule();
-        var executor = CreateExecutor(runType);
+        var executor = CreateExecutor(runType, module);
 
-        AddSingletons(builder, module, executor);
+        AddSingletons(builder, executor);
 
         var app = CreateApp(builder);
 
         QuarkEndpoints.Init(app);
 
-        executor.RunModule(module);
+        executor.RunModule();
 
         return app;
     }
 
-    private static void AddSingletons(WebApplicationBuilder builder, BytecodeModule module, IExecutor executor)
+    private static void AddSingletons(WebApplicationBuilder builder, IExecutor executor)
     {
-        builder.Services.AddSingleton(module);
         builder.Services.AddSingleton(executor);
     }
 
-    private IExecutor CreateExecutor(RunType runType)
+    private IExecutor CreateExecutor(RunType runType, BytecodeModule module)
     {
         var executor = (IExecutor)(runType != RunType.RunningUsingInterpreter
             ? new QuarkVirtualMachine(new ExecutorConfiguration())
             : new ToMsilTranslator.ToMsilTranslator());
+        executor.PrepareToRun(module);
         return executor;
     }
 

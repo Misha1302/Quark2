@@ -23,8 +23,8 @@ public abstract class QuarkTest(string code)
         var asg = new AsgBuilder(AsgBuilderConfiguration.CreateDefault()).Build(lexemes);
         Module = new AsgToBytecodeTranslator.AsgToBytecodeTranslator().Translate(asg);
         MsilExecutor = new ToMsilTranslator.ToMsilTranslator();
-        MsilExecutor.PrepareToExecute(Module);
+        MsilExecutor.PrepareToRun(Module);
         Interpreter = new QuarkVirtualMachine(new ExecutorConfiguration());
-        Interpreter.PrepareToExecute(Module);
+        Interpreter.PrepareToRun(Module);
     }
 }

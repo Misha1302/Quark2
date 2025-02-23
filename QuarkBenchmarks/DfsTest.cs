@@ -25,8 +25,8 @@ public class DfsTest() : QuarkTest(
 )
 {
     [Benchmark(Baseline = true)]
-    public double TranslatorTest() => MsilExecutor.RunModule(Module).First().Get<double>();
+    public double TranslatorTest() => MsilExecutor.RunModule().First().Get<double>();
 
     [Benchmark]
-    public double InterpreterTest() => Interpreter.RunModule(Module).First().Get<double>();
+    public double InterpreterTest() => Interpreter.RunModule().First().Get<double>();
 }

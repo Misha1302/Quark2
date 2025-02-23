@@ -8,30 +8,29 @@ namespace ToMsilTranslator;
 
 public class ToMsilTranslator : IExecutor
 {
-    private bool _inited;
-
-    public IEnumerable<Any> RunModule(BytecodeModule module)
+    public void PrepareToRun(BytecodeModule module)
     {
         Init(module);
+    }
+
+    public IEnumerable<Any> RunModule()
+    {
+        Throw.AssertAlways(RuntimeLibrary.RuntimeData != null, "Module was not initialized");
         var result = RuntimeLibrary.CallFunc("Main");
-        _inited = false;
         return [result.ToAny()];
     }
 
-    public IEnumerable<Any> RunFunction(BytecodeModule module, string name, Span<Any> functionArguments)
+    public IEnumerable<Any> RunFunction(string name, Span<Any> functionArguments)
     {
-        Init(module);
+        Throw.AssertAlways(RuntimeLibrary.RuntimeData != null, "Module was not initialized");
         foreach (var argument in functionArguments)
             RuntimeLibrary.RuntimeData.IntermediateData.Push(argument.MakeAnyOpt());
         var result = RuntimeLibrary.CallFunc(name);
-        _inited = false;
         return [result.ToAny()];
     }
 
     private void Init(BytecodeModule module)
     {
-        if (_inited) return;
-
         var (methods, constants) = CompileModule(module);
         RuntimeLibrary.RuntimeData =
             new ToMsilTranslatorRuntimeData(
@@ -40,8 +39,6 @@ public class ToMsilTranslator : IExecutor
                 new Stack<AnyOpt>(),
                 module
             );
-
-        _inited = true;
     }
 
     private (List<DynamicMethod>, List<AnyOpt>) CompileModule(BytecodeModule module)
@@ -69,7 +66,7 @@ public class ToMsilTranslator : IExecutor
 
         var parametersCount = function.Code.GetParametersCount();
         for (var i = 0; i < parametersCount; i++) il.Call(GetInfo(RuntimeLibrary.PopFromStack));
-        // il.Stloc(data.Locals[function.Code.Instructions[parametersCount].Arguments[0].Get<BytecodeVariable>().Name]);
+        
         for (var index = 0; index < function.Code.Instructions.Count; index++)
         {
             var instruction = function.Code.Instructions[index];
@@ -155,10 +152,10 @@ public class ToMsilTranslator : IExecutor
             il.Ldloc(arrLoc);
             il.Ldc_IntPtr(method.MethodHandle.GetFunctionPointer());
             il.Ldc_I4(method.ReturnType != typeof(void) ? 1 : 0);
-            il.Call(typeof(MsilSharpInteractioner).GetMethod("CallStaticSharpFunction"));
+            il.Call(GetInfo(MsilSharpInteractioner.CallStaticSharpFunction));
         }
 
-        if (method.ReturnType != typeof(void) || isVarArgs)
+        if (method.ReturnType != typeof(void))
             il.Call(GetInfo(AnyOptExtensions.MakeAnyOpt));
         else il.Ldfld(typeof(AnyOpt).GetField("NilValue"));
     }
@@ -239,9 +236,4 @@ public class ToMsilTranslator : IExecutor
     }
 
     private MethodInfo GetInfo(Delegate del) => del.Method;
-
-    public void PrepareToExecute(BytecodeModule module)
-    {
-        Init(module);
-    }
 }

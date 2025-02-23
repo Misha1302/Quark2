@@ -3,14 +3,14 @@ import "../../../../Libraries"
 def Main() {
     n = 122344388900113
     
-    Print(n)
+    _ = Print(n)
     
     if (IsPrime(n)) {
-        PrintLn(" is prime")
+        _ = PrintLn(" is prime")
         return 0
     }
     
-    PrintLn(" is not prime")
+    _ = PrintLn(" is not prime")
 
     return 0
 }
