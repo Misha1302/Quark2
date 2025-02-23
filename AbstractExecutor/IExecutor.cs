@@ -1,15 +1,14 @@
 ﻿using CommonBytecode.Data.AnyValue;
-using CommonBytecode.Data.Structures;
 
 namespace AbstractExecutor;
 
 public interface IExecutor
 {
     /// <summary>
-    ///     Prepare executor to run this module.
+    ///     Initialize executor to run with current configuration
     /// </summary>
-    /// <param name="module">The bytecode module to prepare to execute.</param>
-    void PrepareToRun(BytecodeModule module);
+    /// <param name="configuration">Data to initialize</param>
+    void Init(ExecutorConfiguration configuration);
 
     /// <summary>
     ///     Executes a given bytecode module and returns the result as an enumeration of Any values.

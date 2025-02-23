@@ -33,9 +33,9 @@ public class QuarkInitializer
     private IExecutor CreateExecutor(RunType runType, BytecodeModule module)
     {
         var executor = (IExecutor)(runType != RunType.RunningUsingInterpreter
-            ? new QuarkVirtualMachine(new ExecutorConfiguration())
+            ? new QuarkVirtualMachine()
             : new ToMsilTranslator.ToMsilTranslator());
-        executor.PrepareToRun(module);
+        executor.Init(new ExecutorConfiguration(module));
         return executor;
     }
 

@@ -8,11 +8,6 @@ namespace ToMsilTranslator;
 
 public class ToMsilTranslator : IExecutor
 {
-    public void PrepareToRun(BytecodeModule module)
-    {
-        Init(module);
-    }
-
     public IEnumerable<Any> RunModule()
     {
         Throw.AssertAlways(RuntimeLibrary.RuntimeData != null, "Module was not initialized");
@@ -29,15 +24,15 @@ public class ToMsilTranslator : IExecutor
         return [result.ToAny()];
     }
 
-    private void Init(BytecodeModule module)
+    public void Init(ExecutorConfiguration configuration)
     {
-        var (methods, constants) = CompileModule(module);
+        var (methods, constants) = CompileModule(configuration.Module);
         RuntimeLibrary.RuntimeData =
             new ToMsilTranslatorRuntimeData(
                 constants,
                 methods.ToDictionary(x => x.Name, x => x),
                 new Stack<AnyOpt>(),
-                module
+                configuration.Module
             );
     }
 
@@ -66,7 +61,7 @@ public class ToMsilTranslator : IExecutor
 
         var parametersCount = function.Code.GetParametersCount();
         for (var i = 0; i < parametersCount; i++) il.Call(GetInfo(RuntimeLibrary.PopFromStack));
-        
+
         for (var index = 0; index < function.Code.Instructions.Count; index++)
         {
             var instruction = function.Code.Instructions[index];

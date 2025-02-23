@@ -30,7 +30,7 @@ public class Measurer
     {
         // something about 1655
         times1 = Measure(
-            () => new QuarkVirtualMachine(new ExecutorConfiguration()),
+            () => new QuarkVirtualMachine(),
             repeatTimes, code
         );
         Console.WriteLine($"Interpreter min execution time: {times1.Min()} ms");
@@ -58,7 +58,7 @@ public class Measurer
             var module =
                 quarkStatistics.Measure(() => new AsgToBytecodeTranslator.AsgToBytecodeTranslator().Translate(asg));
             var executor = executorMaker();
-            executor.PrepareToRun(module);
+            executor.Init(new ExecutorConfiguration(module));
 
             var stdOut = Console.Out;
             Console.SetOut(TextWriter.Null);

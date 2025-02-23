@@ -23,6 +23,7 @@ const string code =
 var lexemes = new Lexer(LexerDefaultConfiguration.CreateDefault()).Lexemize(code);
 var asg = new AsgBuilder(AsgBuilderConfiguration.CreateDefault()).Build(lexemes);
 var module = new AsgToBytecodeTranslator.AsgToBytecodeTranslator().Translate(asg);
-var interpreter = new QuarkVirtualMachine(new ExecutorConfiguration());
-interpreter.RunModule(module);
+var executor = new QuarkVirtualMachine();
+executor.Init(new ExecutorConfiguration(module));
+executor.RunModule();
 ```

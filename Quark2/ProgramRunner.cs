@@ -1,4 +1,5 @@
 using AbstractExecutor;
+using CommonBytecode.Data.Structures;
 using DefaultAstImpl.Asg;
 using DefaultLexerImpl.Lexer;
 using QuarkCFrontend;
@@ -26,8 +27,7 @@ public class ProgramRunner
                 new AsgBuilder(AsgBuilderConfiguration.CreateDefault()).Build(lexemes));
             var module =
                 quarkStatistics.Measure(() => new AsgToBytecodeTranslator.AsgToBytecodeTranslator().Translate(asg));
-            var executor = CreateExecutor(runType);
-            executor.PrepareToRun(module);
+            var executor = CreateExecutor(runType, module);
             var results = quarkStatistics.Measure(() => executor.RunModule());
 
             Console.WriteLine($"Results: {string.Join(", ", results)}");
@@ -36,13 +36,14 @@ public class ProgramRunner
         }
     }
 
-    private static IExecutor CreateExecutor(RunType runType)
+    private static IExecutor CreateExecutor(RunType runType, BytecodeModule module)
     {
         var executor = (IExecutor)(
             runType == RunType.MainCodeRunningUsingInterpreter
-                ? new QuarkVirtualMachine(new ExecutorConfiguration())
+                ? new QuarkVirtualMachine()
                 : new ToMsilTranslator.ToMsilTranslator()
         );
+        executor.Init(new ExecutorConfiguration(module));
         return executor;
     }
 }
