@@ -90,6 +90,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Quark", "Quark", "{F3492275
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Linq", "Linq", "{3E8021EF-0477-4D4E-B869-D20510C1278D}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Example", "Example\Example.csproj", "{39C30717-DBE2-4DD2-B827-45E1A236C4CF}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -224,6 +226,10 @@ Global
 		{8F53CC89-683D-42BF-99A1-C9CB15774678}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8F53CC89-683D-42BF-99A1-C9CB15774678}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8F53CC89-683D-42BF-99A1-C9CB15774678}.Release|Any CPU.Build.0 = Release|Any CPU
+		{39C30717-DBE2-4DD2-B827-45E1A236C4CF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{39C30717-DBE2-4DD2-B827-45E1A236C4CF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{39C30717-DBE2-4DD2-B827-45E1A236C4CF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{39C30717-DBE2-4DD2-B827-45E1A236C4CF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{86F74F91-8AA1-4994-9593-1964846B6A88} = {9FB6F7E6-CEE1-4283-997D-12353A24085F}

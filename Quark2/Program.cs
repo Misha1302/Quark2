@@ -3,4 +3,4 @@
 // 2. MainCodeRunningUsingMsilTranslator
 // 3. Measuring 
 
-new ProgramRunner().Run(RunType.MainCodeRunningUsingInterpreter);
+new ProgramRunner().Run(RunType.Measuring);
