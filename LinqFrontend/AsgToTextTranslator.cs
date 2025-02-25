@@ -1,5 +1,6 @@
 using CommonFrontendApi;
 using ExceptionsManager;
+using LinqLexer;
 
 namespace LinqFrontend;
 
@@ -55,6 +56,8 @@ public class AsgToTextTranslator
                 linqCreator.Where(ref index);
             else if (type == LinqLexemeType.All)
                 linqCreator.All(ref index);
+            else if (type == LinqLexemeType.Any)
+                linqCreator.Any(ref index);
             else if (type is LinqLexemeType.Count)
                 linqCreator.Count(ref index);
             else if (type is LinqLexemeType.Sum)

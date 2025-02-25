@@ -85,7 +85,6 @@ public class AsgToBytecodeTranslator<T> where T : struct
                 );
                 break;
             case AsgNodeType.Else:
-                break;
             case AsgNodeType.ElseIf:
                 break;
             case AsgNodeType.Return:
@@ -169,6 +168,7 @@ public class AsgToBytecodeTranslator<T> where T : struct
                 CurBytecode.Add(new BytecodeInstruction(InstructionType.Label, [node.Text]));
                 break;
             case AsgNodeType.MaxEnumValue:
+            case AsgNodeType.Removed:
             default:
                 Throw.InvalidOpEx();
                 break;

@@ -3,7 +3,7 @@ using Any = CommonBytecode.Data.AnyValue.Any;
 
 namespace ToMsilTranslator;
 
-public class MsilSharpInteractioner
+public static class MsilSharpInteractioner
 {
     public static unsafe Any CallStaticSharpFunction(
         Any[] args, nint ptr, bool returnsValue
@@ -17,7 +17,7 @@ public class MsilSharpInteractioner
         return Any.Nil;
     }
 
-    public class StackOfAnies(Any[] stack) : IReadOnlyStack<Any>
+    private class StackOfAnies(Any[] stack) : IReadOnlyStack<Any>
     {
         public Any Get(int ind)
         {

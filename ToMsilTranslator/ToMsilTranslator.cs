@@ -31,8 +31,7 @@ public class ToMsilTranslator : IExecutor
             new ToMsilTranslatorRuntimeData(
                 constants,
                 methods.ToDictionary(x => x.Name, x => x),
-                new Stack<AnyOpt>(),
-                configuration.Module
+                new Stack<AnyOpt>()
             );
     }
 

@@ -1,7 +1,7 @@
 using System.Text.RegularExpressions;
 using CommonFrontendApi;
 
-namespace LinqFrontend;
+namespace LinqLexer;
 
 public class LinqLexer(LexerConfiguration<LinqLexemeType> configuration)
 {

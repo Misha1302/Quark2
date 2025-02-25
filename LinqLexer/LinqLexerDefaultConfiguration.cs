@@ -1,6 +1,6 @@
 ﻿using CommonFrontendApi;
 
-namespace LinqFrontend;
+namespace LinqLexer;
 
 public static class LinqLexerDefaultConfiguration
 {

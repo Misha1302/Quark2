@@ -1,7 +1,7 @@
-using CommonFrontendApi;
 using DefaultAstImpl.Asg;
 using DefaultAstImpl.Asg.Interfaces;
-using static CommonFrontendApi.QuarkLexemeType;
+using DefaultLexerImpl;
+using static DefaultLexerImpl.QuarkLexemeType;
 
 namespace QuarkCFrontend.Nodes;
 

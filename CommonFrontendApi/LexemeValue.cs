@@ -13,7 +13,7 @@ public record LexemeValue<T>(string Text, LexemePattern<T> LexemePattern, int St
 
     public int LineNumber => _lineNumber?.Value ?? -1;
 
-    public static int CalcLineNumber(string code, int startIndex)
+    private static int CalcLineNumber(string code, int startIndex)
     {
         var lineNumber = code.Take(startIndex).Count(c => c == '\n') + 1;
         return lineNumber;

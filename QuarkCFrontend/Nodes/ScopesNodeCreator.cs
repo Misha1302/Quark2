@@ -1,6 +1,6 @@
-using CommonFrontendApi;
 using DefaultAstImpl.Asg;
 using DefaultAstImpl.Asg.Interfaces;
+using DefaultLexerImpl;
 
 namespace QuarkCFrontend.Nodes;
 
@@ -17,6 +17,7 @@ public class ScopesNodeCreator : INodeCreator<QuarkLexemeType>
 
     public int TryBuildImpl(List<AsgNode<QuarkLexemeType>> nodes, int i)
     {
+        // ReSharper disable once ForeachCanBePartlyConvertedToQueryUsingAnotherGetEnumerator
         foreach (var pair in _scopes)
         {
             if (i >= nodes.Count || nodes[i].LexemeType != pair.left)

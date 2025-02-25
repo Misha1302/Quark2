@@ -1,4 +1,5 @@
 using CommonFrontendApi;
+using DefaultLexerImpl;
 
 namespace QuarkCFrontend;
 

@@ -1,6 +1,6 @@
-using CommonFrontendApi;
 using DefaultAstImpl.Asg;
 using DefaultAstImpl.Asg.Interfaces;
+using DefaultLexerImpl;
 
 namespace QuarkCFrontend.Nodes.Math;
 

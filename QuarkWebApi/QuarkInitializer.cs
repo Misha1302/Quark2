@@ -1,7 +1,6 @@
 using AbstractExecutor;
 using AsgToBytecodeTranslator;
 using CommonBytecode.Data.Structures;
-using CommonFrontendApi;
 using DefaultAstImpl.Asg;
 using DefaultLexerImpl;
 using QuarkCFrontend;

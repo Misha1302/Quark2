@@ -1,4 +1,4 @@
-namespace CommonFrontendApi;
+namespace LinqLexer;
 
 // TODO: convert into extendable abstract class
 public enum LinqLexemeType : long

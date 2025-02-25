@@ -1,5 +1,6 @@
 using System.Text;
 using CommonFrontendApi;
+using LinqLexer;
 
 namespace LinqFrontend;
 
