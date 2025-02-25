@@ -6,20 +6,7 @@ public class Interpreter
     public readonly MyStack<AnyOpt> Stack = new(1024);
     private EngineRuntimeData _engineRuntimeData = null!;
 
-    private double _numbersCompareAccuracy = 0.00001;
-
     public bool Halted => Frames.Count == 0;
-
-    public double NumbersCompareAccuracy
-    {
-        get => _numbersCompareAccuracy;
-        set
-        {
-            if (value <= 0.0)
-                Throw.InvalidOpEx();
-            _numbersCompareAccuracy = value;
-        }
-    }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public void Step(int stepsCount, EngineRuntimeData engineRuntimeData)
@@ -109,7 +96,7 @@ public class Interpreter
     {
         if (op == Not)
         {
-            Stack.Push(VmCalc.Not(Stack.Pop()));
+            Stack.Push(AnyOptCalculator.Not(Stack.Pop()));
             return;
         }
 
@@ -117,21 +104,21 @@ public class Interpreter
         var a = Stack.Pop();
         var c = op switch
         {
-            Sum => VmCalc.Sum(a, b),
-            Sub => VmCalc.Sub(a, b),
-            Mul => VmCalc.Mul(a, b),
-            Div => VmCalc.Div(a, b),
-            Pow => VmCalc.Pow(a, b),
-            Mod => VmCalc.Mod(a, b),
-            And => VmCalc.And(a, b),
-            Or => VmCalc.Or(a, b),
-            Xor => VmCalc.Xor(a, b),
-            Eq => VmCalc.Eq(a, b, NumbersCompareAccuracy),
-            NotEq => VmCalc.NotEq(a, b, NumbersCompareAccuracy),
-            Lt => VmCalc.Lt(a, b),
-            Gt => VmCalc.Gt(a, b),
-            LtOrEq => VmCalc.LtOrEq(a, b, NumbersCompareAccuracy),
-            GtOrEq => VmCalc.GtOrEq(a, b, NumbersCompareAccuracy),
+            Sum => AnyOptCalculator.Sum(a, b),
+            Sub => AnyOptCalculator.Sub(a, b),
+            Mul => AnyOptCalculator.Mul(a, b),
+            Div => AnyOptCalculator.Div(a, b),
+            Pow => AnyOptCalculator.Pow(a, b),
+            Mod => AnyOptCalculator.Mod(a, b),
+            And => AnyOptCalculator.And(a, b),
+            Or => AnyOptCalculator.Or(a, b),
+            Xor => AnyOptCalculator.Xor(a, b),
+            Eq => AnyOptCalculator.Eq(a, b),
+            NotEq => AnyOptCalculator.NotEq(a, b),
+            Lt => AnyOptCalculator.Lt(a, b),
+            Gt => AnyOptCalculator.Gt(a, b),
+            LtOrEq => AnyOptCalculator.LtOrEq(a, b),
+            GtOrEq => AnyOptCalculator.GtOrEq(a, b),
             _ => Throw.InvalidOpEx<AnyOpt>(),
         };
 
