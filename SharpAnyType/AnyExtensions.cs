@@ -8,15 +8,15 @@ public static class AnyExtensions
     public static Any ToAny(this IAny value) =>
         new(value.GetObjectValue(), value.GetAnyType());
 
-    public static Any ToAny(this object value, BytecodeValueType type = BytecodeValueType.Any) =>
+    public static Any ToAny(this object value, AnyValueType type = AnyValueType.Any) =>
         new(value, type);
 
-    public static string AnyToString(this Any value, BytecodeValueType type) =>
+    public static string AnyToString(this Any value, AnyValueType type) =>
         Configuration.IsDebug
             ? CatchExceptionsAnyToString(value, type)
             : BasicAnyToString(value, type);
 
-    private static string CatchExceptionsAnyToString(Any value, BytecodeValueType type)
+    private static string CatchExceptionsAnyToString(Any value, AnyValueType type)
     {
         try
         {
@@ -28,7 +28,7 @@ public static class AnyExtensions
         }
     }
 
-    private static string BasicAnyToString(Any value, BytecodeValueType type)
+    private static string BasicAnyToString(Any value, AnyValueType type)
     {
         return type switch
         {
@@ -39,17 +39,17 @@ public static class AnyExtensions
                 ? value.Value.ToString() ?? string.Empty
                 : d.Method.ToString()!,
             NativeI64 => $"n_{value.Get<long>()}",
-            BytecodeValueType.Any => $"any: {value.Value}",
+            AnyValueType.Any => $"any: {value.Value}",
             _ => Throw.InvalidOpEx<string>(),
         };
     }
 
-    public static string UnsafeI64ToString(this long value, BytecodeValueType type) =>
+    public static string UnsafeI64ToString(this long value, AnyValueType type) =>
         Configuration.IsDebug
             ? CatchExceptionsUnsafeI64ToString(value, type)
             : BasicUnsafeI64ToString(value, type);
 
-    private static string CatchExceptionsUnsafeI64ToString(long value, BytecodeValueType type)
+    private static string CatchExceptionsUnsafeI64ToString(long value, AnyValueType type)
     {
         try
         {
@@ -61,14 +61,14 @@ public static class AnyExtensions
         }
     }
 
-    private static string BasicUnsafeI64ToString(long value, BytecodeValueType type)
+    private static string BasicUnsafeI64ToString(long value, AnyValueType type)
     {
         return type switch
         {
             Nil => "Nil",
             Number => Unsafe.BitCast<long, double>(value).ToString(CultureInfo.InvariantCulture),
             NativeI64 => $"n_{value}",
-            BytecodeValueType.Any => $"any: {value}",
+            AnyValueType.Any => $"any: {value}",
             _ => Throw.InvalidOpEx<string>(),
         };
     }

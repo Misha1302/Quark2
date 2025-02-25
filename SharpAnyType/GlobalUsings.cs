@@ -2,4 +2,4 @@
 
 global using System.Runtime.CompilerServices;
 global using ExceptionsManager;
-global using static SharpAnyType.BytecodeValueType;
+global using static SharpAnyType.AnyValueType;

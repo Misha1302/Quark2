@@ -1,10 +1,10 @@
 namespace VirtualMachine.Vm.Data;
 
-public class VmVariable(string name, BytecodeValueType varType)
+public class VmVariable(string name, AnyValueType varType)
 {
     private AnyOpt _value;
     public string Name { get; } = name;
-    public BytecodeValueType VarType { get; } = varType;
+    public AnyValueType VarType { get; } = varType;
 
     public AnyOpt Value
     {

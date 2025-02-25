@@ -17,7 +17,7 @@ public static class QuarkSerializer
         foreach (var value in values)
             map.Set(value.Key, value.Value);
 
-        return map.ToAny(BytecodeValueType.SomeSharpObject);
+        return map.ToAny(AnyValueType.SomeSharpObject);
     }
 
     public static Any DeserializeIntoMapOfMaps(Any json)
@@ -29,12 +29,12 @@ public static class QuarkSerializer
         foreach (var value in values)
         {
             var map2 = new QuarkMapImpl<Any, Any>();
-            map.Set(value.Key, map2.ToAny(BytecodeValueType.SomeSharpObject));
+            map.Set(value.Key, map2.ToAny(AnyValueType.SomeSharpObject));
             foreach (var pair in value.Value)
                 map2.Set(pair.Key, pair.Value);
         }
 
-        return map.ToAny(BytecodeValueType.SomeSharpObject);
+        return map.ToAny(AnyValueType.SomeSharpObject);
     }
 
     private static bool TryDeserialize<T>(Any json, [NotNullWhen(true)] out T? values)

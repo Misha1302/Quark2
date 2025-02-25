@@ -2,24 +2,24 @@ namespace DynamicStrongTypeValue;
 
 public readonly struct AnyOpt : IAny
 {
-    public readonly BytecodeValueType Type = Nil;
+    public readonly AnyValueType Type = Nil;
 
     private readonly long _value = 0;
     private readonly object _ref = null!;
 
-    private AnyOpt(object @ref, BytecodeValueType type)
+    private AnyOpt(object @ref, AnyValueType type)
     {
         _ref = @ref;
         Type = type;
     }
 
-    private AnyOpt(long value, BytecodeValueType type)
+    private AnyOpt(long value, AnyValueType type)
     {
         _value = value;
         Type = type;
     }
 
-    public AnyOpt(double value, BytecodeValueType type)
+    public AnyOpt(double value, AnyValueType type)
     {
         _value = Unsafe.As<double, long>(ref value);
         Type = type;
@@ -34,7 +34,7 @@ public readonly struct AnyOpt : IAny
     /// <param name="type">VmValueType value describing type of value</param>
     /// <typeparam name="T">TranslatorValue unmanaged 8-byte type</typeparam>
     /// <returns>new VmValue instance</returns>
-    public static AnyOpt Create<T>(T value, BytecodeValueType type) where T : unmanaged
+    public static AnyOpt Create<T>(T value, AnyValueType type) where T : unmanaged
     {
         if (typeof(T) == typeof(int))
             return new AnyOpt((int)(object)value, type);
@@ -55,7 +55,7 @@ public readonly struct AnyOpt : IAny
     /// <param name="type">VmValueType value describing type of value</param>
     /// <typeparam name="T">TranslatorValue reference type of value</typeparam>
     /// <returns>New Vmvalue instance</returns>
-    public static AnyOpt CreateRef<T>(T value, BytecodeValueType type) where T : class => new(value, type);
+    public static AnyOpt CreateRef<T>(T value, AnyValueType type) where T : class => new(value, type);
 
     /// <summary>
     ///     Unsafe get TranslatorValue 8-byte unmanaged type value
@@ -89,5 +89,5 @@ public readonly struct AnyOpt : IAny
     public bool IsFalse() => _value == 0;
 
     public object GetObjectValue() => this.GetValueInSharpType();
-    public BytecodeValueType GetAnyType() => Type;
+    public AnyValueType GetAnyType() => Type;
 }

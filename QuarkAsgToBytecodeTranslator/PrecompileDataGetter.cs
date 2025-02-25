@@ -10,7 +10,7 @@ public class PrecompileDataGetter
             if (x.NodeType != AsgNodeType.FunctionCreating) return;
 
             var bytecodeFunction = new BytecodeFunction(x.Text, new Bytecode([]));
-            var parameters = x.Children[1].Children.Select(c => new BytecodeVariable(c.Text, BytecodeValueType.Any));
+            var parameters = x.Children[1].Children.Select(c => new BytecodeVariable(c.Text, AnyValueType.Any));
             var locals = GetLocals(x.Children[2]);
             functions.Add(new FunctionData(bytecodeFunction, parameters.ToList(), locals));
         });
@@ -25,7 +25,7 @@ public class PrecompileDataGetter
             if (x.NodeType != AsgNodeType.SetOperation) return;
 
             var varName = x.Children[0].Text;
-            locals.Add(new BytecodeVariable(varName, BytecodeValueType.Any));
+            locals.Add(new BytecodeVariable(varName, AnyValueType.Any));
         });
         return locals;
     }

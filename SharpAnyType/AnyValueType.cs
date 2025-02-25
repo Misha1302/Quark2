@@ -5,7 +5,7 @@ namespace SharpAnyType;
 ///     we need to provide the ability to combine VmValueType values
 /// </summary>
 [Flags]
-public enum BytecodeValueType : long
+public enum AnyValueType : long
 {
     // every enum value is the power of two. To have an ability to mix types we need to take every bit by order 
     Nil = 1 << 0,

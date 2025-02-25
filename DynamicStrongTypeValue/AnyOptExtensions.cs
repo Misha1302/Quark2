@@ -11,7 +11,7 @@ public static class AnyOptExtensions
             Str => value.GetRef<string>(),
             SomeSharpObject => value.GetRef<object>(),
             NativeI64 => value.Get<long>(),
-            BytecodeValueType.Any => value.Get<long>(),
+            AnyValueType.Any => value.Get<long>(),
             _ => Throw.InvalidOpEx<string>(),
         };
     }

@@ -8,7 +8,7 @@ public readonly struct Any : IEquatable<Any>
     /// <summary>
     ///     The 'Nil' value (empty value).
     /// </summary>
-    public static readonly Any Nil = new(null!, BytecodeValueType.Nil);
+    public static readonly Any Nil = new(null!, AnyValueType.Nil);
 
     /// <summary>
     ///     Holds the object representation of the value.
@@ -18,14 +18,14 @@ public readonly struct Any : IEquatable<Any>
     /// <summary>
     ///     The type of the stored value.
     /// </summary>
-    public readonly BytecodeValueType Type;
+    public readonly AnyValueType Type;
 
     /// <summary>
     ///     Constructor that takes in a value and its type.
     /// </summary>
     /// <param name="value">The object representation of the value.</param>
     /// <param name="type">The type of the value.</param>
-    public Any(object value, BytecodeValueType type = BytecodeValueType.Any)
+    public Any(object value, AnyValueType type = AnyValueType.Any)
     {
         Value = value;
         Type = type;
