@@ -1,5 +1,3 @@
-using CommonDataStructures;
-
 namespace VirtualMachine.Vm.Data;
 
 public class VmVariable(string name, BytecodeValueType varType)

@@ -1,7 +1,3 @@
-using CommonBytecode.Data.AnyValue;
-using CommonBytecode.Data.Structures;
-using DefaultAstImpl.Asg;
-
 namespace AsgToBytecodeTranslator;
 
 public class PrecompileDataGetter

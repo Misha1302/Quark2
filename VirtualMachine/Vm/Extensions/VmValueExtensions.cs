@@ -1,4 +1,3 @@
-using CommonDataStructures;
 using VirtualMachine.Vm.Preparing;
 
 namespace VirtualMachine.Vm.Extensions;

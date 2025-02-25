@@ -1,10 +1,4 @@
-﻿using System.Reflection;
-using AbstractExecutor;
-using CommonDataStructures;
-using Doubles;
-using Any = CommonBytecode.Data.AnyValue.Any;
-
-namespace ToMsilTranslator;
+﻿namespace ToMsilTranslator;
 
 public class ToMsilTranslator : IExecutor
 {

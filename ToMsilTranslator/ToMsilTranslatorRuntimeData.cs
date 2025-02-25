@@ -1,5 +1,3 @@
-using CommonDataStructures;
-
 namespace ToMsilTranslator;
 
 public record ToMsilTranslatorRuntimeData(

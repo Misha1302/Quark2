@@ -2,7 +2,10 @@
 
 global using System.Runtime.CompilerServices;
 global using System.Runtime.InteropServices;
+global using AbstractExecutor;
 global using CommonBytecode.Data.AnyValue;
+global using CommonBytecode.Enums;
+global using CommonDataStructures;
 global using ExceptionsManager;
 global using VirtualMachine.Vm.Data;
 global using VirtualMachine.Vm.Extensions;

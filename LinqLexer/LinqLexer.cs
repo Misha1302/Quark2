@@ -1,6 +1,3 @@
-using System.Text.RegularExpressions;
-using CommonFrontendApi;
-
 namespace LinqLexer;
 
 public class LinqLexer(LexerConfiguration<LinqLexemeType> configuration)

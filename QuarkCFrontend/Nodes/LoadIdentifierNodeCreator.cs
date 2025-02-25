@@ -1,7 +1,3 @@
-using DefaultAstImpl.Asg;
-using DefaultAstImpl.Asg.Interfaces;
-using DefaultLexerImpl;
-
 namespace QuarkCFrontend.Nodes;
 
 public class LoadIdentifierNodeCreator : INodeCreator<QuarkLexemeType>
@@ -10,7 +6,7 @@ public class LoadIdentifierNodeCreator : INodeCreator<QuarkLexemeType>
 
     public int TryBuildImpl(List<AsgNode<QuarkLexemeType>> nodes, int i)
     {
-        if (nodes[i].NodeType == AsgNodeType.Unknown && nodes[i].LexemeType == QuarkLexemeType.Identifier)
+        if (nodes[i].NodeType == AsgNodeType.Unknown && nodes[i].LexemeType == Identifier)
             nodes[i].NodeType = AsgNodeType.Identifier;
 
         return 0;

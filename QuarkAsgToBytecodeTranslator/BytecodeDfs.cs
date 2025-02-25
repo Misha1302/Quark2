@@ -1,5 +1,3 @@
-using DefaultAstImpl.Asg;
-
 namespace AsgToBytecodeTranslator;
 
 public class BytecodeDfs

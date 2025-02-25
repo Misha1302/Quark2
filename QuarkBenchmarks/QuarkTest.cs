@@ -1,6 +1,5 @@
 using AbstractExecutor;
 using AsgToBytecodeTranslator;
-using BenchmarkDotNet.Attributes;
 using DefaultAstImpl.Asg;
 using DefaultLexerImpl;
 using QuarkCFrontend;

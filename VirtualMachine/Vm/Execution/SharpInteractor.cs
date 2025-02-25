@@ -1,4 +1,3 @@
-using CommonDataStructures;
 using Doubles;
 
 namespace VirtualMachine.Vm.Execution;

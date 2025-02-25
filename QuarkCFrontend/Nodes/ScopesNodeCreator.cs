@@ -1,16 +1,12 @@
-using DefaultAstImpl.Asg;
-using DefaultAstImpl.Asg.Interfaces;
-using DefaultLexerImpl;
-
 namespace QuarkCFrontend.Nodes;
 
 public class ScopesNodeCreator : INodeCreator<QuarkLexemeType>
 {
     private readonly List<(QuarkLexemeType left, QuarkLexemeType right)> _scopes =
     [
-        (QuarkLexemeType.LeftPar, QuarkLexemeType.RightPar),
-        (QuarkLexemeType.LeftBrace, QuarkLexemeType.RightBrace),
-        (QuarkLexemeType.LeftBracket, QuarkLexemeType.RightBracket),
+        (LeftPar, RightPar),
+        (LeftBrace, RightBrace),
+        (LeftBracket, RightBracket),
     ];
 
     public AsgNodeType NodeType => AsgNodeType.Scope;

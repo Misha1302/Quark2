@@ -1,7 +1,3 @@
-using DefaultAstImpl.Asg;
-using DefaultAstImpl.Asg.Interfaces;
-using DefaultLexerImpl;
-
 namespace QuarkCFrontend.Nodes;
 
 public class CommentNodeCreator : INodeCreator<QuarkLexemeType>
@@ -11,7 +7,7 @@ public class CommentNodeCreator : INodeCreator<QuarkLexemeType>
     // just remove comment
     public int TryBuildImpl(List<AsgNode<QuarkLexemeType>> nodes, int i)
     {
-        if (nodes[i].LexemeType != QuarkLexemeType.Comment) return 0;
+        if (nodes[i].LexemeType != Comment) return 0;
 
         nodes.RemoveAt(i);
         return -1;

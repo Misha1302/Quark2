@@ -1,7 +1,3 @@
-using DefaultAstImpl.Asg;
-using DefaultAstImpl.Asg.Interfaces;
-using DefaultLexerImpl;
-
 namespace QuarkCFrontend.Nodes;
 
 public class FunctionCallNodeCreator : INodeCreator<QuarkLexemeType>
@@ -12,9 +8,9 @@ public class FunctionCallNodeCreator : INodeCreator<QuarkLexemeType>
     {
         if (i + 1 >= nodes.Count) return 0;
 
-        var a = nodes[i].LexemeType == QuarkLexemeType.Identifier;
+        var a = nodes[i].LexemeType == Identifier;
         var b = nodes[i + 1].NodeType == AsgNodeType.Scope;
-        var c = !(i >= 1 && IsInTheSameLine(nodes[i - 1], nodes[i]) && nodes[i - 1].LexemeType == QuarkLexemeType.Def);
+        var c = !(i >= 1 && IsInTheSameLine(nodes[i - 1], nodes[i]) && nodes[i - 1].LexemeType == Def);
 
         if (!a || !b || !c) return 0;
 

@@ -1,5 +1,4 @@
 using CommonBytecode.Data.Structures;
-using CommonBytecode.Enums;
 
 namespace VirtualMachine.Vm.Preparing;
 

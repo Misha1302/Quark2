@@ -1,13 +1,4 @@
-﻿using System.Globalization;
-using BytecodeGenerationSimplifier;
-using CommonBytecode.Data.AnyValue;
-using CommonBytecode.Data.Structures;
-using CommonBytecode.Enums;
-using DefaultAstImpl.Asg;
-using ExceptionsManager;
-using SharpLibrariesImporter;
-
-namespace AsgToBytecodeTranslator;
+﻿namespace AsgToBytecodeTranslator;
 
 public class AsgToBytecodeTranslator<T> where T : struct
 {

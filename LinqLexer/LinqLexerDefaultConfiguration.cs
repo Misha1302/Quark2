@@ -1,6 +1,4 @@
-﻿using CommonFrontendApi;
-
-namespace LinqLexer;
+﻿namespace LinqLexer;
 
 public static class LinqLexerDefaultConfiguration
 {

@@ -1,5 +1,3 @@
-using BenchmarkDotNet.Attributes;
-
 namespace QuarkBenchmarks;
 
 public class DfsTest() : QuarkTest(

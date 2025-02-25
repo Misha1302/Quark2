@@ -1,7 +1,3 @@
-using DefaultAstImpl.Asg;
-using DefaultAstImpl.Asg.Interfaces;
-using DefaultLexerImpl;
-
 namespace QuarkCFrontend.Nodes;
 
 public class LabelNodeCreator : INodeCreator<QuarkLexemeType>
@@ -10,7 +6,7 @@ public class LabelNodeCreator : INodeCreator<QuarkLexemeType>
 
     public int TryBuildImpl(List<AsgNode<QuarkLexemeType>> nodes, int i)
     {
-        if (nodes[i].LexemeType == QuarkLexemeType.Label)
+        if (nodes[i].LexemeType == Label)
             nodes[i].NodeType = AsgNodeType.Label;
         return 0;
     }

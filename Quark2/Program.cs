@@ -1,7 +1,6 @@
-﻿using Quark2;
-
-// you can use:
+﻿// you can use:
 // 1. MainCodeRunningUsingInterpreter
 // 2. MainCodeRunningUsingMsilTranslator
 // 3. Measuring 
+
 new ProgramRunner().Run(RunType.Measuring);

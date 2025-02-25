@@ -1,6 +1,3 @@
-using CommonBytecode.Enums;
-using CommonDataStructures;
-
 namespace VirtualMachine.Vm.Data;
 
 public readonly struct VmOperation(InstructionType type, List<AnyOpt> args)

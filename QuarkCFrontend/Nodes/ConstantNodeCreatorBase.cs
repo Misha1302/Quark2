@@ -1,7 +1,3 @@
-using DefaultAstImpl.Asg;
-using DefaultAstImpl.Asg.Interfaces;
-using DefaultLexerImpl;
-
 namespace QuarkCFrontend.Nodes;
 
 public abstract class ConstantNodeCreatorBase(QuarkLexemeType quarkLexemeType, AsgNodeType nodeType)

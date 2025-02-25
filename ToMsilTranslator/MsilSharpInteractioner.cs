@@ -1,6 +1,3 @@
-using CommonDataStructures;
-using Any = CommonBytecode.Data.AnyValue.Any;
-
 namespace ToMsilTranslator;
 
 public static class MsilSharpInteractioner

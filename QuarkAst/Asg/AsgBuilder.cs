@@ -1,9 +1,5 @@
-using CommonFrontendApi;
-using DefaultAstImpl.Asg.Interfaces;
-
 namespace DefaultAstImpl.Asg;
 
-// TODO: add interfaces
 public class AsgBuilder<T>(List<List<INodeCreator<T>>> creatorLevels) where T : struct
 {
     public AsgNode<T> Build(List<LexemeValue<T>> lexemes)

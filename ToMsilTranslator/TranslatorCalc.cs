@@ -1,6 +1,3 @@
-using CommonDataStructures;
-using Doubles;
-
 namespace ToMsilTranslator;
 
 public static class TranslatorCalc

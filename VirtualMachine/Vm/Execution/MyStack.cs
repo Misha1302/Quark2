@@ -1,5 +1,3 @@
-using CommonDataStructures;
-
 namespace VirtualMachine.Vm.Execution;
 
 public class MyStack<T>(int maxSize) : IReadOnlyStack<T>

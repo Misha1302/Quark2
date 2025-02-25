@@ -1,8 +1,3 @@
-using DefaultAstImpl.Asg;
-using DefaultAstImpl.Asg.Interfaces;
-using DefaultLexerImpl;
-using static DefaultLexerImpl.QuarkLexemeType;
-
 namespace QuarkCFrontend.Nodes;
 
 public class FunctionCreationNodeCreator : INodeCreator<QuarkLexemeType>

@@ -1,5 +1,3 @@
-using CommonBytecode.Data.Structures;
-
 namespace AsgToBytecodeTranslator;
 
 public record FunctionData(

@@ -1,6 +1,5 @@
 namespace DefaultLexerImpl;
 
-// TODO: convert into extendable abstract class
 public enum QuarkLexemeType : long
 {
     Identifier,

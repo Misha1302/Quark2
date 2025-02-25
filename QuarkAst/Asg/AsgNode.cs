@@ -1,5 +1,3 @@
-using CommonFrontendApi;
-
 namespace DefaultAstImpl.Asg;
 
 public record AsgNode<T>(
