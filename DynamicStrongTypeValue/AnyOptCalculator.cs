@@ -1,6 +1,4 @@
-using Doubles;
-
-namespace CommonDataStructures;
+namespace DynamicStrongTypeValue;
 
 public static class AnyOptCalculator
 {

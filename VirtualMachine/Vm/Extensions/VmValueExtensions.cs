@@ -1,5 +1,3 @@
-using VirtualMachine.Vm.Preparing;
-
 namespace VirtualMachine.Vm.Extensions;
 
 public static class VmValueExtensions

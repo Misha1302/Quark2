@@ -1,5 +1,5 @@
-﻿using CommonBytecode.Data.AnyValue;
-using StdDict = QuarkMap.QuarkMapImpl<CommonBytecode.Data.AnyValue.Any, CommonBytecode.Data.AnyValue.Any>;
+﻿using SharpAnyType;
+using StdDict = QuarkMap.QuarkMapImpl<SharpAnyType.Any, SharpAnyType.Any>;
 
 namespace QuarkMap;
 

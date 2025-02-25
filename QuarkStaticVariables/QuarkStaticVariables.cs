@@ -1,5 +1,5 @@
-﻿using CommonBytecode.Data.AnyValue;
-using QuarkMap;
+﻿using QuarkMap;
+using SharpAnyType;
 
 namespace QuarkStaticVariables;
 

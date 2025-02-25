@@ -1,4 +1,4 @@
-namespace CommonDataStructures;
+namespace DynamicStrongTypeValue;
 
 public static class AnyOptExtensions
 {

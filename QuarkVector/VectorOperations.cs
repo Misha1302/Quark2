@@ -1,8 +1,4 @@
-﻿using CommonBytecode.Data.AnyValue;
-using CommonDataStructures;
-using Doubles;
-
-namespace QuarkVector;
+﻿namespace QuarkVector;
 
 public static class VectorOperations
 {

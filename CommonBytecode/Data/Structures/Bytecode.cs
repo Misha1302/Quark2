@@ -1,7 +1,4 @@
-﻿using CommonBytecode.Enums;
-using ExceptionsManager;
-
-namespace CommonBytecode.Data.Structures;
+﻿namespace CommonBytecode.Data.Structures;
 
 public record Bytecode(List<BytecodeInstruction> Instructions)
 {

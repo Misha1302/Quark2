@@ -1,5 +1,3 @@
-using Doubles;
-
 namespace VirtualMachine.Vm.Execution;
 
 public static class SharpInteractor

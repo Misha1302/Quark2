@@ -1,4 +1,4 @@
-namespace CommonBytecode.Data.AnyValue;
+namespace SharpAnyType;
 
 public static class BytecodeValueTypeExtensions
 {

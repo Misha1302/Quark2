@@ -2,7 +2,7 @@
 
 global using System.Runtime.CompilerServices;
 global using System.Runtime.InteropServices;
-global using CommonBytecode.Data.AnyValue;
-global using CommonBytecode.Interfaces;
+global using Doubles;
 global using ExceptionsManager;
-global using static CommonBytecode.Data.AnyValue.BytecodeValueType;
+global using SharpAnyType;
+global using static SharpAnyType.BytecodeValueType;

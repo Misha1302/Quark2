@@ -1,5 +1,5 @@
-﻿using CommonBytecode.Data.AnyValue;
-using Doubles;
+﻿using Doubles;
+using SharpAnyType;
 
 namespace QuarkRandom;
 

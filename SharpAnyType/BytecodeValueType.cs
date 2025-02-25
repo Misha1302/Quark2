@@ -1,4 +1,4 @@
-namespace CommonBytecode.Data.AnyValue;
+namespace SharpAnyType;
 
 /// <summary>
 ///     because we provide the ability to have complex types (for example [Number | Str] or just [Any]),

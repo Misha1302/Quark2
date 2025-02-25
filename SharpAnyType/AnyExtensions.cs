@@ -1,9 +1,7 @@
 using System.Globalization;
-using System.Runtime.CompilerServices;
 using ConfigurationManager;
-using ExceptionsManager;
 
-namespace CommonBytecode.Data.AnyValue;
+namespace SharpAnyType;
 
 public static class AnyExtensions
 {

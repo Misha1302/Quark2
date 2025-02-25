@@ -1,6 +1,3 @@
-using System.Text.RegularExpressions;
-using CommonFrontendApi;
-
 namespace DefaultLexerImpl;
 
 public class Lexer(LexerConfiguration<QuarkLexemeType> configuration)

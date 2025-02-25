@@ -1,4 +1,4 @@
-namespace CommonDataStructures;
+namespace DynamicStrongTypeValue;
 
 public readonly struct AnyOpt : IAny
 {

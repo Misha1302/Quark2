@@ -9,7 +9,6 @@
     <ItemGroup>
         <ProjectReference Include="..\ConfigurationManager\ConfigurationManager.csproj"/>
         <ProjectReference Include="..\ExceptionsManager\ExceptionsManager.csproj"/>
-        <ProjectReference Include="..\SharpAnyType\SharpAnyType.csproj"/>
     </ItemGroup>
 
 </Project>

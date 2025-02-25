@@ -1,6 +1,6 @@
-﻿using CommonBytecode.Data.AnyValue;
-using CommonBytecode.Data.Structures;
+﻿using CommonBytecode.Data.Structures;
 using CommonBytecode.Enums;
+using SharpAnyType;
 
 namespace BytecodeGenerationSimplifier;
 

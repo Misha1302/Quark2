@@ -1,4 +1,4 @@
-namespace CommonBytecode.Interfaces;
+namespace SharpAnyType;
 
 public interface IAny
 {

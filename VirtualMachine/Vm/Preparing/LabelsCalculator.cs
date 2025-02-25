@@ -1,5 +1,3 @@
-using CommonBytecode.Data.Structures;
-
 namespace VirtualMachine.Vm.Preparing;
 
 public static class LabelsCalculator

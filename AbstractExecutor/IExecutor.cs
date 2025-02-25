@@ -1,6 +1,4 @@
-﻿using CommonBytecode.Data.AnyValue;
-
-namespace AbstractExecutor;
+﻿namespace AbstractExecutor;
 
 public interface IExecutor
 {

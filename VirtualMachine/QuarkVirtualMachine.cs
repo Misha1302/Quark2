@@ -1,6 +1,3 @@
-using VirtualMachine.Vm.Execution.Executors;
-using VirtualMachine.Vm.Preparing;
-
 namespace VirtualMachine;
 
 public class QuarkVirtualMachine : IExecutor

@@ -8,7 +8,7 @@
 
     <ItemGroup>
         <ProjectReference Include="..\CommonBytecode\CommonBytecode.csproj"/>
-        <ProjectReference Include="..\Doubles\Doubles.csproj" />
+        <ProjectReference Include="..\Doubles\Doubles.csproj"/>
     </ItemGroup>
 
 </Project>

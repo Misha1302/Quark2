@@ -1,4 +1,4 @@
-namespace CommonBytecode.Data.AnyValue;
+namespace SharpAnyType;
 
 /// <summary>
 ///     A structure for storing values of any type with their types specified.

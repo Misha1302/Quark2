@@ -1,5 +1,3 @@
-using System.Runtime.InteropServices;
-
 namespace QuarkVector;
 
 public class VectorImpl<T>
