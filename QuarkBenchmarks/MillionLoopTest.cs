@@ -14,9 +14,4 @@ public class MillionLoopTest() : QuarkTest(
     """
 )
 {
-    [Benchmark(Baseline = true)]
-    public double TranslatorTest() => MsilExecutor.RunModule().First().Get<double>();
-
-    [Benchmark]
-    public double InterpreterTest() => Interpreter.RunModule().First().Get<double>();
 }
