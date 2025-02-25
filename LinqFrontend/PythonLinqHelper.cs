@@ -1,9 +1,9 @@
 using System.Text;
-using DefaultLexerImpl.Lexer;
+using CommonFrontendApi;
 
 namespace LinqFrontend;
 
-public class PythonLinqHelper
+public static class PythonLinqHelper
 {
     public static string GetTextLinqPreliminaryFunctions(string executeName, string ansName) =>
         $"""
@@ -16,7 +16,7 @@ public class PythonLinqHelper
         $"{xName} = None\n" +
         $"{iName} = 0\n";
 
-    public static string CreateExpression(List<LexemeValue> lexemes, int index, StringBuilder sbTop)
+    public static string CreateExpression(List<LexemeValue<LinqLexemeType>> lexemes, int index, StringBuilder sbTop)
     {
         var expr = lexemes[index + 1].Text;
         if (!expr.Trim().StartsWith('{')) return expr;

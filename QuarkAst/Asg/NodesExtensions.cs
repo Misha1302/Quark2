@@ -16,7 +16,7 @@ public static class NodesExtensions
     private static readonly int _k = _primes6Digits[Random.Shared.Next(_primes6Digits.Length)];
     private static readonly Int128 _mod = _primes25Digits[Random.Shared.Next(_primes25Digits.Length)];
 
-    public static Int128 CalcHashCodeForNodes(this IReadOnlyList<AsgNode> nodes)
+    public static Int128 CalcHashCodeForNodes<T>(this IReadOnlyList<AsgNode<T>> nodes) where T : struct
     {
         var hashCode = (Int128)1;
         var pow = (Int128)1;
@@ -24,7 +24,8 @@ public static class NodesExtensions
         return hashCode;
     }
 
-    public static void CalcHashCodeForNodes(this IReadOnlyList<AsgNode> nodes, ref Int128 hashCode, ref Int128 pow)
+    public static void CalcHashCodeForNodes<T>(this IReadOnlyList<AsgNode<T>> nodes, ref Int128 hashCode,
+        ref Int128 pow) where T : struct
     {
         pow = Int128.Max(1, pow);
         foreach (var node in nodes)
@@ -36,6 +37,6 @@ public static class NodesExtensions
         }
     }
 
-    public static Int128 CalcHashCodeForNode(this AsgNode node) =>
+    public static Int128 CalcHashCodeForNode<T>(this AsgNode<T> node) where T : struct =>
         ((long)node.NodeType + 1) * (node.Children.Count + (long)AsgNodeType.MaxEnumValue + 1);
 }

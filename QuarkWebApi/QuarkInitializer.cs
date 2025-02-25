@@ -1,7 +1,9 @@
 using AbstractExecutor;
+using AsgToBytecodeTranslator;
 using CommonBytecode.Data.Structures;
+using CommonFrontendApi;
 using DefaultAstImpl.Asg;
-using DefaultLexerImpl.Lexer;
+using DefaultLexerImpl;
 using QuarkCFrontend;
 using VirtualMachine;
 
@@ -43,9 +45,9 @@ public class QuarkInitializer
     {
         var code2 = File.ReadAllText("Code/Main.lua");
 
-        var lexemes = new Lexer(LexerDefaultConfiguration.CreateDefault()).Lexemize(code2);
-        var asg = new AsgBuilder(AsgBuilderConfiguration.CreateDefault()).Build(lexemes);
-        var module = new AsgToBytecodeTranslator.AsgToBytecodeTranslator().Translate(asg);
+        var lexemes = new Lexer(QuarkLexerDefaultConfiguration.CreateDefault()).Lexemize(code2);
+        var asg = new AsgBuilder<QuarkLexemeType>(QuarkAsgBuilderConfiguration.CreateDefault()).Build(lexemes);
+        var module = new AsgToBytecodeTranslator<QuarkLexemeType>().Translate(asg);
         return module;
     }
 

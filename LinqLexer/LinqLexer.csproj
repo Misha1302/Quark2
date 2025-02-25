@@ -8,8 +8,6 @@
 
     <ItemGroup>
         <ProjectReference Include="..\CommonFrontendApi\CommonFrontendApi.csproj"/>
-        <ProjectReference Include="..\LinqLexer\LinqLexer.csproj"/>
-        <ProjectReference Include="..\ExceptionsManager\ExceptionsManager.csproj"/>
     </ItemGroup>
 
 </Project>

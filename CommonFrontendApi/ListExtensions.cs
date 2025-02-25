@@ -1,4 +1,4 @@
-namespace DefaultLexerImpl.Lexer;
+namespace CommonFrontendApi;
 
 public static class ListExtensions
 {

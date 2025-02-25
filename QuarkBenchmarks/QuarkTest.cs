@@ -1,8 +1,9 @@
 using AbstractExecutor;
+using AsgToBytecodeTranslator;
 using BenchmarkDotNet.Attributes;
-using CommonBytecode.Data.Structures;
+using CommonFrontendApi;
 using DefaultAstImpl.Asg;
-using DefaultLexerImpl.Lexer;
+using DefaultLexerImpl;
 using QuarkCFrontend;
 using VirtualMachine;
 
@@ -13,18 +14,17 @@ namespace QuarkBenchmarks;
 public abstract class QuarkTest(string code)
 {
     protected QuarkVirtualMachine Interpreter = null!;
-    protected BytecodeModule Module = null!;
     protected ToMsilTranslator.ToMsilTranslator MsilExecutor = null!;
 
     [GlobalSetup]
     public void Setup()
     {
-        var lexemes = new Lexer(LexerDefaultConfiguration.CreateDefault()).Lexemize(code);
-        var asg = new AsgBuilder(AsgBuilderConfiguration.CreateDefault()).Build(lexemes);
-        Module = new AsgToBytecodeTranslator.AsgToBytecodeTranslator().Translate(asg);
+        var lexemes = new Lexer(QuarkLexerDefaultConfiguration.CreateDefault()).Lexemize(code);
+        var asg = new AsgBuilder<QuarkLexemeType>(QuarkAsgBuilderConfiguration.CreateDefault()).Build(lexemes);
+        var module = new AsgToBytecodeTranslator<QuarkLexemeType>().Translate(asg);
         MsilExecutor = new ToMsilTranslator.ToMsilTranslator();
-        MsilExecutor.Init(new ExecutorConfiguration(Module));
+        MsilExecutor.Init(new ExecutorConfiguration(module));
         Interpreter = new QuarkVirtualMachine();
-        Interpreter.Init(new ExecutorConfiguration(Module));
+        Interpreter.Init(new ExecutorConfiguration(module));
     }
 }

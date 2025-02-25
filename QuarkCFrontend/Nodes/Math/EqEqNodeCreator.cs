@@ -1,6 +1,6 @@
+using CommonFrontendApi;
 using DefaultAstImpl.Asg;
-using DefaultLexerImpl.Lexer;
 
 namespace QuarkCFrontend.Nodes.Math;
 
-public class EqEqNodeCreator() : BinaryOperationNodeCreatorBase(AsgNodeType.Equal, LexemeType.EqEq);
+public class EqEqNodeCreator() : BinaryOperationNodeCreatorBase(AsgNodeType.Equal, QuarkLexemeType.EqEq);

@@ -1,11 +1,16 @@
-using DefaultLexerImpl.Lexer;
+using CommonFrontendApi;
 
 namespace DefaultAstImpl.Asg;
 
-public record AsgNode(AsgNodeType NodeType, LexemeValue LexemeValue, List<AsgNode> Children, int BaseLineNumber = -1)
+public record AsgNode<T>(
+    AsgNodeType NodeType,
+    LexemeValue<T> LexemeValue,
+    List<AsgNode<T>> Children,
+    int BaseLineNumber = -1)
+    where T : struct
 {
     // ReSharper disable once ConditionalAccessQualifierIsNonNullableAccordingToAPIContract
-    public LexemeType? LexemeType => LexemeValue?.LexemePattern.LexemeType;
+    public T? LexemeType => LexemeValue?.LexemePattern.LexemeType;
     public AsgNodeType NodeType { get; set; } = NodeType;
     public string Text => LexemeValue.Text;
 

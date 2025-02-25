@@ -1,14 +1,15 @@
+using CommonFrontendApi;
 using DefaultAstImpl.Asg;
 using DefaultAstImpl.Asg.Interfaces;
-using static DefaultLexerImpl.Lexer.LexemeType;
+using static CommonFrontendApi.QuarkLexemeType;
 
 namespace QuarkCFrontend.Nodes;
 
-public class FunctionCreationNodeCreator : INodeCreator
+public class FunctionCreationNodeCreator : INodeCreator<QuarkLexemeType>
 {
     public AsgNodeType NodeType => AsgNodeType.FunctionCreating;
 
-    public int TryBuildImpl(List<AsgNode> nodes, int i)
+    public int TryBuildImpl(List<AsgNode<QuarkLexemeType>> nodes, int i)
     {
         if (i + 3 >= nodes.Count) return 0;
 

@@ -1,9 +1,9 @@
 using System.Text;
-using DefaultLexerImpl.Lexer;
+using CommonFrontendApi;
 
 namespace LinqFrontend;
 
-public class PythonLinqCreator(string ansName, List<LexemeValue> lexemes)
+public class PythonLinqCreator(string ansName, List<LexemeValue<LinqLexemeType>> lexemes)
 {
     private readonly StringBuilder _offset = new();
     private readonly StringBuilder _sbBottom = new();
@@ -18,7 +18,7 @@ public class PythonLinqCreator(string ansName, List<LexemeValue> lexemes)
     {
         var identifiersToSetGlobal = (List<string>) [];
 
-        for (var i = index; lexemes[i].LexemePattern.LexemeType != LexemeType.End; i++)
+        for (var i = index; lexemes[i].LexemePattern.LexemeType != LinqLexemeType.End; i++)
             identifiersToSetGlobal.AddRange(lexemes[i].Text.Split('(', ')', '[', ']', ' ', '\t'));
 
         identifiersToSetGlobal = identifiersToSetGlobal

@@ -1,4 +1,4 @@
-using DefaultLexerImpl.Lexer;
+using CommonFrontendApi;
 using ExceptionsManager;
 
 namespace LinqFrontend;
@@ -8,7 +8,7 @@ public class AsgToTextTranslator
     private readonly string _ansName = PythonLinqHelper.CreateUniqueName();
     private readonly string _executeName = PythonLinqHelper.CreateUniqueName();
 
-    public string Translate(List<LexemeValue> lexemes, bool intoOneLine = false)
+    public string Translate(List<LexemeValue<LinqLexemeType>> lexemes, bool intoOneLine = false)
     {
         var output = "";
 
@@ -17,7 +17,7 @@ public class AsgToTextTranslator
         for (var index = 0; index < lexemes.Count; index++)
         {
             var lexeme = lexemes[index];
-            if (lexeme.LexemePattern.LexemeType == LexemeType.Use)
+            if (lexeme.LexemePattern.LexemeType == LinqLexemeType.Use)
             {
                 var linqCode = MakeLinq(lexemes, ref index);
                 output += intoOneLine ? linqCode.Replace("\n", "\\n") : linqCode;
@@ -32,7 +32,7 @@ public class AsgToTextTranslator
     }
 
 
-    private string MakeLinq(List<LexemeValue> lexemes, ref int index)
+    private string MakeLinq(List<LexemeValue<LinqLexemeType>> lexemes, ref int index)
     {
         var linqCreator = new PythonLinqCreator(_ansName, lexemes);
 
@@ -45,33 +45,33 @@ public class AsgToTextTranslator
             var lexeme = lexemes[index];
             var type = lexeme.LexemePattern.LexemeType;
 
-            if (type == LexemeType.Use)
+            if (type == LinqLexemeType.Use)
                 linqCreator.Use(ref index);
-            else if (type == LexemeType.Over)
+            else if (type == LinqLexemeType.Over)
                 linqCreator.Over(ref index);
-            else if (type == LexemeType.Select)
+            else if (type == LinqLexemeType.Select)
                 linqCreator.Select(ref index);
-            else if (type == LexemeType.Where)
+            else if (type == LinqLexemeType.Where)
                 linqCreator.Where(ref index);
-            else if (type == LexemeType.All)
+            else if (type == LinqLexemeType.All)
                 linqCreator.All(ref index);
-            else if (type is LexemeType.Count)
+            else if (type is LinqLexemeType.Count)
                 linqCreator.Count(ref index);
-            else if (type is LexemeType.Sum)
+            else if (type is LinqLexemeType.Sum)
                 linqCreator.Sum(ref index);
-            else if (type is LexemeType.Mul)
+            else if (type is LinqLexemeType.Mul)
                 linqCreator.Mul(ref index);
-            else if (type == LexemeType.Skip)
+            else if (type == LinqLexemeType.Skip)
                 linqCreator.Skip(ref index);
-            else if (type == LexemeType.First)
+            else if (type == LinqLexemeType.First)
                 linqCreator.First(ref index);
-            else if (type == LexemeType.Sort)
+            else if (type == LinqLexemeType.Sort)
                 linqCreator.Sort(ref index);
-            else if (type == LexemeType.Reverse)
+            else if (type == LinqLexemeType.Reverse)
                 linqCreator.Reverse(ref index);
-            else if (type == LexemeType.Last)
+            else if (type == LinqLexemeType.Last)
                 linqCreator.Last(ref index);
-            else if (type == LexemeType.End)
+            else if (type == LinqLexemeType.End)
                 break;
             else Throw.NotImplementedException($"This ({type}) operation was not implemented.");
 

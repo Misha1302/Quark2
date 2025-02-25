@@ -1,6 +1,7 @@
-namespace DefaultLexerImpl.Lexer;
+namespace CommonFrontendApi;
 
-public enum LexemeType : long
+// TODO: convert into extendable abstract class
+public enum QuarkLexemeType : long
 {
     Identifier,
     LeftPar,
@@ -40,21 +41,4 @@ public enum LexemeType : long
     Comment,
     Def,
     WhiteSpace,
-    Use,
-    Over,
-    All,
-    Any,
-    Average,
-    Count,
-    First,
-    Where,
-    Last,
-    Skip,
-    Select,
-    SomeUnknownText,
-    End,
-    Sum,
-    Mul,
-    Sort,
-    Reverse,
 }

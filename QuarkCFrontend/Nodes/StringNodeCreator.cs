@@ -1,6 +1,6 @@
+using CommonFrontendApi;
 using DefaultAstImpl.Asg;
-using DefaultLexerImpl.Lexer;
 
 namespace QuarkCFrontend.Nodes;
 
-public class StringNodeCreator() : ConstantNodeCreatorBase(LexemeType.Number, AsgNodeType.Number);
+public class StringNodeCreator() : ConstantNodeCreatorBase(QuarkLexemeType.Number, AsgNodeType.Number);

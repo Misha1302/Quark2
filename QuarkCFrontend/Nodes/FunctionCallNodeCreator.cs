@@ -1,20 +1,20 @@
+using CommonFrontendApi;
 using DefaultAstImpl.Asg;
 using DefaultAstImpl.Asg.Interfaces;
-using DefaultLexerImpl.Lexer;
 
 namespace QuarkCFrontend.Nodes;
 
-public class FunctionCallNodeCreator : INodeCreator
+public class FunctionCallNodeCreator : INodeCreator<QuarkLexemeType>
 {
     public AsgNodeType NodeType => AsgNodeType.FunctionCall;
 
-    public int TryBuildImpl(List<AsgNode> nodes, int i)
+    public int TryBuildImpl(List<AsgNode<QuarkLexemeType>> nodes, int i)
     {
         if (i + 1 >= nodes.Count) return 0;
 
-        var a = nodes[i].LexemeType == LexemeType.Identifier;
+        var a = nodes[i].LexemeType == QuarkLexemeType.Identifier;
         var b = nodes[i + 1].NodeType == AsgNodeType.Scope;
-        var c = !(i >= 1 && IsInTheSameLine(nodes[i - 1], nodes[i]) && nodes[i - 1].LexemeType == LexemeType.Def);
+        var c = !(i >= 1 && IsInTheSameLine(nodes[i - 1], nodes[i]) && nodes[i - 1].LexemeType == QuarkLexemeType.Def);
 
         if (!a || !b || !c) return 0;
 
@@ -28,5 +28,6 @@ public class FunctionCallNodeCreator : INodeCreator
     }
 
 
-    private bool IsInTheSameLine(AsgNode a, AsgNode b) => a.LineNumber == b.LineNumber;
+    private bool IsInTheSameLine(AsgNode<QuarkLexemeType> a, AsgNode<QuarkLexemeType> b) =>
+        a.LineNumber == b.LineNumber;
 }

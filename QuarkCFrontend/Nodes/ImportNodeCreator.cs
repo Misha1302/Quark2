@@ -1,16 +1,16 @@
+using CommonFrontendApi;
 using DefaultAstImpl.Asg;
 using DefaultAstImpl.Asg.Interfaces;
-using DefaultLexerImpl.Lexer;
 
 namespace QuarkCFrontend.Nodes;
 
-public class ImportNodeCreator : INodeCreator
+public class ImportNodeCreator : INodeCreator<QuarkLexemeType>
 {
     public AsgNodeType NodeType => AsgNodeType.Import;
 
-    public int TryBuildImpl(List<AsgNode> nodes, int i)
+    public int TryBuildImpl(List<AsgNode<QuarkLexemeType>> nodes, int i)
     {
-        if (nodes[i].LexemeType != LexemeType.Import) return 0;
+        if (nodes[i].LexemeType != QuarkLexemeType.Import) return 0;
 
         nodes[i].Children.Add(nodes[i + 1]);
         nodes[i].NodeType = AsgNodeType.Import;

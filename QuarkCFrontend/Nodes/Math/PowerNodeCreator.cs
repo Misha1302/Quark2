@@ -1,7 +1,7 @@
+using CommonFrontendApi;
 using DefaultAstImpl.Asg;
-using DefaultLexerImpl.Lexer;
 
 namespace QuarkCFrontend.Nodes.Math;
 
 public class PowerNodeCreator()
-    : BinaryOperationNodeCreatorBase(AsgNodeType.Power, LexemeType.Power);
+    : BinaryOperationNodeCreatorBase(AsgNodeType.Power, QuarkLexemeType.Power);

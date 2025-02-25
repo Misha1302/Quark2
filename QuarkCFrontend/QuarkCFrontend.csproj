@@ -7,8 +7,8 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\DefaultAstImpl\DefaultAstImpl.csproj"/>
-        <ProjectReference Include="..\DefaultLexerImpl\DefaultLexerImpl.csproj"/>
+        <ProjectReference Include="..\QuarkAst\QuarkAst.csproj"/>
+        <ProjectReference Include="..\QuarkLexer\QuarkLexer.csproj"/>
         <ProjectReference Include="..\ExceptionsManager\ExceptionsManager.csproj"/>
     </ItemGroup>
 

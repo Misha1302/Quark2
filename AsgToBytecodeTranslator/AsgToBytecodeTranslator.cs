@@ -9,7 +9,7 @@ using SharpLibrariesImporter;
 
 namespace AsgToBytecodeTranslator;
 
-public class AsgToBytecodeTranslator
+public class AsgToBytecodeTranslator<T> where T : struct
 {
     private readonly Stack<FunctionData> _functionsStack = new();
     private readonly ImportsManager _importsManager = new();
@@ -18,7 +18,7 @@ public class AsgToBytecodeTranslator
     private BytecodeFunction CurFunction => _functionsStack.Peek().BytecodeFunction;
     private List<BytecodeInstruction> CurBytecode => CurFunction.Code.Instructions;
 
-    public BytecodeModule Translate(AsgNode root)
+    public BytecodeModule Translate(AsgNode<T> root)
     {
         var getter = new PrecompileDataGetter();
         _functions = getter.GetFunctions(root);
@@ -27,7 +27,7 @@ public class AsgToBytecodeTranslator
     }
 
     // split to classes
-    private void Visit(AsgNode node)
+    private void Visit(AsgNode<T> node)
     {
         switch (node.NodeType)
         {
@@ -180,7 +180,7 @@ public class AsgToBytecodeTranslator
         CurBytecode.AddRange(SimpleBytecodeGenerator.DefineLocals(variables.Select(x => (x.Name, x.Type)).ToArray()));
     }
 
-    private void Operation(AsgNode node, MathLogicOp mathLogicOp)
+    private void Operation(AsgNode<T> node, MathLogicOp mathLogicOp)
     {
         Visit(node.Children);
         CurBytecode.Add(new BytecodeInstruction(InstructionType.MathOrLogicOp, [mathLogicOp.ToAny()]));
@@ -188,7 +188,7 @@ public class AsgToBytecodeTranslator
 
     private static string GetString(string text) => text[1..^1];
 
-    private void Visit(List<AsgNode> nodeChildren)
+    private void Visit(List<AsgNode<T>> nodeChildren)
     {
         foreach (var node in nodeChildren)
             Visit(node);

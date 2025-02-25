@@ -1,6 +1,7 @@
+using CommonFrontendApi;
 using DefaultAstImpl.Asg;
-using DefaultLexerImpl.Lexer;
 
 namespace QuarkCFrontend.Nodes.Math;
 
-public class SubtractionNodeCreator() : BinaryOperationNodeCreatorBase(AsgNodeType.Subtraction, LexemeType.Subtraction);
+public class SubtractionNodeCreator()
+    : BinaryOperationNodeCreatorBase(AsgNodeType.Subtraction, QuarkLexemeType.Subtraction);

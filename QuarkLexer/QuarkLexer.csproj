@@ -4,10 +4,11 @@
         <TargetFramework>net8.0</TargetFramework>
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
+        <RootNamespace>DefaultLexerImpl</RootNamespace>
     </PropertyGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\DefaultLexerImpl\DefaultLexerImpl.csproj"/>
+        <ProjectReference Include="..\CommonFrontendApi\CommonFrontendApi.csproj"/>
     </ItemGroup>
 
 </Project>

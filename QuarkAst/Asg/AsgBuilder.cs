@@ -1,15 +1,16 @@
+using CommonFrontendApi;
 using DefaultAstImpl.Asg.Interfaces;
-using DefaultLexerImpl.Lexer;
 
 namespace DefaultAstImpl.Asg;
 
-public class AsgBuilder(List<List<INodeCreator>> creatorLevels)
+// TODO: add interfaces
+public class AsgBuilder<T>(List<List<INodeCreator<T>>> creatorLevels) where T : struct
 {
-    public AsgNode Build(List<LexemeValue> lexemes)
+    public AsgNode<T> Build(List<LexemeValue<T>> lexemes)
     {
-        var nodes = lexemes.Select(x => new AsgNode(AsgNodeType.Unknown, x, [])).ToList();
+        var nodes = lexemes.Select(x => new AsgNode<T>(AsgNodeType.Unknown, x, [])).ToList();
 
-        var root = new AsgNode(AsgNodeType.Scope, null!, nodes);
+        var root = new AsgNode<T>(AsgNodeType.Scope, null!, nodes);
 
 
         foreach (var level in creatorLevels)
@@ -27,7 +28,7 @@ public class AsgBuilder(List<List<INodeCreator>> creatorLevels)
         return root;
     }
 
-    private void Dfs(List<AsgNode> nodes, IReadOnlyList<INodeCreator> curCreators)
+    private void Dfs(List<AsgNode<T>> nodes, IReadOnlyList<INodeCreator<T>> curCreators)
     {
         for (var i = 0; i < nodes.Count; i++)
         {
@@ -38,7 +39,7 @@ public class AsgBuilder(List<List<INodeCreator>> creatorLevels)
             // ReSharper disable once ForeachCanBePartlyConvertedToQueryUsingAnotherGetEnumerator
             foreach (var creator in curCreators)
                 if (i < nodes.Count)
-                    i += creator.TryBuild(nodes, i, this);
+                    i += creator.TryBuild(nodes, i);
         }
     }
 }

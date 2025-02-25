@@ -1,4 +1,4 @@
-// using DefaultAstImpl.Asg.Interfaces;
+// using QuarkAst.Asg.Interfaces;
 //
 // namespace LinqFrontend;
 //

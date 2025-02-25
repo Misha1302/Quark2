@@ -1,11 +1,11 @@
-namespace DefaultLexerImpl.Lexer;
+namespace CommonFrontendApi;
 
-public record LexemeValue(string Text, LexemePattern LexemePattern, int StartIndex)
+public record LexemeValue<T>(string Text, LexemePattern<T> LexemePattern, int StartIndex)
 {
     private readonly Lazy<int>? _lineNumber;
     public string Text = Text;
 
-    public LexemeValue(string text, LexemePattern lexemePattern, int startIndex, string code)
+    public LexemeValue(string text, LexemePattern<T> lexemePattern, int startIndex, string code)
         : this(text, lexemePattern, startIndex)
     {
         _lineNumber = new Lazy<int>(() => CalcLineNumber(code, StartIndex));

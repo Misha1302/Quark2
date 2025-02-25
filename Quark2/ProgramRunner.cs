@@ -1,7 +1,9 @@
 using AbstractExecutor;
+using AsgToBytecodeTranslator;
 using CommonBytecode.Data.Structures;
+using CommonFrontendApi;
 using DefaultAstImpl.Asg;
-using DefaultLexerImpl.Lexer;
+using DefaultLexerImpl;
 using QuarkCFrontend;
 using VirtualMachine;
 
@@ -22,11 +24,12 @@ public class ProgramRunner
 
             var quarkStatistics = new QuarkStatistics();
             var lexemes =
-                quarkStatistics.Measure(() => new Lexer(LexerDefaultConfiguration.CreateDefault()).Lexemize(code2));
+                quarkStatistics.Measure(() =>
+                    new Lexer(QuarkLexerDefaultConfiguration.CreateDefault()).Lexemize(code2));
             var asg = quarkStatistics.Measure(() =>
-                new AsgBuilder(AsgBuilderConfiguration.CreateDefault()).Build(lexemes));
+                new AsgBuilder<QuarkLexemeType>(QuarkAsgBuilderConfiguration.CreateDefault()).Build(lexemes));
             var module =
-                quarkStatistics.Measure(() => new AsgToBytecodeTranslator.AsgToBytecodeTranslator().Translate(asg));
+                quarkStatistics.Measure(() => new AsgToBytecodeTranslator<QuarkLexemeType>().Translate(asg));
             var executor = CreateExecutor(runType, module);
             var results = quarkStatistics.Measure(() => executor.RunModule());
 

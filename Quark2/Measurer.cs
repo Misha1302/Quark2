@@ -1,6 +1,8 @@
 using AbstractExecutor;
+using AsgToBytecodeTranslator;
+using CommonFrontendApi;
 using DefaultAstImpl.Asg;
-using DefaultLexerImpl.Lexer;
+using DefaultLexerImpl;
 using QuarkCFrontend;
 using VirtualMachine;
 
@@ -52,11 +54,11 @@ public class Measurer
         {
             var quarkStatistics = new QuarkStatistics();
             var lexemes =
-                quarkStatistics.Measure(() => new Lexer(LexerDefaultConfiguration.CreateDefault()).Lexemize(code));
+                quarkStatistics.Measure(() => new Lexer(QuarkLexerDefaultConfiguration.CreateDefault()).Lexemize(code));
             var asg = quarkStatistics.Measure(() =>
-                new AsgBuilder(AsgBuilderConfiguration.CreateDefault()).Build(lexemes));
+                new AsgBuilder<QuarkLexemeType>(QuarkAsgBuilderConfiguration.CreateDefault()).Build(lexemes));
             var module =
-                quarkStatistics.Measure(() => new AsgToBytecodeTranslator.AsgToBytecodeTranslator().Translate(asg));
+                quarkStatistics.Measure(() => new AsgToBytecodeTranslator<QuarkLexemeType>().Translate(asg));
             var executor = executorMaker();
             executor.Init(new ExecutorConfiguration(module));
 
@@ -65,7 +67,8 @@ public class Measurer
             quarkStatistics.Measure(() => executor.RunModule());
             Console.SetOut(stdOut);
 
-            executionTimes.Add(quarkStatistics.Times[^1].Item1);
+            if (i != 0)
+                executionTimes.Add(quarkStatistics.Times[^1].Item1);
         }
 
         return executionTimes;

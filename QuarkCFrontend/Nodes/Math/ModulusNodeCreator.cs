@@ -1,6 +1,6 @@
+using CommonFrontendApi;
 using DefaultAstImpl.Asg;
-using DefaultLexerImpl.Lexer;
 
 namespace QuarkCFrontend.Nodes.Math;
 
-public class ModulusNodeCreator() : BinaryOperationNodeCreatorBase(AsgNodeType.Modulus, LexemeType.Modulus);
+public class ModulusNodeCreator() : BinaryOperationNodeCreatorBase(AsgNodeType.Modulus, QuarkLexemeType.Modulus);

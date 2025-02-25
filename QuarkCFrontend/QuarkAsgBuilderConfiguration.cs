@@ -1,12 +1,13 @@
+using CommonFrontendApi;
 using DefaultAstImpl.Asg.Interfaces;
 using QuarkCFrontend.Nodes;
 using QuarkCFrontend.Nodes.Math;
 
 namespace QuarkCFrontend;
 
-public static class AsgBuilderConfiguration
+public static class QuarkAsgBuilderConfiguration
 {
-    public static List<List<INodeCreator>> CreateDefault() =>
+    public static List<List<INodeCreator<QuarkLexemeType>>> CreateDefault() =>
     [
         [
             new CommentNodeCreator(),

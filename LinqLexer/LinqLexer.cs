@@ -1,15 +1,14 @@
 using System.Text.RegularExpressions;
-using DefaultLexerImpl;
-using DefaultLexerImpl.Lexer;
+using CommonFrontendApi;
 
 namespace LinqFrontend;
 
-public class LinqLexer(LexerConfiguration configuration)
+public class LinqLexer(LexerConfiguration<LinqLexemeType> configuration)
 {
     // Method that performs lexical analysis on the input code and returns a list of tokens.
-    public List<LexemeValue> Lexemize(string code)
+    public List<LexemeValue<LinqLexemeType>> Lexemize(string code)
     {
-        var lexemes = (List<LexemeValue>) [];
+        var lexemes = (List<LexemeValue<LinqLexemeType>>) [];
 
         var ind = 0;
         while (ind < code.Length)
@@ -20,14 +19,15 @@ public class LinqLexer(LexerConfiguration configuration)
 
             if (curStr == default)
             {
-                if (lexemes.Count == 0 || lexemes[^1].LexemePattern.LexemeType != LexemeType.SomeUnknownText)
-                    lexemes.Add(new LexemeValue("", new LexemePattern("", LexemeType.SomeUnknownText), ind));
+                if (lexemes.Count == 0 || lexemes[^1].LexemePattern.LexemeType != LinqLexemeType.SomeUnknownText)
+                    lexemes.Add(new LexemeValue<LinqLexemeType>("",
+                        new LexemePattern<LinqLexemeType>("", LinqLexemeType.SomeUnknownText), ind));
                 lexemes[^1].Text += code[ind];
                 ind++;
             }
             else
             {
-                lexemes.Add(new LexemeValue(curStr.match.Value, curStr.x, ind));
+                lexemes.Add(new LexemeValue<LinqLexemeType>(curStr.match.Value, curStr.x, ind));
                 ind += curStr.match.Length;
             }
         }
