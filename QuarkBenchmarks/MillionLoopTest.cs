@@ -1,5 +1,6 @@
 namespace QuarkBenchmarks;
 
+// ReSharper disable once ClassNeverInstantiated.Global
 public class MillionLoopTest() : QuarkTest(
     """
     import "../../../../../../../../Libraries"
@@ -12,6 +13,4 @@ public class MillionLoopTest() : QuarkTest(
         return sum
     }
     """
-)
-{
-}
+);

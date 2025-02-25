@@ -1,5 +1,6 @@
 namespace QuarkBenchmarks;
 
+// ReSharper disable once ClassNeverInstantiated.Global
 public class RecFactorialTest() : QuarkTest(
     """
     import "../../../../../../../../Libraries"
@@ -13,6 +14,4 @@ public class RecFactorialTest() : QuarkTest(
         return Fact(i - 1) * i
     }
     """
-)
-{
-}
+);

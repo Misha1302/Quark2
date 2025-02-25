@@ -1,5 +1,6 @@
 namespace QuarkBenchmarks;
 
+// ReSharper disable once ClassNeverInstantiated.Global
 public class DfsTest() : QuarkTest(
     """
     import "../../../../../../../../Libraries"
