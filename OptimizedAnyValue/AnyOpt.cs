@@ -19,12 +19,6 @@ public readonly struct AnyOpt : IAny
         Type = type;
     }
 
-    public AnyOpt(double value, AnyValueType type)
-    {
-        _value = Unsafe.As<double, long>(ref value);
-        Type = type;
-    }
-
     public static readonly AnyOpt NilValue = new(0, Nil);
 
     /// <summary>
@@ -40,10 +34,10 @@ public readonly struct AnyOpt : IAny
             return new AnyOpt((int)(object)value, type);
 
         if (typeof(T).IsEnum)
-            Throw.AssertDebug(Marshal.SizeOf(Enum.GetUnderlyingType(typeof(T))) == 8);
+            Throw.AssertAlways(Marshal.SizeOf(Enum.GetUnderlyingType(typeof(T))) == 8);
 
         else if (Marshal.SizeOf<T>() != 8)
-            Throw.InvalidOpEx();
+            Throw.InvalidOpEx($"Size of T ({typeof(T)}) must be 8 bytes");
 
         return new AnyOpt(Unsafe.BitCast<T, long>(value), type);
     }
@@ -55,7 +49,7 @@ public readonly struct AnyOpt : IAny
     /// <param name="type">VmValueType value describing type of value</param>
     /// <typeparam name="T">TranslatorValue reference type of value</typeparam>
     /// <returns>New Vmvalue instance</returns>
-    public static AnyOpt CreateRef<T>(T value, AnyValueType type) where T : class => new(value, type);
+    public static AnyOpt CreateRef<T>(T value, AnyValueType type) => new(value!, type);
 
     /// <summary>
     ///     Unsafe get TranslatorValue 8-byte unmanaged type value

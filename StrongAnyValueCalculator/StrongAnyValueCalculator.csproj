@@ -7,8 +7,7 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\Doubles\Doubles.csproj"/>
-        <ProjectReference Include="..\SharpAnyType\SharpAnyType.csproj"/>
+        <ProjectReference Include="..\OptimizedAnyValue\OptimizedAnyValue.csproj"/>
     </ItemGroup>
 
 </Project>

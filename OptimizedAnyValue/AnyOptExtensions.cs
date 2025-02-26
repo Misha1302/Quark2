@@ -11,8 +11,8 @@ public static class AnyOptExtensions
             Str => value.GetRef<string>(),
             SomeSharpObject => value.GetRef<object>(),
             NativeI64 => value.Get<long>(),
-            AnyValueType.Any => value.Get<long>(),
-            _ => Throw.InvalidOpEx<string>(),
+            AnyValueType.Any => Throw.InvalidOpEx<object>("Cannot convert value of type Any to sharp object"),
+            _ => Throw.InvalidOpEx<object>($"Unknown Any type ({value.Type})"),
         };
     }
 

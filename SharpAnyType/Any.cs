@@ -25,7 +25,7 @@ public readonly struct Any : IEquatable<Any>
     /// </summary>
     /// <param name="value">The object representation of the value.</param>
     /// <param name="type">The type of the value.</param>
-    public Any(object value, AnyValueType type = AnyValueType.Any)
+    public Any(object value, AnyValueType type)
     {
         Value = value;
         Type = type;

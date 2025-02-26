@@ -2,10 +2,13 @@
 
 public static class Throw
 {
+    [DoesNotReturn]
     public static void InvalidOpEx(string message = "") => throw new InvalidOperationException(message);
 
+    [DoesNotReturn]
     public static void AssertationFail(string errorMessage = "") => InvalidOpEx($"Assertion failed: {errorMessage}");
 
+    [DoesNotReturn]
     public static T InvalidOpEx<T>(string message = "") => throw new InvalidOperationException(message);
 
     [Conditional("DEBUG")]
