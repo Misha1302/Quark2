@@ -33,10 +33,7 @@ public readonly struct AnyOpt : IAny
         if (typeof(T) == typeof(int))
             return new AnyOpt((int)(object)value, type);
 
-        if (typeof(T).IsEnum)
-            Throw.AssertAlways(Marshal.SizeOf(Enum.GetUnderlyingType(typeof(T))) == 8);
-
-        else if (Marshal.SizeOf<T>() != 8)
+        if (Marshal.SizeOf<T>() != 8)
             Throw.InvalidOpEx($"Size of T ({typeof(T)}) must be 8 bytes");
 
         return new AnyOpt(Unsafe.BitCast<T, long>(value), type);
@@ -67,7 +64,7 @@ public readonly struct AnyOpt : IAny
 
     public override string ToString() =>
         Type.IsRefType()
-            ? _ref.ToAny().AnyToString(Type)
+            ? _ref.ObjectToAny().AnyToString(Type)
             : _value.UnsafeI64ToString(Type);
 
     /// <summary>
@@ -84,4 +81,7 @@ public readonly struct AnyOpt : IAny
 
     public object GetObjectValue() => this.GetValueInSharpType();
     public AnyValueType GetAnyType() => Type;
+
+    // ReSharper disable once RedundantCast
+    public Any ToAny() => ((IAny)this).ToAny();
 }

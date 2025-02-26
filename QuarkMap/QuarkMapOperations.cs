@@ -11,7 +11,7 @@ public static class QuarkMapOperations
 
     public static void RemoveMapValue(Any dict, Any key) => dict.Get<StdDict>().Remove(key);
 
-    public static Any MapContains(Any dict, Any key) => dict.Get<StdDict>().HasKey(key).ToAny();
+    public static Any MapContains(Any dict, Any key) => dict.Get<StdDict>().HasKey(key).ObjectToAny();
 
     public static Any CreateMap() => new(new StdDict(), AnyValueType.SomeSharpObject);
 }
