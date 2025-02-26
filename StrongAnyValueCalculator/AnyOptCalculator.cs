@@ -120,7 +120,7 @@ public static class AnyOptCalculator
         if (a.Type.HasFlagFast(Number))
             return AnyOpt.Create(a.IsTrue() ? 0.0 : 1.0, Number);
         if (a.Type.IsRefType())
-            return AnyOpt.CreateRef(!(dynamic)a.GetRef<object>(), Number);
+            return AnyOpt.CreateRef(!(dynamic)a.GetRef<object>(), SomeSharpObject);
 
         return Throw.InvalidOpEx<AnyOpt>("Cannot perform operation");
     }
@@ -136,7 +136,7 @@ public static class AnyOptCalculator
         if (a.Type.HasFlagFast(Str))
             return AnyOpt.Create(a.GetRef<string>() == b.GetRef<string>() ? 1.0 : 0.0, Number);
         if (a.Type.IsRefType())
-            return AnyOpt.CreateRef((dynamic)a.GetRef<object>() == (dynamic)b.GetRef<object>(), SomeSharpObject);
+            return AnyOpt.Create((dynamic)a.GetRef<object>() == (dynamic)b.GetRef<object>() ? 1.0 : 0.0, Number);
 
         return Throw.InvalidOpEx<AnyOpt>("Cannot perform operation");
     }
@@ -151,7 +151,7 @@ public static class AnyOptCalculator
         if (a.Type.HasFlagFast(Number))
             return AnyOpt.Create(a.Get<double>() < b.Get<double>() ? 1.0 : 0.0, Number);
         if (a.Type.IsRefType())
-            return AnyOpt.CreateRef((dynamic)a.GetRef<object>() < (dynamic)b.GetRef<object>(), SomeSharpObject);
+            return AnyOpt.Create((dynamic)a.GetRef<object>() < (dynamic)b.GetRef<object>() ? 1.0 : 0.0, Number);
 
         return Throw.InvalidOpEx<AnyOpt>("Cannot perform operation");
     }
@@ -163,7 +163,7 @@ public static class AnyOptCalculator
         if (a.Type.HasFlagFast(Number))
             return AnyOpt.Create(a.Get<double>() > b.Get<double>() ? 1.0 : 0.0, Number);
         if (a.Type.IsRefType())
-            return AnyOpt.CreateRef((dynamic)a.GetRef<object>() > (dynamic)b.GetRef<object>(), SomeSharpObject);
+            return AnyOpt.Create((dynamic)a.GetRef<object>() > (dynamic)b.GetRef<object>() ? 1.0 : 0.0, Number);
 
         return Throw.InvalidOpEx<AnyOpt>("Cannot perform operation");
     }

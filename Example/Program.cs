@@ -1,18 +1,4 @@
-﻿// using System.Numerics;
-// using DynamicStrongTypeValue;
-// using SharpAnyType;
-// using StrongAnyValueCalculator;
-//
-// var a = new Complex(2, 4);
-// var b = new Complex(4, 5);
-// Console.WriteLine(
-//     AnyOptCalculator.Sum(
-//         AnyOpt.CreateRef(a, AnyValueType.SomeSharpObject),
-//         AnyOpt.CreateRef(b, AnyValueType.SomeSharpObject)
-//     )
-// );
-
-using AbstractExecutor;
+﻿using AbstractExecutor;
 using AsgToBytecodeTranslator;
 using DefaultAstImpl.Asg;
 using DefaultLexerImpl;
