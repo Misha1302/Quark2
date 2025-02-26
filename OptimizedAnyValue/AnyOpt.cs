@@ -33,11 +33,8 @@ public readonly struct AnyOpt : IAny
         if (typeof(T) == typeof(int))
             return new AnyOpt((int)(object)value, type);
 
-        if (typeof(T).IsEnum)
-            Throw.AssertAlways(Marshal.SizeOf(Enum.GetUnderlyingType(typeof(T))) == 8);
-
-        else if (Marshal.SizeOf<T>() != 8)
-            Throw.InvalidOpEx($"Size of T ({typeof(T)}) must be 8 bytes");
+        if (Marshal.SizeOf<T>() != 8)
+            return Throw.InvalidOpEx<AnyOpt>($"Size of T ({typeof(T)}) must be 8 bytes");
 
         return new AnyOpt(Unsafe.BitCast<T, long>(value), type);
     }
