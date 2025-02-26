@@ -1,8 +1,4 @@
-﻿using CommonBytecode.Data.Structures;
-using CommonBytecode.Enums;
-using SharpAnyType;
-
-namespace BytecodeGenerationSimplifier;
+﻿namespace BytecodeGenerationSimplifier;
 
 public static class SimpleBytecodeGenerator
 {
@@ -49,11 +45,13 @@ public static class SimpleBytecodeGenerator
 
         bytecode.Instructions.Add(new BytecodeInstruction(InstructionType.Label, [startLoop]));
         cond();
-        bytecode.Instructions.Add(new BytecodeInstruction(InstructionType.BrOp, [BranchMode.IfFalse.ObjectToAny(), endLoop]));
+        bytecode.Instructions.Add(new BytecodeInstruction(InstructionType.BrOp,
+            [BranchMode.IfFalse.ObjectToAny(), endLoop]));
 
         body();
 
-        bytecode.Instructions.Add(new BytecodeInstruction(InstructionType.BrOp, [BranchMode.Basic.ObjectToAny(), startLoop]));
+        bytecode.Instructions.Add(new BytecodeInstruction(InstructionType.BrOp,
+            [BranchMode.Basic.ObjectToAny(), startLoop]));
         bytecode.Instructions.Add(new BytecodeInstruction(InstructionType.Label, [endLoop]));
     }
 

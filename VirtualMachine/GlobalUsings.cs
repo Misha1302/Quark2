@@ -10,6 +10,7 @@ global using Doubles;
 global using DynamicStrongTypeValue;
 global using ExceptionsManager;
 global using SharpAnyType;
+global using StrongAnyValueCalculator;
 global using VirtualMachine.Vm.Data;
 global using VirtualMachine.Vm.Execution.Executors;
 global using VirtualMachine.Vm.Extensions;

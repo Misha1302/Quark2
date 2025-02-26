@@ -1,6 +1,4 @@
-﻿using StrongAnyValueCalculator;
-
-namespace ToMsilTranslator;
+﻿namespace ToMsilTranslator;
 
 public class ToMsilTranslator : IExecutor
 {

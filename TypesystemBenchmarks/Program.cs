@@ -1,11 +1,4 @@
-﻿using BenchmarkDotNet.Attributes;
-using BenchmarkDotNet.Running;
-using DynamicStrongTypeValue;
-using SharpAnyType;
-using StrongAnyValueCalculator;
-using TypesystemBenchmarks;
-
-BenchmarkRunner.Run<AnyValueTest>();
+﻿BenchmarkRunner.Run<AnyValueTest>();
 
 
 namespace TypesystemBenchmarks

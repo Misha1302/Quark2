@@ -11,7 +11,7 @@
         <ProjectReference Include="..\QuarkAsgToBytecodeTranslator\QuarkAsgToBytecodeTranslator.csproj"/>
         <ProjectReference Include="..\QuarkCFrontend\QuarkCFrontend.csproj"/>
         <ProjectReference Include="..\StrongAnyValueCalculator\StrongAnyValueCalculator.csproj"/>
-        <ProjectReference Include="..\ToMsilTranslator\ToMsilTranslator.csproj" />
+        <ProjectReference Include="..\ToMsilTranslator\ToMsilTranslator.csproj"/>
         <ProjectReference Include="..\VirtualMachine\VirtualMachine.csproj"/>
     </ItemGroup>
 

@@ -1,6 +1,3 @@
-using System.Globalization;
-using ConfigurationManager;
-
 namespace SharpAnyType;
 
 public static class AnyExtensions

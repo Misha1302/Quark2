@@ -11,4 +11,5 @@ global using DynamicStrongTypeValue;
 global using ExceptionsManager;
 global using GrEmit;
 global using SharpAnyType;
+global using StrongAnyValueCalculator;
 global using static CommonBytecode.Enums.MathLogicOp;
