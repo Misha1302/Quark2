@@ -5,6 +5,9 @@ namespace SharpAnyType;
 
 public static class AnyExtensions
 {
+    public static Any ToAny(this IAny value) =>
+        new(value.GetObjectValue(), value.GetAnyType());
+
     public static Any ObjectToAny(this object value, AnyValueType type = AnyValueType.Any) =>
         new(value, type);
 

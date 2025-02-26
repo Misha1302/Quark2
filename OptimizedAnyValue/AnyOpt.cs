@@ -81,7 +81,4 @@ public readonly struct AnyOpt : IAny
 
     public object GetObjectValue() => this.GetValueInSharpType();
     public AnyValueType GetAnyType() => Type;
-
-    // ReSharper disable once RedundantCast
-    public Any ToAny() => ((IAny)this).ToAny();
 }
