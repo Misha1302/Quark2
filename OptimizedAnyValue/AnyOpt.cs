@@ -22,12 +22,12 @@ public readonly struct AnyOpt : IAny
     public static readonly AnyOpt NilValue = new(0, Nil);
 
     /// <summary>
-    ///     Create new instance of VmValue
+    ///     Create new instance of AnyOpt
     /// </summary>
-    /// <param name="value">TranslatorValue 8-byte value</param>
-    /// <param name="type">VmValueType value describing type of value</param>
-    /// <typeparam name="T">TranslatorValue unmanaged 8-byte type</typeparam>
-    /// <returns>new VmValue instance</returns>
+    /// <param name="value">unmanaged 8-byte value</param>
+    /// <param name="type">type of value</param>
+    /// <typeparam name="T">unmanaged 8-byte type</typeparam>
+    /// <returns>new AnyOpt instance</returns>
     public static AnyOpt Create<T>(T value, AnyValueType type) where T : unmanaged
     {
         if (typeof(T) == typeof(int))
@@ -43,25 +43,25 @@ public readonly struct AnyOpt : IAny
     }
 
     /// <summary>
-    ///     Create new instance of VmValue
+    ///     Create new instance of AnyOpt that's value saving into heap
     /// </summary>
-    /// <param name="value">TranslatorValue reference type</param>
-    /// <param name="type">VmValueType value describing type of value</param>
-    /// <typeparam name="T">TranslatorValue reference type of value</typeparam>
-    /// <returns>New Vmvalue instance</returns>
+    /// <param name="value">any value (will be boxed if it's not heap value)</param>
+    /// <param name="type">type of value</param>
+    /// <typeparam name="T">any type</typeparam>
+    /// <returns>new AnyOpt instance</returns>
     public static AnyOpt CreateRef<T>(T value, AnyValueType type) => new(value!, type);
 
     /// <summary>
-    ///     Unsafe get TranslatorValue 8-byte unmanaged type value
+    ///     Unsafe get 8-byte unmanaged type value
     /// </summary>
     /// <typeparam name="T">8-byte unmanaged type</typeparam>
     /// <returns>T-type value</returns>
     public T Get<T>() where T : unmanaged => Unsafe.BitCast<long, T>(_value);
 
     /// <summary>
-    ///     Safe get TranslatorValue reference type value
+    ///     Safe get value. Works correctly only if was created by 'CreateRef'
     /// </summary>
-    /// <typeparam name="T">reference type</typeparam>
+    /// <typeparam name="T">any type</typeparam>
     /// <returns>T-type value</returns>
     public T GetRef<T>() where T : class => (T)_ref;
 

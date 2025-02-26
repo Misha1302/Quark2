@@ -72,6 +72,4 @@ public static class AnyExtensions
             _ => Throw.InvalidOpEx<string>(),
         };
     }
-
-    public static bool EqualExt(this Any x, Any y) => AnyEqualityComparer.Instance.EqualsCustom(x, y);
 }
