@@ -58,7 +58,7 @@ public static class AnyOptCalculator
         Throw.AssertAlways(a.Type == b.Type, "Types to perform operations must be equal");
 
         if (a.Type.HasFlagFast(Number))
-            return AnyOpt.Create(a.Get<double>() / b.Get<double>(), Number);
+            return AnyOpt.Create(Math.Pow(a.Get<double>(), b.Get<double>()), Number);
         if (a.Type.IsRefType())
             return AnyOpt.CreateRef(((dynamic)a.GetRef<object>()).Pow((dynamic)b.GetRef<object>()), Number);
 

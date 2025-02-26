@@ -114,7 +114,7 @@ public class ToMsilTranslator : IExecutor
 
             il.Box(typeof(AnyOpt));
             il.Castclass(typeof(IAny));
-            il.Call(GetInfo((IAny any) => any.ToAny()));
+            il.Call(GetInfo(AnyExtensions.ToAny));
             il.Stloc(temp);
 
             il.Ldloc(arrLoc);
