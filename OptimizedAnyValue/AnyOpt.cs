@@ -28,16 +28,10 @@ public readonly struct AnyOpt : IAny
     /// <param name="type">type of value</param>
     /// <typeparam name="T">unmanaged 8-byte type</typeparam>
     /// <returns>new AnyOpt instance</returns>
-    public static AnyOpt Create<T>(T value, AnyValueType type) where T : unmanaged
-    {
-        if (typeof(T) == typeof(int))
-            return new AnyOpt((int)(object)value, type);
+    public static AnyOpt Create<T>(T value, AnyValueType type) where T : unmanaged =>
+        new(Unsafe.BitCast<T, long>(value), type);
 
-        if (Marshal.SizeOf<T>() != 8)
-            return Throw.InvalidOpEx<AnyOpt>($"Size of T ({typeof(T)}) must be 8 bytes");
-
-        return new AnyOpt(Unsafe.BitCast<T, long>(value), type);
-    }
+    public static AnyOpt Create(int value, AnyValueType type) => Create((long)value, type);
 
     /// <summary>
     ///     Create new instance of AnyOpt that's value saving into heap
