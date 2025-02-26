@@ -64,7 +64,7 @@ public readonly struct AnyOpt : IAny
 
     public override string ToString() =>
         Type.IsRefType()
-            ? _ref.ToAny().AnyToString(Type)
+            ? _ref.ObjectToAny().AnyToString(Type)
             : _value.UnsafeI64ToString(Type);
 
     /// <summary>
@@ -81,4 +81,7 @@ public readonly struct AnyOpt : IAny
 
     public object GetObjectValue() => this.GetValueInSharpType();
     public AnyValueType GetAnyType() => Type;
+
+    // ReSharper disable once RedundantCast
+    public Any ToAny() => ((IAny)this).ToAny();
 }

@@ -151,7 +151,7 @@ public class AsgToBytecodeTranslator<T> where T : struct
                 Visit(node.Children[0]);
                 CurBytecode.Add(new BytecodeInstruction(
                         InstructionType.BrOp,
-                        [BranchMode.IfTrue.ToAny(), node.Children[1].Text]
+                        [BranchMode.IfTrue.ObjectToAny(), node.Children[1].Text]
                     )
                 );
                 break;
@@ -174,7 +174,7 @@ public class AsgToBytecodeTranslator<T> where T : struct
     private void Operation(AsgNode<T> node, MathLogicOp mathLogicOp)
     {
         Visit(node.Children);
-        CurBytecode.Add(new BytecodeInstruction(InstructionType.MathOrLogicOp, [mathLogicOp.ToAny()]));
+        CurBytecode.Add(new BytecodeInstruction(InstructionType.MathOrLogicOp, [mathLogicOp.ObjectToAny()]));
     }
 
     private static string GetString(string text) => text[1..^1];

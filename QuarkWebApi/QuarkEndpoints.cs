@@ -20,7 +20,7 @@ public static class QuarkEndpoints
                     string text,
                     [FromServices] IExecutor executor
                 ) =>
-                executor.RunFunction(name.Get<string>(), [text.ToAny()]).First().Get<string>());
+                executor.RunFunction(name.Get<string>(), [text.ObjectToAny()]).First().Get<string>());
     }
 
     public static void AddDeleteEndpoint(Any name, Any needArgument)
@@ -31,7 +31,7 @@ public static class QuarkEndpoints
                         string text,
                         [FromServices] IExecutor executor
                     ) =>
-                    executor.RunFunction(name.Get<string>(), [text.ToAny()]).First()
+                    executor.RunFunction(name.Get<string>(), [text.ObjectToAny()]).First()
                         .Get<string>());
 
         else
@@ -49,7 +49,7 @@ public static class QuarkEndpoints
                     string text,
                     [FromServices] IExecutor executor
                 ) =>
-                executor.RunFunction(name.Get<string>(), [text.ToAny()]).First().Get<string>());
+                executor.RunFunction(name.Get<string>(), [text.ObjectToAny()]).First().Get<string>());
     }
 
     public static void Init(IEndpointRouteBuilder app)

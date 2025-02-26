@@ -32,11 +32,11 @@ public static class SimpleBytecodeGenerator
 
         instructions.Add(new BytecodeInstruction(InstructionType.Label, [startLoop]));
         instructions.AddRange(cond());
-        instructions.Add(new BytecodeInstruction(InstructionType.BrOp, [BranchMode.IfFalse.ToAny(), endLoop]));
+        instructions.Add(new BytecodeInstruction(InstructionType.BrOp, [BranchMode.IfFalse.ObjectToAny(), endLoop]));
 
         instructions.AddRange(body());
 
-        instructions.Add(new BytecodeInstruction(InstructionType.BrOp, [BranchMode.Basic.ToAny(), startLoop]));
+        instructions.Add(new BytecodeInstruction(InstructionType.BrOp, [BranchMode.Basic.ObjectToAny(), startLoop]));
         instructions.Add(new BytecodeInstruction(InstructionType.Label, [endLoop]));
 
         return instructions;
@@ -49,11 +49,11 @@ public static class SimpleBytecodeGenerator
 
         bytecode.Instructions.Add(new BytecodeInstruction(InstructionType.Label, [startLoop]));
         cond();
-        bytecode.Instructions.Add(new BytecodeInstruction(InstructionType.BrOp, [BranchMode.IfFalse.ToAny(), endLoop]));
+        bytecode.Instructions.Add(new BytecodeInstruction(InstructionType.BrOp, [BranchMode.IfFalse.ObjectToAny(), endLoop]));
 
         body();
 
-        bytecode.Instructions.Add(new BytecodeInstruction(InstructionType.BrOp, [BranchMode.Basic.ToAny(), startLoop]));
+        bytecode.Instructions.Add(new BytecodeInstruction(InstructionType.BrOp, [BranchMode.Basic.ObjectToAny(), startLoop]));
         bytecode.Instructions.Add(new BytecodeInstruction(InstructionType.Label, [endLoop]));
     }
 
@@ -61,19 +61,19 @@ public static class SimpleBytecodeGenerator
     [
         new(InstructionType.LoadLocal, [name]),
         new(InstructionType.PushConst, [1.0]),
-        new(InstructionType.MathOrLogicOp, [MathLogicOp.Sum.ToAny()]),
+        new(InstructionType.MathOrLogicOp, [MathLogicOp.Sum.ObjectToAny()]),
         new(InstructionType.SetLocal, [name]),
     ];
 
     public static List<BytecodeInstruction> CallSharp(Delegate printLn) =>
-        [new(InstructionType.CallSharp, [printLn.ToAny(AnyValueType.SomeSharpObject)])];
+        [new(InstructionType.CallSharp, [printLn.ObjectToAny(AnyValueType.SomeSharpObject)])];
 
     public static List<BytecodeInstruction> DefineLocals(params (string, AnyValueType)[] locals)
     {
         return
         [
             new BytecodeInstruction(InstructionType.MakeVariables,
-                locals.Select(x => new BytecodeVariable(x.Item1, x.Item2).ToAny()).ToList()),
+                locals.Select(x => new BytecodeVariable(x.Item1, x.Item2).ObjectToAny()).ToList()),
         ];
     }
 
@@ -97,7 +97,7 @@ public static class SimpleBytecodeGenerator
         cond();
         var elseLabel = Guid.NewGuid().ToString();
         bytecode.Instructions.Add(
-            new BytecodeInstruction(InstructionType.BrOp, [BranchMode.IfFalse.ToAny(), elseLabel]));
+            new BytecodeInstruction(InstructionType.BrOp, [BranchMode.IfFalse.ObjectToAny(), elseLabel]));
 
         body();
 
