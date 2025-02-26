@@ -73,14 +73,5 @@ public static class AnyExtensions
         };
     }
 
-    public static bool EqualExt(this Any x, Any y)
-    {
-        if (x.GetType() != y.GetType()) return false;
-
-        if (x.Type == Nil && y.Type == Nil) return true;
-        if (x.Type == Nil) return false;
-        if (y.Type == Nil) return false;
-
-        return x.Type == y.Type && x.Value.Equals(y.Value);
-    }
+    public static bool EqualExt(this Any x, Any y) => AnyEqualityComparer.Instance.EqualsCustom(x, y);
 }

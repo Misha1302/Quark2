@@ -11,7 +11,7 @@ public class ImportsManager
         var first = _methods.FirstOrDefault(x => x.Key.Name == name);
         if (first.Value == null)
             Throw.InvalidOpEx($"Method name is invalid: {name}");
-        return first.Value!;
+        return first.Value;
     }
 
     public void Import(string path)

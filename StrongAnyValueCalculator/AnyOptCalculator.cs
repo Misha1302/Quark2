@@ -1,4 +1,6 @@
-namespace DynamicStrongTypeValue;
+using DynamicStrongTypeValue;
+
+namespace StrongAnyValueCalculator;
 
 public static class AnyOptCalculator
 {
