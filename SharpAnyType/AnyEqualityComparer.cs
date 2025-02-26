@@ -9,7 +9,7 @@ public class AnyEqualityComparer : IEqualityComparer<Any>
 
     public int GetHashCode(Any obj) => HashCode.Combine(obj.Type, obj.Value);
 
-    public bool EqualsCustom(Any x, Any y)
+    private bool EqualsCustom(Any x, Any y)
     {
         if (x.GetType() != y.GetType()) return false;
 

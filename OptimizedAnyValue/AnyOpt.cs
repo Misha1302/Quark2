@@ -54,7 +54,7 @@ public readonly struct AnyOpt : IAny
     /// </summary>
     /// <typeparam name="T">any type</typeparam>
     /// <returns>T-type value</returns>
-    public T GetRef<T>() where T : class => (T)_ref;
+    public T GetRef<T>() => (T)_ref;
 
     public override string ToString() =>
         Type.IsRefType()
@@ -74,5 +74,6 @@ public readonly struct AnyOpt : IAny
     public bool IsFalse() => _value == 0;
 
     public object GetObjectValue() => this.GetValueInSharpType();
+
     public AnyValueType GetAnyType() => Type;
 }

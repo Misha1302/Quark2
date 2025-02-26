@@ -1,15 +1,13 @@
-﻿BenchmarkRunner.Run<AnyValueTest>();
+﻿BenchmarkRunner.Run<AnyValueAndShellTest>();
 
 
 namespace TypesystemBenchmarks
 {
-    [MemoryDiagnoser]
-    [RPlotExporter] [CsvMeasurementsExporter]
-    public abstract class AnyValueTest
+    public abstract class AnyValueAndShellTest
     {
-        private readonly AnyOpt _aDouble = AnyOpt.Create(2, AnyValueType.Number);
+        private readonly AnyOpt _aDouble = AnyOpt.Create(2.0, AnyValueType.Number);
         private readonly AnyOpt _aShell = AnyOpt.CreateRef(new DoubleShell(2), AnyValueType.SomeSharpObject);
-        private readonly AnyOpt _bDouble = AnyOpt.Create(3, AnyValueType.Number);
+        private readonly AnyOpt _bDouble = AnyOpt.Create(3.0, AnyValueType.Number);
         private readonly AnyOpt _bShell = AnyOpt.CreateRef(new DoubleShell(3), AnyValueType.SomeSharpObject);
 
         [Benchmark(Baseline = true)]
