@@ -3,14 +3,13 @@ using AsgToBytecodeTranslator;
 using DefaultAstImpl.Asg;
 using DefaultLexerImpl;
 using QuarkCFrontend;
-using VirtualMachine;
 
 const string code =
     """
     import "../../../../Libraries"
 
     def Main() {
-        PrintLn("Hello World!")
+        _ = PrintLn("Hello World!")
         return 0
     }
     """;
@@ -18,6 +17,6 @@ const string code =
 var lexemes = new Lexer(QuarkLexerDefaultConfiguration.CreateDefault()).Lexemize(code);
 var asg = new AsgBuilder<QuarkLexemeType>(QuarkAsgBuilderConfiguration.CreateDefault()).Build(lexemes);
 var module = new AsgToBytecodeTranslator<QuarkLexemeType>().Translate(asg);
-var executor = new QuarkVirtualMachine();
+var executor = new ToMsilTranslator.ToMsilTranslator();
 executor.Init(new ExecutorConfiguration(module));
 executor.RunModule();

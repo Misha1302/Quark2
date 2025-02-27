@@ -8,8 +8,8 @@ public static class RuntimeLibrary
 
     public static AnyOpt GetConst(int index) => RuntimeData.Constants[index];
 
-    public static AnyOpt CallFunc(string name) =>
-        (AnyOpt)RuntimeData.DynamicMethods[name].Invoke(null, [RuntimeData])!;
+    public static unsafe AnyOpt CallFunc(string name) =>
+        ((delegate*<ToMsilTranslatorRuntimeData, AnyOpt>)RuntimeData.DynamicMethods[name])(RuntimeData);
 
     public static void PushToStack(AnyOpt value) => RuntimeData.IntermediateData.Push(value);
 

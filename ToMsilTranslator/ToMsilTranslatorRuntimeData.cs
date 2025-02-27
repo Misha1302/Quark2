@@ -1,7 +1,10 @@
+using System.Collections.Frozen;
+using OptimizedStack;
+
 namespace ToMsilTranslator;
 
 public record ToMsilTranslatorRuntimeData(
     List<AnyOpt> Constants,
-    Dictionary<string, DynamicMethod> DynamicMethods,
-    Stack<AnyOpt> IntermediateData
+    FrozenDictionary<string, nint> DynamicMethods,
+    OptimizedStack<AnyOpt> IntermediateData
 );

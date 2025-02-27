@@ -1,6 +1,6 @@
 namespace VirtualMachine.Vm.Execution;
 
-public class MyStack<T>(int maxSize) : IReadOnlyStack<T>
+public class ExtendedStack<T>(int maxSize) : IReadOnlyStack<T>
 {
     private readonly T[] _data = new T[maxSize];
 

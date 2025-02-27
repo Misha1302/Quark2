@@ -4,8 +4,8 @@ namespace VirtualMachine.Vm.Execution.Executors;
 
 public class Interpreter
 {
-    public readonly MyStack<VmFuncFrame> Frames = new(1024);
-    public readonly MyStack<AnyOpt> Stack = new(1024);
+    public readonly ExtendedStack<VmFuncFrame> Frames = new(1024);
+    public readonly ExtendedStack<AnyOpt> Stack = new(1024);
     private EngineRuntimeData _engineRuntimeData = null!;
 
     public bool Halted => Frames.Count == 0;

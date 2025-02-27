@@ -7,9 +7,10 @@ public record AsgNode<T>(
     int BaseLineNumber = -1)
     where T : struct
 {
+    public AsgNodeType NodeType = NodeType;
+
     // ReSharper disable once ConditionalAccessQualifierIsNonNullableAccordingToAPIContract
     public T? LexemeType => LexemeValue?.LexemePattern.LexemeType;
-    public AsgNodeType NodeType { get; set; } = NodeType;
     public string Text => LexemeValue.Text;
 
     public int LineNumber => BaseLineNumber == -1 ? LexemeValue.LineNumber : BaseLineNumber;

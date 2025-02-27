@@ -3,7 +3,7 @@ namespace VirtualMachine.Vm.Execution;
 public static class SharpInteractor
 {
     public static unsafe void CallStaticSharpFunction(
-        MyStack<AnyOpt> stack, nint ptr, long argsCount, bool returnsValue, bool isVarArgs
+        ExtendedStack<AnyOpt> stack, nint ptr, long argsCount, bool returnsValue, bool isVarArgs
     )
     {
         // https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/proposals/csharp-9.0/function-pointers

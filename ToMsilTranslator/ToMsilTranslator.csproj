@@ -16,6 +16,8 @@
         <ProjectReference Include="..\CommonDataStructures\CommonDataStructures.csproj"/>
         <ProjectReference Include="..\Doubles\Doubles.csproj"/>
         <ProjectReference Include="..\OptimizedAnyValue\OptimizedAnyValue.csproj"/>
+        <ProjectReference Include="..\OptimizedStack\OptimizedStack.csproj"/>
+        <ProjectReference Include="..\RuntimeHacks\RuntimeHacks.csproj"/>
         <ProjectReference Include="..\StrongAnyValueCalculator\StrongAnyValueCalculator.csproj"/>
     </ItemGroup>
 

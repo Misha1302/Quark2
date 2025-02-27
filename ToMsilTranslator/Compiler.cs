@@ -16,7 +16,8 @@ public class Compiler
         var dynamicMethod = new DynamicMethod(
             function.Name,
             typeof(AnyOpt),
-            [typeof(ToMsilTranslatorRuntimeData)]
+            [typeof(ToMsilTranslatorRuntimeData)],
+            true
         );
 
         using var il = new GroboIL(dynamicMethod);
