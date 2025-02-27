@@ -1,3 +1,5 @@
+using static CommonBytecode.Enums.InstructionType;
+
 namespace VirtualMachine.Vm.Execution.Executors;
 
 public class Interpreter
@@ -24,22 +26,22 @@ public class Interpreter
 
     private void ExecuteOp(VmOperation vmOperation)
     {
-        if (vmOperation.Type == InstructionType.PushConst) Stack.Push(vmOperation.Args[0]);
-        else if (vmOperation.Type == InstructionType.MathOrLogicOp)
-            DoMathOrLogic(vmOperation.Args[0].Get<MathLogicOp>());
-        else if (vmOperation.Type == InstructionType.Ret) Frames.Pop();
-        else if (vmOperation.Type == InstructionType.CallSharp) CallSharpFunction(vmOperation);
-        else if (vmOperation.Type == InstructionType.CallFunc) CallFunction(vmOperation);
-        else if (vmOperation.Type == InstructionType.SetLocal) SetLocal(vmOperation);
-        else if (vmOperation.Type == InstructionType.LoadLocal) LoadLocal(vmOperation);
-        else if (vmOperation.Type == InstructionType.BrOp) BrOp(vmOperation);
-        else if (vmOperation.Type == InstructionType.Label) DoNothing();
-        else if (vmOperation.Type == InstructionType.MakeVariables) DoNothing();
-        else if (vmOperation.Type == InstructionType.Drop) Stack.Pop();
-        else Throw.InvalidOpEx();
+        var opType = vmOperation.Type;
+        if (opType == PushConst) Stack.Push(vmOperation.Args[0]);
+        else if (opType == MathOrLogicOp) DoMathOrLogicOp(vmOperation.Args[0].Get<MathLogicOp>());
+        else if (opType == Ret) Frames.Pop();
+        else if (opType == CallSharp) CallSharpFunctionOp(vmOperation);
+        else if (opType == CallFunc) CallFunctionOp(vmOperation);
+        else if (opType == SetLocal) SetLocalOp(vmOperation);
+        else if (opType == LoadLocal) LoadLocalOp(vmOperation);
+        else if (opType == Br) BrOp(vmOperation);
+        else if (opType == Label) DoNothingOp();
+        else if (opType == MakeVariables) DoNothingOp();
+        else if (opType == Drop) Stack.Pop();
+        else Throw.InvalidOpEx($"Unknown operation {vmOperation}");
     }
 
-    private void CallFunction(VmOperation vmOperation)
+    private void CallFunctionOp(VmOperation vmOperation)
     {
         Frames.Push(new VmFuncFrame(_engineRuntimeData.Module.Functions[(int)vmOperation.Args[0].Get<long>()]));
     }
@@ -49,17 +51,17 @@ public class Interpreter
         DoBranch(vmOperation.Args[0].Get<BranchMode>(), vmOperation.Args[1].Get<long>());
     }
 
-    private void LoadLocal(VmOperation vmOperation)
+    private void LoadLocalOp(VmOperation vmOperation)
     {
         Stack.Push(Frames.Get(-1).Variables[(int)vmOperation.Args[0].Get<long>()].Value);
     }
 
-    private void SetLocal(VmOperation vmOperation)
+    private void SetLocalOp(VmOperation vmOperation)
     {
         Frames.Get(-1).Variables[(int)vmOperation.Args[0].Get<long>()].Value = Stack.Pop();
     }
 
-    private void CallSharpFunction(VmOperation vmOperation)
+    private void CallSharpFunctionOp(VmOperation vmOperation)
     {
         SharpInteractor.CallStaticSharpFunction(
             Stack,
@@ -70,7 +72,7 @@ public class Interpreter
         );
     }
 
-    private void DoNothing()
+    private void DoNothingOp()
     {
     }
 
@@ -92,7 +94,7 @@ public class Interpreter
             vmFrame.Ip = vmFrame.Labels[(int)labelIndex].Ip;
     }
 
-    private void DoMathOrLogic(MathLogicOp op)
+    private void DoMathOrLogicOp(MathLogicOp op)
     {
         if (op == Not)
         {

@@ -74,7 +74,7 @@ public class ToMsilTranslator : IExecutor
             il.Ldloc(data.Locals[instruction.Arguments[0].Get<string>()]);
         else if (instruction.Type == InstructionType.SetLocal)
             il.Stloc(data.Locals[instruction.Arguments[0].Get<string>()]);
-        else if (instruction.Type == InstructionType.BrOp)
+        else if (instruction.Type == InstructionType.Br)
             CompileBrOp(il, instruction, data);
         else if (instruction.Type == InstructionType.CallSharp)
             CallSharp(il, instruction, prevInstruction ?? Throw.InvalidOpEx<BytecodeInstruction>());

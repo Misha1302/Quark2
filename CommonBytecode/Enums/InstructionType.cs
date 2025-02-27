@@ -8,7 +8,7 @@ public enum InstructionType
     MathOrLogicOp,
     LoadLocal,
     SetLocal,
-    BrOp,
+    Br,
     CallSharp,
     CallFunc,
     Ret,

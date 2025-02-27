@@ -5,4 +5,4 @@ namespace VirtualMachine.Vm.Data;
 /// </summary>
 /// <param name="Name">name of label</param>
 /// <param name="Ip">instruction pointer of label</param>
-public record Label(string Name, int Ip);
+public record VmLabel(string Name, int Ip);

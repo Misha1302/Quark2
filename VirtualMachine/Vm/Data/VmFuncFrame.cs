@@ -1,7 +1,7 @@
 namespace VirtualMachine.Vm.Data;
 
 // ReSharper disable once NotAccessedPositionalProperty.Global
-public record VmFuncFrame(string Name, List<VmOperation> Ops, int Ip, List<VmVariable> Variables, List<Label> Labels)
+public record VmFuncFrame(string Name, List<VmOperation> Ops, int Ip, List<VmVariable> Variables, List<VmLabel> Labels)
 {
     public int Ip = Ip;
 

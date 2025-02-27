@@ -28,11 +28,11 @@ public static class SimpleBytecodeGenerator
 
         instructions.Add(new BytecodeInstruction(InstructionType.Label, [startLoop]));
         instructions.AddRange(cond());
-        instructions.Add(new BytecodeInstruction(InstructionType.BrOp, [BranchMode.IfFalse.ObjectToAny(), endLoop]));
+        instructions.Add(new BytecodeInstruction(InstructionType.Br, [BranchMode.IfFalse.ObjectToAny(), endLoop]));
 
         instructions.AddRange(body());
 
-        instructions.Add(new BytecodeInstruction(InstructionType.BrOp, [BranchMode.Basic.ObjectToAny(), startLoop]));
+        instructions.Add(new BytecodeInstruction(InstructionType.Br, [BranchMode.Basic.ObjectToAny(), startLoop]));
         instructions.Add(new BytecodeInstruction(InstructionType.Label, [endLoop]));
 
         return instructions;
@@ -45,12 +45,12 @@ public static class SimpleBytecodeGenerator
 
         bytecode.Instructions.Add(new BytecodeInstruction(InstructionType.Label, [startLoop]));
         cond();
-        bytecode.Instructions.Add(new BytecodeInstruction(InstructionType.BrOp,
+        bytecode.Instructions.Add(new BytecodeInstruction(InstructionType.Br,
             [BranchMode.IfFalse.ObjectToAny(), endLoop]));
 
         body();
 
-        bytecode.Instructions.Add(new BytecodeInstruction(InstructionType.BrOp,
+        bytecode.Instructions.Add(new BytecodeInstruction(InstructionType.Br,
             [BranchMode.Basic.ObjectToAny(), startLoop]));
         bytecode.Instructions.Add(new BytecodeInstruction(InstructionType.Label, [endLoop]));
     }
@@ -95,7 +95,7 @@ public static class SimpleBytecodeGenerator
         cond();
         var elseLabel = Guid.NewGuid().ToString();
         bytecode.Instructions.Add(
-            new BytecodeInstruction(InstructionType.BrOp, [BranchMode.IfFalse.ObjectToAny(), elseLabel]));
+            new BytecodeInstruction(InstructionType.Br, [BranchMode.IfFalse.ObjectToAny(), elseLabel]));
 
         body();
 

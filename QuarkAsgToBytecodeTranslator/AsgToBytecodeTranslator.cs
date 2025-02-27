@@ -150,7 +150,7 @@ public class AsgToBytecodeTranslator<T> where T : struct
             case AsgNodeType.BrIf:
                 Visit(node.Children[0]);
                 CurBytecode.Add(new BytecodeInstruction(
-                        InstructionType.BrOp,
+                        InstructionType.Br,
                         [BranchMode.IfTrue.ObjectToAny(), node.Children[1].Text]
                     )
                 );

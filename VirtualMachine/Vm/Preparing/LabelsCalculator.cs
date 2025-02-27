@@ -2,12 +2,12 @@ namespace VirtualMachine.Vm.Preparing;
 
 public static class LabelsCalculator
 {
-    public static List<Label> CalculateLabels(List<BytecodeInstruction> ops)
+    public static List<VmLabel> CalculateLabels(List<BytecodeInstruction> ops)
     {
-        var labels = new List<Label>();
+        var labels = new List<VmLabel>();
         for (var i = 0; i < ops.Count; i++)
             if (ops[i].Type == InstructionType.Label)
-                labels.Add(new Label(ops[i].Arguments[0].Get<string>(), i));
+                labels.Add(new VmLabel(ops[i].Arguments[0].Get<string>(), i));
 
         return labels;
     }

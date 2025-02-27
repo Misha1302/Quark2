@@ -39,10 +39,10 @@ public class BytecodeConverter
             }
     }
 
-    private void PreprocessBranches(List<VmOperation> ops, List<Label> labels, List<BytecodeFunction> functions)
+    private void PreprocessBranches(List<VmOperation> ops, List<VmLabel> labels, List<BytecodeFunction> functions)
     {
         foreach (var op in ops)
-            if (op.Type is InstructionType.BrOp)
+            if (op.Type is InstructionType.Br)
             {
                 // int - jump ip = [string - jump label name]
                 var index = (long)labels.FindIndex(x => x.Name == op.Args[1].GetRef<string>());
