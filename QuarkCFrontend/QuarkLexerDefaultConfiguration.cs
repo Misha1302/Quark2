@@ -8,6 +8,7 @@ public static class QuarkLexerDefaultConfiguration
             (List<LexemePattern<QuarkLexemeType>>)
             [
                 new LexemePattern<QuarkLexemeType>("//.*", Comment),
+                new LexemePattern<QuarkLexemeType>(@"-?[0-9]+(\.[0-9]+)?", Number),
                 new LexemePattern<QuarkLexemeType>(@"\(", LeftPar),
                 new LexemePattern<QuarkLexemeType>(@"\)", RightPar),
                 new LexemePattern<QuarkLexemeType>(@"\{", LeftBrace),
@@ -38,7 +39,6 @@ public static class QuarkLexerDefaultConfiguration
                 new LexemePattern<QuarkLexemeType>("while", While),
                 new LexemePattern<QuarkLexemeType>("return", Return),
                 new LexemePattern<QuarkLexemeType>("import", Import),
-                new LexemePattern<QuarkLexemeType>(@"[0-9]+(\.[0-9]+)?", Number),
                 new LexemePattern<QuarkLexemeType>("\".*?\"", QuarkLexemeType.String),
                 new LexemePattern<QuarkLexemeType>("brif", BrIf),
                 new LexemePattern<QuarkLexemeType>("[a-zA-Z_][a-zA-Z0-9_]*", Identifier),

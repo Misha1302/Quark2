@@ -48,8 +48,8 @@ public readonly struct Any : IEquatable<Any>
     /// <summary>
     ///     Method to cast the stored value to type T.
     /// </summary>
-    /// <typeparam name="T">The target type to which the value should be casted.</typeparam>
-    /// <returns>The casted value.</returns>
+    /// <typeparam name="T">The target type to which the value should be cast.</typeparam>
+    /// <returns>The cast value.</returns>
     public T Get<T>() => (T)Value;
 
     /// <summary>

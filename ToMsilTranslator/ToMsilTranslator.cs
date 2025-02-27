@@ -2,12 +2,8 @@
 
 public class ToMsilTranslator : IExecutor
 {
-    public IEnumerable<Any> RunModule()
-    {
-        Throw.AssertAlways(RuntimeLibrary.RuntimeData != null, "Module was not initialized");
-        var result = RuntimeLibrary.CallFunc("Main");
-        return [result.ToAny()];
-    }
+    public IEnumerable<Any> RunModule() =>
+        RunFunction("Main", []);
 
     public IEnumerable<Any> RunFunction(string name, Span<Any> functionArguments)
     {
