@@ -81,7 +81,7 @@ public class FunctionsCompiler
 
         if (method.ReturnType != typeof(void))
             il.Call(DelegatesHelper.GetInfo(AnyOptExtensions.MakeAnyOpt));
-        else il.Ldfld(typeof(AnyOpt).GetField("NilValue"));
+        else il.Ldfld(typeof(AnyOpt).GetField(nameof(AnyOpt.NilValue)));
     }
 
     private void PushConst(GroboIL il, BytecodeInstruction instruction, List<AnyOpt> constants)
