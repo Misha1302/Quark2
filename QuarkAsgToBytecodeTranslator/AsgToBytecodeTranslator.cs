@@ -3,7 +3,7 @@
 public class AsgToBytecodeTranslator<T> where T : struct
 {
     private readonly Stack<FunctionData> _functionsStack = new();
-    private readonly ImportsManager _importsManager = new();
+    private readonly ImportsManager _importsManager = new(new QuarkMethodValidator());
     private List<FunctionData> _functions = [];
 
     private BytecodeFunction CurFunction => _functionsStack.Peek().BytecodeFunction;

@@ -14,7 +14,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExceptionsManager", "Except
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QuarkIO", "QuarkIO\QuarkIO.csproj", "{86F74F91-8AA1-4994-9593-1964846B6A88}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SharpLibrariesImporter", "SharpLibrariesImporter\SharpLibrariesImporter.csproj", "{DF69FFB7-695F-4BFB-94D8-779CAD2FFCD1}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DotnetLibrariesMethodsImporter", "DotnetLibrariesMethodsImporter\DotnetLibrariesMethodsImporter.csproj", "{DF69FFB7-695F-4BFB-94D8-779CAD2FFCD1}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Libraries", "Libraries", "{9FB6F7E6-CEE1-4283-997D-12353A24085F}"
 EndProject

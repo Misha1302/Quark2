@@ -1,21 +1,21 @@
+using System.Reflection;
 using CommonDataStructures;
-using SharpAnyType;
 
-namespace SharpLibrariesImporter;
+namespace AsgToBytecodeTranslator;
 
-public static class MethodValidator
+public class QuarkMethodValidator : IMethodValidator
 {
-    public static bool IsValidMethod(MethodInfo method) =>
+    public bool IsValidMethod(MethodInfo method) =>
         IsValidModifiers(method) && IsValidParameters(method.GetParameters()) && IsValidReturn(method.ReturnType);
 
     private static bool IsValidModifiers(MethodInfo method) =>
         method is { IsStatic: true, IsPublic: true, IsGenericMethod: false };
 
-    private static bool IsValidReturn(Type methodReturnType) =>
-        methodReturnType == typeof(void) ||
-        methodReturnType == typeof(Any) ||
-        methodReturnType == typeof(IAny) ||
-        methodReturnType.IsSubclassOf(typeof(IAny));
+    private static bool IsValidReturn(Type type) =>
+        type == typeof(void) ||
+        type == typeof(Any) ||
+        type == typeof(IAny) ||
+        type.IsSubclassOf(typeof(IAny));
 
     private static bool IsValidParameters(ParameterInfo[] parameters)
     {

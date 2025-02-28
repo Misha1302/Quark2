@@ -3,17 +3,27 @@
 public class ImportsManager
 {
     private readonly Dictionary<MethodInfo, Delegate> _methods = new();
+    private readonly IMethodValidator _methodValidator;
 
-    public ImportsManager()
+    public ImportsManager(IMethodValidator methodValidator)
     {
-        AppDomain.CurrentDomain.AssemblyResolve += (sender, args) =>
-        {
-            var assembly = ((AppDomain)sender!).GetAssemblies().FirstOrDefault(x => x.FullName == args.Name);
-            return assembly;
-        };
+        _methodValidator = methodValidator;
+
+        AppDomain.CurrentDomain.AssemblyResolve += OnCurrentDomainOnAssemblyResolve;
     }
 
     public IReadOnlyDictionary<MethodInfo, Delegate> Methods => _methods;
+
+    ~ImportsManager()
+    {
+        AppDomain.CurrentDomain.AssemblyResolve -= OnCurrentDomainOnAssemblyResolve;
+    }
+
+    private Assembly? OnCurrentDomainOnAssemblyResolve(object? sender, ResolveEventArgs args)
+    {
+        var assembly = ((AppDomain)sender!).GetAssemblies().FirstOrDefault(x => x.FullName == args.Name);
+        return assembly;
+    }
 
     public Delegate GetDelegateByName(string name)
     {
@@ -58,10 +68,10 @@ public class ImportsManager
             _methods.TryAdd(methodInfo, methodInfo.CreateDelegateCustom(null));
     }
 
-    private static IEnumerable<MethodInfo> SelectMethods(Type type) =>
+    private IEnumerable<MethodInfo> SelectMethods(Type type) =>
         type
-            .GetMethods(BindingFlags.Static | BindingFlags.Public)
-            .Where(MethodValidator.IsValidMethod);
+            .GetMethods(~BindingFlags.Default)
+            .Where(_methodValidator.IsValidMethod);
 
 
     public bool Have(string functionName)
