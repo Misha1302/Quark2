@@ -6,7 +6,7 @@ public static class LabelsCalculator
     {
         var labels = new List<VmLabel>();
         for (var i = 0; i < ops.Count; i++)
-            if (ops[i].Type == InstructionType.Label)
+            if (ops[i].Type == Label)
                 labels.Add(new VmLabel(ops[i].Arguments[0].Get<string>(), i));
 
         return labels;

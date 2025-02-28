@@ -31,7 +31,7 @@ public class BytecodeConverter
     private void ConvertLocalsOperations(List<VmOperation> ops, List<VmVariable> locals)
     {
         foreach (var op in ops)
-            if (op.Type is InstructionType.LoadLocal or InstructionType.SetLocal)
+            if (op.Type is LoadLocal or SetLocal)
             {
                 var index = (long)locals.FindIndex(x => x.Name == op.Args[0].GetRef<string>());
                 Throw.AssertDebug(index >= 0);
@@ -42,14 +42,14 @@ public class BytecodeConverter
     private void PreprocessBranches(List<VmOperation> ops, List<VmLabel> labels, List<BytecodeFunction> functions)
     {
         foreach (var op in ops)
-            if (op.Type is InstructionType.Br)
+            if (op.Type is Br)
             {
                 // int - jump ip = [string - jump label name]
                 var index = (long)labels.FindIndex(x => x.Name == op.Args[1].GetRef<string>());
                 Throw.AssertDebug(index >= 0);
                 op.Args[1] = AnyOpt.Create(index, NativeI64);
             }
-            else if (op.Type is InstructionType.CallFunc)
+            else if (op.Type is CallFunc)
             {
                 var index = (long)functions.FindIndex(x => x.Name == op.Args[0].GetRef<string>());
                 Throw.AssertDebug(index >= 0);
@@ -76,7 +76,7 @@ public class BytecodeConverter
 
     private static IEnumerable<BytecodeInstruction> GetMakingVariablesInstructions(Bytecode functionCode)
     {
-        return functionCode.Instructions.Where(x => x.Type == InstructionType.MakeVariables);
+        return functionCode.Instructions.Where(x => x.Type == MakeVariables);
     }
 
     private static IEnumerable<VmVariable> ToVmVariables(BytecodeInstruction bytecodeInstruction)
