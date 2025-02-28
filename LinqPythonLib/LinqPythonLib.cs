@@ -1,7 +1,4 @@
-﻿using LinqFrontend;
-using LinqLexer;
-
-namespace LinqPythonLib;
+﻿namespace LinqPythonLib;
 
 public class LinqPythonLib
 {

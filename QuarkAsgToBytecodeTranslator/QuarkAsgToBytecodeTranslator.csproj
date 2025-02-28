@@ -11,7 +11,7 @@
         <ProjectReference Include="..\BytecodeGenerationSimplifier\BytecodeGenerationSimplifier.csproj"/>
         <ProjectReference Include="..\CommonBytecode\CommonBytecode.csproj"/>
         <ProjectReference Include="..\QuarkCFrontend\QuarkCFrontend.csproj"/>
-        <ProjectReference Include="..\DotnetLibrariesMethodsImporter\DotnetLibrariesMethodsImporter.csproj" />
+        <ProjectReference Include="..\DotnetLibrariesMethodsImporter\DotnetLibrariesMethodsImporter.csproj"/>
     </ItemGroup>
 
 </Project>

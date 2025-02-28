@@ -22,7 +22,7 @@ public static class AnyOptExtensions
         {
             double d => AnyOpt.Create(d, Number),
             long l => AnyOpt.Create(l, NativeI64),
-            bool l => AnyOpt.Create(l ? 1L : 0L, NativeI64),
+            bool l => AnyOpt.Create(l ? 1.0 : 0.0, Number),
             string s => AnyOpt.CreateRef(s, Str),
             Enum e => AnyOpt.Create((long)Convert.ToInt32(e), NativeI64),
             null => AnyOpt.NilValue,

@@ -16,5 +16,6 @@ global using VirtualMachine.Vm.Execution.Executors;
 global using VirtualMachine.Vm.Extensions;
 global using VirtualMachine.Vm.Model;
 global using VirtualMachine.Vm.Preparing;
+global using static CommonBytecode.Enums.InstructionType;
 global using static CommonBytecode.Enums.MathLogicOp;
 global using static SharpAnyType.AnyValueType;

@@ -19,4 +19,4 @@ var asg = new AsgBuilder<QuarkLexemeType>(QuarkAsgBuilderConfiguration.CreateDef
 var module = new AsgToBytecodeTranslator<QuarkLexemeType>().Translate(asg);
 var executor = new TranslatorToMsil.TranslatorToMsil();
 executor.Init(new ExecutorConfiguration(module));
-executor.RunModule();
+Console.WriteLine(executor.RunModule().First());

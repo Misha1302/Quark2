@@ -1,7 +1,4 @@
-﻿using System.Collections.Frozen;
-using OptimizedStack;
-
-namespace TranslatorToMsil;
+﻿namespace TranslatorToMsil;
 
 public class TranslatorToMsil : IExecutor
 {

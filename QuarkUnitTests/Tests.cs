@@ -230,6 +230,51 @@ public class Tests
         );
     }
 
+    [Test]
+    public void TestA3()
+    {
+        TestCode(
+            $$"""
+              {{_imports}}
+
+              def Main() {
+                  return not (0)
+              }
+              """,
+            any => Assert.That(any.Get<double>(), Is.EqualTo(1.0).Within(_error))
+        );
+    }
+
+    [Test]
+    public void TestA4()
+    {
+        TestCode(
+            $$"""
+              {{_imports}}
+
+              def Main() {
+                  return not (5 < 3)
+              }
+              """,
+            any => Assert.That(any.Get<double>(), Is.EqualTo(1.0).Within(_error))
+        );
+    }
+
+    [Test]
+    public void TestA5()
+    {
+        TestCode(
+            $$"""
+              {{_imports}}
+
+              def Main() {
+                  return not ((5 - 9) < 3)
+              }
+              """,
+            any => Assert.That(any.Get<double>(), Is.EqualTo(0.0).Within(_error))
+        );
+    }
+
     private void TestCode(string code, Action<Any> result)
     {
         var lexemes = new Lexer(QuarkLexerDefaultConfiguration.CreateDefault()).Lexemize(code);

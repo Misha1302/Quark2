@@ -1,6 +1,3 @@
-using System.Collections.Frozen;
-using OptimizedStack;
-
 namespace TranslatorToMsil;
 
 public record TranslatorRuntimeData(

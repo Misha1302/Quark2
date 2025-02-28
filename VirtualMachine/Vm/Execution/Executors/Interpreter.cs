@@ -1,5 +1,3 @@
-using static CommonBytecode.Enums.InstructionType;
-
 namespace VirtualMachine.Vm.Execution.Executors;
 
 public class Interpreter
