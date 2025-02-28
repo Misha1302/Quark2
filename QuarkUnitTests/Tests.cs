@@ -205,6 +205,31 @@ public class Tests
         );
     }
 
+    [Test]
+    public void TestA2()
+    {
+        Try(
+            $$"""
+              {{_imports}}
+
+              def Main() {
+                  names = CreateVector("A", "B", "F", "C", "E", "G", "H", "I", "D", 9)
+                  vec = CreateVector(CreateVector(1,2, 2), CreateVector(3,4, 2), CreateVector(5, 1), CreateVector(8, 1), CreateVector(0), CreateVector(6,7, 2), CreateVector(0), CreateVector(0), CreateVector(0), 9)
+                  return Dfs(names, vec, 0)
+              }
+
+              def Dfs(names, vec, ind) {
+                  s = GetValue(names, ind)
+                  for (i = 0) (i < GetSize(GetValue(vec, ind))) (i = i + 1) {
+                      s = Concat(s, Dfs(names, vec, GetValue(GetValue(vec, ind), i)))
+                  }
+                  return s
+              }
+              """,
+            any => Assert.That(any.Get<string>(), Is.EqualTo("ABCDEFGHI"))
+        );
+    }
+
     private void Try(string code, Action<Any> result)
     {
         var lexemes = new Lexer(QuarkLexerDefaultConfiguration.CreateDefault()).Lexemize(code);
