@@ -4,6 +4,15 @@ public class ImportsManager
 {
     private readonly Dictionary<MethodInfo, Delegate> _methods = new();
 
+    public ImportsManager()
+    {
+        AppDomain.CurrentDomain.AssemblyResolve += (sender, args) =>
+        {
+            var assembly = ((AppDomain)sender!).GetAssemblies().FirstOrDefault(x => x.FullName == args.Name);
+            return assembly;
+        };
+    }
+
     public IReadOnlyDictionary<MethodInfo, Delegate> Methods => _methods;
 
     public Delegate GetDelegateByName(string name)
@@ -28,7 +37,7 @@ public class ImportsManager
         var fullPath = Path.GetFullPath(path);
         var assembly = Assembly.LoadFrom(fullPath);
 
-        ImportAssembly(assembly);
+        RawLoadAssembly(assembly);
     }
 
     private void ImportDirectory(string path)
@@ -42,27 +51,18 @@ public class ImportsManager
 
     private bool IsCorrectFilePath(string path) => path.EndsWith(".dll");
 
-
-    private void ImportAssembly(Assembly assembly)
+    private void RawLoadAssembly(Assembly assembly)
     {
         foreach (var type in assembly.GetTypes())
         foreach (var methodInfo in SelectMethods(type))
             _methods.TryAdd(methodInfo, methodInfo.CreateDelegateCustom(null));
     }
 
-    private static IEnumerable<MethodInfo> SelectMethods(Type type)
-    {
-        return type
+    private static IEnumerable<MethodInfo> SelectMethods(Type type) =>
+        type
             .GetMethods(BindingFlags.Static | BindingFlags.Public)
-            .Where(x => !x.IsGenericMethod)
-            .Where(x => x.IsStatic)
-            .Where(x => x.GetParameters().All(y => !y.ParameterType.IsByRef))
-            .Where(x => !x.ReturnType.IsByRef)
-            .Where(x => !x.ReturnType.IsGenericType)
-            .Where(x => !x.ContainsGenericParameters)
-            .Where(x => !x.IsGenericMethod)
-            .Where(x => !x.DeclaringType?.IsGenericType ?? false);
-    }
+            .Where(MethodValidator.IsValidMethod);
+
 
     public bool Have(string functionName)
     {

@@ -7,7 +7,9 @@
     </PropertyGroup>
 
     <ItemGroup>
+        <ProjectReference Include="..\CommonDataStructures\CommonDataStructures.csproj"/>
         <ProjectReference Include="..\ExceptionsManager\ExceptionsManager.csproj"/>
+        <ProjectReference Include="..\SharpAnyType\SharpAnyType.csproj"/>
     </ItemGroup>
 
 </Project>

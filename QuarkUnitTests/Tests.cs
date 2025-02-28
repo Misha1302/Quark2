@@ -20,7 +20,7 @@ public class Tests
     [Test]
     public void Test1()
     {
-        Try(
+        TestCode(
             $$"""
               {{_imports}}
 
@@ -35,7 +35,7 @@ public class Tests
     [Test]
     public void Test2()
     {
-        Try(
+        TestCode(
             $$"""
               {{_imports}}
 
@@ -50,7 +50,7 @@ public class Tests
     [Test]
     public void Test3()
     {
-        Try(
+        TestCode(
             $$"""
               {{_imports}}
 
@@ -69,7 +69,7 @@ public class Tests
     [Test]
     public void Test4()
     {
-        Try(
+        TestCode(
             $$"""
               {{_imports}}
 
@@ -96,7 +96,7 @@ public class Tests
     [Test]
     public void Test5()
     {
-        Try(
+        TestCode(
             $$"""
               {{_imports}}
 
@@ -123,7 +123,7 @@ public class Tests
     [Test]
     public void Test6()
     {
-        Try(
+        TestCode(
             $$"""
               {{_imports}}
 
@@ -143,7 +143,7 @@ public class Tests
     [Test]
     public void Test7()
     {
-        Try(
+        TestCode(
             $$"""
               {{_imports}}
 
@@ -159,7 +159,7 @@ public class Tests
     [Test]
     public void Test8()
     {
-        Try(
+        TestCode(
             $$"""
               {{_imports}}
 
@@ -174,7 +174,7 @@ public class Tests
     [Test]
     public void Test9()
     {
-        Try(
+        TestCode(
             $$"""
               {{_imports}}
 
@@ -189,7 +189,7 @@ public class Tests
     [Test]
     public void TestA1()
     {
-        Try(
+        TestCode(
             $$"""
               {{_imports}}
 
@@ -208,7 +208,7 @@ public class Tests
     [Test]
     public void TestA2()
     {
-        Try(
+        TestCode(
             $$"""
               {{_imports}}
 
@@ -230,7 +230,7 @@ public class Tests
         );
     }
 
-    private void Try(string code, Action<Any> result)
+    private void TestCode(string code, Action<Any> result)
     {
         var lexemes = new Lexer(QuarkLexerDefaultConfiguration.CreateDefault()).Lexemize(code);
         var asg = new AsgBuilder<QuarkLexemeType>(QuarkAsgBuilderConfiguration.CreateDefault()).Build(lexemes);
