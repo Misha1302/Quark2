@@ -58,9 +58,9 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QuarkConstants", "QuarkCons
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "VirtualMachine", "VirtualMachine", "{70CF601C-755F-439E-BEE7-0782848A0B08}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ToMsilTranslator", "ToMsilTranslator", "{2412AFDD-B31A-4B90-A5D4-1B3A9D77AB79}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "TranslatorToMsil", "TranslatorToMsil", "{2412AFDD-B31A-4B90-A5D4-1B3A9D77AB79}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ToMsilTranslator", "ToMsilTranslator\ToMsilTranslator.csproj", "{E2E7758B-BB2E-4E8C-9965-F860A3516BC8}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TranslatorToMsil", "TranslatorToMsil\TranslatorToMsil.csproj", "{E2E7758B-BB2E-4E8C-9965-F860A3516BC8}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConfigurationManager", "ConfigurationManager\ConfigurationManager.csproj", "{E4A5B3A6-9583-47C8-9176-55264AB58F3C}"
 EndProject

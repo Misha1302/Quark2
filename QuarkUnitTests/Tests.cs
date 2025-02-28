@@ -211,7 +211,7 @@ public class Tests
         var asg = new AsgBuilder<QuarkLexemeType>(QuarkAsgBuilderConfiguration.CreateDefault()).Build(lexemes);
         var module = new AsgToBytecodeTranslator<QuarkLexemeType>().Translate(asg);
 
-        var msilExecutor = new ToMsilTranslator.ToMsilTranslator();
+        var msilExecutor = new TranslatorToMsil.TranslatorToMsil();
         msilExecutor.Init(new ExecutorConfiguration(module));
 
         var interpreter = new QuarkVirtualMachine();

@@ -12,7 +12,7 @@ namespace QuarkBenchmarks;
 public abstract class QuarkTest(string code)
 {
     private QuarkVirtualMachine _interpreter = null!;
-    private ToMsilTranslator.ToMsilTranslator _msilExecutor = null!;
+    private TranslatorToMsil.TranslatorToMsil _msilExecutor = null!;
 
     [GlobalSetup]
     public void Setup()
@@ -20,7 +20,7 @@ public abstract class QuarkTest(string code)
         var lexemes = new Lexer(QuarkLexerDefaultConfiguration.CreateDefault()).Lexemize(code);
         var asg = new AsgBuilder<QuarkLexemeType>(QuarkAsgBuilderConfiguration.CreateDefault()).Build(lexemes);
         var module = new AsgToBytecodeTranslator<QuarkLexemeType>().Translate(asg);
-        _msilExecutor = new ToMsilTranslator.ToMsilTranslator();
+        _msilExecutor = new TranslatorToMsil.TranslatorToMsil();
         _msilExecutor.Init(new ExecutorConfiguration(module));
         _interpreter = new QuarkVirtualMachine();
         _interpreter.Init(new ExecutorConfiguration(module));

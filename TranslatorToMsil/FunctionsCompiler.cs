@@ -1,4 +1,4 @@
-namespace ToMsilTranslator;
+namespace TranslatorToMsil;
 
 public class FunctionsCompiler
 {

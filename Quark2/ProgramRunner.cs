@@ -35,7 +35,7 @@ public class ProgramRunner
         var executor = (IExecutor)(
             runType == RunType.MainCodeRunningUsingInterpreter
                 ? new QuarkVirtualMachine()
-                : new ToMsilTranslator.ToMsilTranslator()
+                : new TranslatorToMsil.TranslatorToMsil()
         );
         executor.Init(new ExecutorConfiguration(module));
         return executor;

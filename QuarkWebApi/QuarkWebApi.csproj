@@ -29,7 +29,7 @@
 
     <ItemGroup>
         <ProjectReference Include="..\Quark2\Quark2.csproj"/>
-        <ProjectReference Include="..\ToMsilTranslator\ToMsilTranslator.csproj"/>
+        <ProjectReference Include="..\TranslatorToMsil\TranslatorToMsil.csproj" />
     </ItemGroup>
 
 </Project>

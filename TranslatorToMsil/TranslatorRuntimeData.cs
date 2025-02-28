@@ -1,7 +1,7 @@
 using System.Collections.Frozen;
 using OptimizedStack;
 
-namespace ToMsilTranslator;
+namespace TranslatorToMsil;
 
 public record TranslatorRuntimeData(
     List<AnyOpt> Constants,

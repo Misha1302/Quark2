@@ -31,7 +31,7 @@ public class Measurer
 
         // something about 173
         times2 = Measure(
-            () => new ToMsilTranslator.ToMsilTranslator(),
+            () => new TranslatorToMsil.TranslatorToMsil(),
             repeatTimes, code
         );
         Console.WriteLine($"Translator to msil min execution time: {times2.Min()} ms");

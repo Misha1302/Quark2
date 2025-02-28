@@ -27,7 +27,7 @@ public class QuarkInitializer
     {
         var executor = (IExecutor)(runType != RunType.RunningUsingInterpreter
             ? new QuarkVirtualMachine()
-            : new ToMsilTranslator.ToMsilTranslator());
+            : new TranslatorToMsil.TranslatorToMsil());
         executor.Init(new ExecutorConfiguration(module));
         return executor;
     }

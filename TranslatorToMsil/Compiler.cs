@@ -1,6 +1,6 @@
 using RuntimeHackes;
 
-namespace ToMsilTranslator;
+namespace TranslatorToMsil;
 
 public class Compiler
 {

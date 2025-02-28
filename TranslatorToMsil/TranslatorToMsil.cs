@@ -1,9 +1,9 @@
 ﻿using System.Collections.Frozen;
 using OptimizedStack;
 
-namespace ToMsilTranslator;
+namespace TranslatorToMsil;
 
-public class ToMsilTranslator : IExecutor
+public class TranslatorToMsil : IExecutor
 {
     public IEnumerable<Any> RunModule() =>
         RunFunction("Main", []);
