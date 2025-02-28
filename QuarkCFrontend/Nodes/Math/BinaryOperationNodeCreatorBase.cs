@@ -16,6 +16,9 @@ public abstract class BinaryOperationNodeCreatorBase(AsgNodeType nodeType, Quark
 
         nodes.RemoveAt(i + 2);
         nodes.RemoveAt(i);
+        
+        TryBuildImpl(nodes, i);
+        
         return -1;
     }
 }

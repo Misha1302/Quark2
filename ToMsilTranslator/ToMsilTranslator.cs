@@ -1,6 +1,5 @@
 ﻿using System.Collections.Frozen;
 using OptimizedStack;
-using RuntimeHackes;
 
 namespace ToMsilTranslator;
 
@@ -20,17 +19,11 @@ public class ToMsilTranslator : IExecutor
 
     public void Init(ExecutorConfiguration configuration)
     {
-        var (methods, constants) = new Compiler().CompileModule(configuration.Module);
-        RuntimeLibrary.RuntimeData =
-            new ToMsilTranslatorRuntimeData(
-                constants,
-                ToPointers(methods).ToDictionary(x => x.Name, x => x.ptr).ToFrozenDictionary(),
-                new OptimizedStack<AnyOpt>()
-            );
-    }
+        var (dynamicMethods, constants) = new Translator().CompileModule(configuration.Module);
+        var compiledMethods = new Compiler().Compile(dynamicMethods);
+        var methodsDict = compiledMethods.ToDictionary(x => x.Name, x => x.Pointer).ToFrozenDictionary();
+        var intermediateData = new OptimizedStack<AnyOpt>();
 
-    private IEnumerable<(string Name, nint ptr)> ToPointers(List<DynamicMethod> methods)
-    {
-        return methods.Select(method => (method.Name, method.GetNativePointer()));
+        RuntimeLibrary.RuntimeData = new TranslatorRuntimeData(constants, methodsDict, intermediateData);
     }
 }

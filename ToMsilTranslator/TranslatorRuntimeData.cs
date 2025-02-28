@@ -3,7 +3,7 @@ using OptimizedStack;
 
 namespace ToMsilTranslator;
 
-public record ToMsilTranslatorRuntimeData(
+public record TranslatorRuntimeData(
     List<AnyOpt> Constants,
     FrozenDictionary<string, nint> DynamicMethods,
     OptimizedStack<AnyOpt> IntermediateData

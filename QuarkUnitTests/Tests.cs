@@ -4,11 +4,13 @@ public class Tests
 {
     private double _error;
     private string _imports;
+    private double _smallError;
 
     [SetUp]
     public void Setup()
     {
-        _error = 0.0001;
+        _error = 1e-6;
+        _smallError = 1e-9;
         _imports =
             """
             import "../../../../Libraries"
@@ -166,6 +168,40 @@ public class Tests
               }
               """,
             any => Assert.That(any.Get<double>(), Is.EqualTo(3.21).Within(_error))
+        );
+    }
+
+    [Test]
+    public void Test9()
+    {
+        Try(
+            $$"""
+              {{_imports}}
+
+              def Main() {
+                  return 1 / 2 / 3 / 4 / 5 / 6
+              }
+              """,
+            any => Assert.That(any.Get<double>(), Is.EqualTo(1.0 / 2 / 3 / 4 / 5 / 6).Within(_smallError))
+        );
+    }
+
+    [Test]
+    public void TestA1()
+    {
+        Try(
+            $$"""
+              {{_imports}}
+
+              def Main() {
+                  return Divs(1, 2, 3, 4, 5, 6)
+              }
+              
+              def Divs(a, b, c, d, e, f) {
+                  return a / b / c / d / e / f
+              }
+              """,
+            any => Assert.That(any.Get<double>(), Is.EqualTo(1.0 / 2 / 3 / 4 / 5 / 6).Within(_smallError))
         );
     }
 
