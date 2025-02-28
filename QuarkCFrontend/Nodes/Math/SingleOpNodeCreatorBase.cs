@@ -11,10 +11,14 @@ public abstract class SingleOpNodeCreatorBase(AsgNodeType nodeType, QuarkLexemeT
         if (nodes[i].Children.Count != 0) return 0;
         if (nodes[i].LexemeType != quarkLexemeType) return 0;
 
+        TryBuildImpl(nodes, i + 1);
+
         nodes[i].Children.AddRange([nodes[i + 1]]);
         nodes[i].NodeType = nodeType;
 
         nodes.RemoveAt(i + 1);
+
+
         return 0;
     }
 }

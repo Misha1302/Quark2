@@ -87,7 +87,7 @@ public class Interpreter
         var value = Stack.Pop();
 
         var isTrue = branchMode == BranchMode.IfTrue && value.IsTrue();
-        var isFalse = branchMode == BranchMode.IfFalse && value.IsFalse();
+        var isFalse = branchMode == BranchMode.IfFalse && !value.IsTrue();
         if (isTrue || isFalse)
             vmFrame.Ip = vmFrame.Labels[(int)labelIndex].Ip;
     }

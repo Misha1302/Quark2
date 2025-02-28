@@ -1,10 +1,6 @@
-using System.Numerics;
-using DynamicStrongTypeValue;
-using StrongAnyValueCalculator;
-
 namespace UnitTests;
 
-public class Tests
+public class CodeTests
 {
     private double _error;
     private string _imports;
@@ -280,16 +276,18 @@ public class Tests
     }
 
     [Test]
-    public void TestA6()
+    public void TestA7()
     {
-        var a = new Complex(2, 3);
-        var b = new Complex(3, 4);
-        var c = a + b;
+        TestCode(
+            $$"""
+              {{_imports}}
 
-        var anyOptA = AnyOpt.CreateRef(a, AnyValueType.SomeSharpObject);
-        var anyOptB = AnyOpt.CreateRef(b, AnyValueType.SomeSharpObject);
-
-        Assert.That(AnyOptCalculator.Sum(anyOptA, anyOptB).GetRef<Complex>(), Is.EqualTo(c));
+              def Main() {
+                  return not not 1
+              }
+              """,
+            any => Assert.That(any.Get<double>(), Is.EqualTo(1.0).Within(_error))
+        );
     }
 
     private void TestCode(string code, Action<Any> result)

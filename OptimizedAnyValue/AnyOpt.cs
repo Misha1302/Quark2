@@ -67,12 +67,6 @@ public readonly struct AnyOpt : IAny
     /// <returns>true if the value is not empty</returns>
     public bool IsTrue() => _value != 0 || _ref != null;
 
-    /// <summary>
-    ///     Returns is this value empty
-    /// </summary>
-    /// <returns>true if the value is empty</returns>
-    public bool IsFalse() => _value == 0;
-
     public object GetObjectValue() => this.GetValueInSharpType();
 
     public AnyValueType GetAnyType() => Type;
