@@ -13,7 +13,7 @@
 
     <ItemGroup>
         <ProjectReference Include="..\QuarkAsgToBytecodeTranslator\QuarkAsgToBytecodeTranslator.csproj"/>
-        <ProjectReference Include="..\TranslatorToMsil\TranslatorToMsil.csproj" />
+        <ProjectReference Include="..\TranslatorToMsil\TranslatorToMsil.csproj"/>
         <ProjectReference Include="..\VirtualMachine\VirtualMachine.csproj"/>
     </ItemGroup>
 

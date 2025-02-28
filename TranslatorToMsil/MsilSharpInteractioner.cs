@@ -2,7 +2,7 @@ namespace TranslatorToMsil;
 
 public static class MsilSharpInteractioner
 {
-    public static unsafe Any CallStaticSharpFunction(
+    public static unsafe Any CallVarArgsStaticSharpFunction(
         Any[] args, nint ptr, bool returnsValue
     )
     {

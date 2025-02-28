@@ -76,7 +76,7 @@ public class FunctionsCompiler
             il.Ldloc(arrLoc);
             il.Ldc_IntPtr(method.MethodHandle.GetFunctionPointer());
             il.Ldc_I4(method.ReturnType != typeof(void) ? 1 : 0);
-            il.Call(DelegatesHelper.GetInfo(MsilSharpInteractioner.CallStaticSharpFunction));
+            il.Call(DelegatesHelper.GetInfo(MsilSharpInteractioner.CallVarArgsStaticSharpFunction));
         }
 
         if (method.ReturnType != typeof(void))
