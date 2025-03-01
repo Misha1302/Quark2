@@ -21,6 +21,6 @@ public class TranslatorToMsil : IExecutor
         var methodsDict = compiledMethods.ToDictionary(x => x.Name, x => x.Pointer).ToFrozenDictionary();
         var intermediateData = new OptimizedStack<AnyOpt>();
 
-        RuntimeLibrary.RuntimeData = new TranslatorRuntimeData(constants, methodsDict, intermediateData);
+        RuntimeLibrary.RuntimeData = new TranslatorRuntimeData(constants.ToArray(), methodsDict, intermediateData);
     }
 }

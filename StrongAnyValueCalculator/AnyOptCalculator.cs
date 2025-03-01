@@ -5,7 +5,7 @@ namespace StrongAnyValueCalculator;
 public static class AnyOptCalculator
 {
     // Math ops
-    public static AnyOpt Sum(AnyOpt a, AnyOpt b)
+    public static AnyOpt Sum(in AnyOpt a, in AnyOpt b)
     {
         Throw.AssertAlways(a.Type == b.Type, "Types to perform operations must be equal");
 
@@ -17,7 +17,7 @@ public static class AnyOptCalculator
         return Throw.InvalidOpEx<AnyOpt>("Cannot perform operation");
     }
 
-    public static AnyOpt Sub(AnyOpt a, AnyOpt b)
+    public static AnyOpt Sub(in AnyOpt a, in AnyOpt b)
     {
         Throw.AssertAlways(a.Type == b.Type, "Types to perform operations must be equal");
 
@@ -29,7 +29,7 @@ public static class AnyOptCalculator
         return Throw.InvalidOpEx<AnyOpt>("Cannot perform operation");
     }
 
-    public static AnyOpt Mul(AnyOpt a, AnyOpt b)
+    public static AnyOpt Mul(in AnyOpt a, in AnyOpt b)
     {
         Throw.AssertAlways(a.Type == b.Type, "Types to perform operations must be equal");
 
@@ -41,7 +41,7 @@ public static class AnyOptCalculator
         return Throw.InvalidOpEx<AnyOpt>("Cannot perform operation");
     }
 
-    public static AnyOpt Div(AnyOpt a, AnyOpt b)
+    public static AnyOpt Div(in AnyOpt a, in AnyOpt b)
     {
         Throw.AssertAlways(a.Type == b.Type, "Types to perform operations must be equal");
 
@@ -53,7 +53,7 @@ public static class AnyOptCalculator
         return Throw.InvalidOpEx<AnyOpt>("Cannot perform operation");
     }
 
-    public static AnyOpt Pow(AnyOpt a, AnyOpt b)
+    public static AnyOpt Pow(in AnyOpt a, in AnyOpt b)
     {
         Throw.AssertAlways(a.Type == b.Type, "Types to perform operations must be equal");
 
@@ -65,7 +65,7 @@ public static class AnyOptCalculator
         return Throw.InvalidOpEx<AnyOpt>("Cannot perform operation");
     }
 
-    public static AnyOpt Mod(AnyOpt a, AnyOpt b)
+    public static AnyOpt Mod(in AnyOpt a, in AnyOpt b)
     {
         Throw.AssertAlways(a.Type == b.Type, "Types to perform operations must be equal");
 
@@ -79,7 +79,7 @@ public static class AnyOptCalculator
 
 
     // Logic ops
-    public static AnyOpt And(AnyOpt a, AnyOpt b)
+    public static AnyOpt And(in AnyOpt a, in AnyOpt b)
     {
         Throw.AssertAlways(a.Type == b.Type, "Types to perform operations must be equal");
 
@@ -91,7 +91,7 @@ public static class AnyOptCalculator
         return Throw.InvalidOpEx<AnyOpt>("Cannot perform operation");
     }
 
-    public static AnyOpt Or(AnyOpt a, AnyOpt b)
+    public static AnyOpt Or(in AnyOpt a, in AnyOpt b)
     {
         Throw.AssertAlways(a.Type == b.Type, "Types to perform operations must be equal");
 
@@ -103,7 +103,7 @@ public static class AnyOptCalculator
         return Throw.InvalidOpEx<AnyOpt>("Cannot perform operation");
     }
 
-    public static AnyOpt Xor(AnyOpt a, AnyOpt b)
+    public static AnyOpt Xor(in AnyOpt a, in AnyOpt b)
     {
         Throw.AssertAlways(a.Type == b.Type, "Types to perform operations must be equal");
 
@@ -115,7 +115,7 @@ public static class AnyOptCalculator
         return Throw.InvalidOpEx<AnyOpt>("Cannot perform operation");
     }
 
-    public static AnyOpt Not(AnyOpt a)
+    public static AnyOpt Not(in AnyOpt a)
     {
         if (a.Type.HasFlagFast(Number))
             return AnyOpt.Create(a.IsTrue() ? 0.0 : 1.0, Number);
@@ -127,7 +127,7 @@ public static class AnyOptCalculator
 
 
     // Compare ops
-    public static AnyOpt Eq(AnyOpt a, AnyOpt b)
+    public static AnyOpt Eq(in AnyOpt a, in AnyOpt b)
     {
         Throw.AssertAlways(a.Type == b.Type, "Types to perform operations must be equal");
 
@@ -141,10 +141,10 @@ public static class AnyOptCalculator
         return Throw.InvalidOpEx<AnyOpt>("Cannot perform operation");
     }
 
-    public static AnyOpt NotEq(AnyOpt a, AnyOpt b) =>
+    public static AnyOpt NotEq(in AnyOpt a, in AnyOpt b) =>
         Not(Eq(a, b));
 
-    public static AnyOpt Lt(AnyOpt a, AnyOpt b)
+    public static AnyOpt Lt(in AnyOpt a, in AnyOpt b)
     {
         Throw.AssertAlways(a.Type == b.Type, "Types to perform operations must be equal");
 
@@ -156,7 +156,7 @@ public static class AnyOptCalculator
         return Throw.InvalidOpEx<AnyOpt>("Cannot perform operation");
     }
 
-    public static AnyOpt Gt(AnyOpt a, AnyOpt b)
+    public static AnyOpt Gt(in AnyOpt a, in AnyOpt b)
     {
         Throw.AssertAlways(a.Type == b.Type, "Types to perform operations must be equal");
 
@@ -168,9 +168,9 @@ public static class AnyOptCalculator
         return Throw.InvalidOpEx<AnyOpt>("Cannot perform operation");
     }
 
-    public static AnyOpt GtOrEq(AnyOpt a, AnyOpt b) =>
+    public static AnyOpt GtOrEq(in AnyOpt a, in AnyOpt b) =>
         AnyOpt.Create(Gt(a, b).IsTrue() || Eq(a, b).IsTrue() ? 1.0 : 0.0, Number);
 
-    public static AnyOpt LtOrEq(AnyOpt a, AnyOpt b) =>
+    public static AnyOpt LtOrEq(in AnyOpt a, in AnyOpt b) =>
         AnyOpt.Create(Lt(a, b).IsTrue() || Eq(a, b).IsTrue() ? 1.0 : 0.0, Number);
 }

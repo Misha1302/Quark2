@@ -101,7 +101,14 @@ public class FunctionsCompiler
         var func = module.Functions.First(x => x.Name == name);
         var parametersCount = func.Code.GetParametersCount();
 
-        for (var i = 0; i < parametersCount; i++) il.Call(DelegatesHelper.GetInfo(RuntimeLibrary.PushToStack));
+        for (var i = 0; i < parametersCount; i++)
+        {
+            var a = il.DeclareLocal(typeof(AnyOpt));
+            il.Stloc(a);
+            il.Ldloca(a);
+            il.Call(DelegatesHelper.GetInfo(RuntimeLibrary.PushToStack));
+        }
+
         il.Ldstr(name);
         il.Call(DelegatesHelper.GetInfo(RuntimeLibrary.CallFunc));
     }
@@ -118,10 +125,12 @@ public class FunctionsCompiler
                 il.Br(label);
                 break;
             case BranchMode.IfTrue:
+                PushRefsFromStack(1, il);
                 il.Call(DelegatesHelper.GetInfo(RuntimeLibrary.ToBool));
                 il.Brtrue(label);
                 break;
             case BranchMode.IfFalse:
+                PushRefsFromStack(1, il);
                 il.Call(DelegatesHelper.GetInfo(RuntimeLibrary.ToBool));
                 il.Brfalse(label);
                 break;
@@ -156,6 +165,14 @@ public class FunctionsCompiler
             _ => Throw.InvalidOpEx<Delegate>(),
         };
 
+        PushRefsFromStack(op == Not ? 1 : 2, il);
         il.Call(c.GetInfo());
+    }
+
+    private void PushRefsFromStack(int count, GroboIL il)
+    {
+        var locals = Enumerable.Range(0, count).Select(x => il.DeclareLocal(typeof(AnyOpt))).ToArray();
+        foreach (var local in locals) il.Stloc(local);
+        foreach (var local in locals.Reverse()) il.Ldloca(local);
     }
 }

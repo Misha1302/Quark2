@@ -7,15 +7,15 @@
     </PropertyGroup>
 
     <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
-      <OutputPath>../Libraries/bin/</OutputPath>
+        <OutputPath>../Libraries/bin/</OutputPath>
     </PropertyGroup>
 
     <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
-      <OutputPath>../Libraries/bin/</OutputPath>
+        <OutputPath>../Libraries/bin/</OutputPath>
     </PropertyGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\SharpAnyType\SharpAnyType.csproj" />
+        <ProjectReference Include="..\SharpAnyType\SharpAnyType.csproj"/>
     </ItemGroup>
 
 </Project>
