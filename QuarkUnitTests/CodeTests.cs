@@ -311,6 +311,21 @@ public class CodeTests
         );
     }
 
+    [Test]
+    public void TestA9()
+    {
+        TestCode(
+            $$"""
+              {{_imports}}
+
+              def Main() {
+                  return "Hello" + "!" + "World!"
+              }
+              """,
+            any => Assert.That(any.Get<string>().Trim(), Is.EqualTo("Hello!World!"))
+        );
+    }
+
     private void TestCode(string code, Action<Any> result)
     {
         var lexemes = new Lexer(QuarkLexerDefaultConfiguration.CreateDefault()).Lexemize(code);

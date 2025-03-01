@@ -12,7 +12,7 @@ public static class AnyOptCalculator
         if (a.Type.HasFlagFast(Number))
             return AnyOpt.Create(a.Get<double>() + b.Get<double>(), Number);
         if (a.Type.IsRefType())
-            return AnyOpt.CreateRef((dynamic)a.GetRef<object>() + (dynamic)b.GetRef<object>(), SomeSharpObject);
+            return AnyOpt.CreateRef((dynamic)a.GetRef<object>() + (dynamic)b.GetRef<object>(), a.Type);
 
         return Throw.InvalidOpEx<AnyOpt>("Cannot perform operation");
     }
@@ -24,7 +24,7 @@ public static class AnyOptCalculator
         if (a.Type.HasFlagFast(Number))
             return AnyOpt.Create(a.Get<double>() - b.Get<double>(), Number);
         if (a.Type.IsRefType())
-            return AnyOpt.CreateRef((dynamic)a.GetRef<object>() - (dynamic)b.GetRef<object>(), SomeSharpObject);
+            return AnyOpt.CreateRef((dynamic)a.GetRef<object>() - (dynamic)b.GetRef<object>(), a.Type);
 
         return Throw.InvalidOpEx<AnyOpt>("Cannot perform operation");
     }
@@ -36,7 +36,7 @@ public static class AnyOptCalculator
         if (a.Type.HasFlagFast(Number))
             return AnyOpt.Create(a.Get<double>() * b.Get<double>(), Number);
         if (a.Type.IsRefType())
-            return AnyOpt.CreateRef((dynamic)a.GetRef<object>() * (dynamic)b.GetRef<object>(), SomeSharpObject);
+            return AnyOpt.CreateRef((dynamic)a.GetRef<object>() * (dynamic)b.GetRef<object>(), a.Type);
 
         return Throw.InvalidOpEx<AnyOpt>("Cannot perform operation");
     }
@@ -48,7 +48,7 @@ public static class AnyOptCalculator
         if (a.Type.HasFlagFast(Number))
             return AnyOpt.Create(a.Get<double>() / b.Get<double>(), Number);
         if (a.Type.IsRefType())
-            return AnyOpt.CreateRef((dynamic)a.GetRef<object>() / (dynamic)b.GetRef<object>(), SomeSharpObject);
+            return AnyOpt.CreateRef((dynamic)a.GetRef<object>() / (dynamic)b.GetRef<object>(), a.Type);
 
         return Throw.InvalidOpEx<AnyOpt>("Cannot perform operation");
     }
@@ -72,7 +72,7 @@ public static class AnyOptCalculator
         if (a.Type.HasFlagFast(Number))
             return AnyOpt.Create(a.Get<double>() % b.Get<double>(), Number);
         if (a.Type.IsRefType())
-            return AnyOpt.CreateRef((dynamic)a.GetRef<object>() % (dynamic)b.GetRef<object>(), SomeSharpObject);
+            return AnyOpt.CreateRef((dynamic)a.GetRef<object>() % (dynamic)b.GetRef<object>(), a.Type);
 
         return Throw.InvalidOpEx<AnyOpt>("Cannot perform operation");
     }
@@ -86,7 +86,7 @@ public static class AnyOptCalculator
         if (a.Type.HasFlagFast(Number))
             return AnyOpt.Create(a.Get<double>().ToLong() & b.Get<double>().ToLong(), Number);
         if (a.Type.IsRefType())
-            return AnyOpt.CreateRef((dynamic)a.GetRef<object>() & (dynamic)b.GetRef<object>(), SomeSharpObject);
+            return AnyOpt.CreateRef((dynamic)a.GetRef<object>() & (dynamic)b.GetRef<object>(), a.Type);
 
         return Throw.InvalidOpEx<AnyOpt>("Cannot perform operation");
     }
@@ -98,7 +98,7 @@ public static class AnyOptCalculator
         if (a.Type.HasFlagFast(Number))
             return AnyOpt.Create(a.Get<double>().ToLong() | b.Get<double>().ToLong(), Number);
         if (a.Type.IsRefType())
-            return AnyOpt.CreateRef((dynamic)a.GetRef<object>() | (dynamic)b.GetRef<object>(), SomeSharpObject);
+            return AnyOpt.CreateRef((dynamic)a.GetRef<object>() | (dynamic)b.GetRef<object>(), a.Type);
 
         return Throw.InvalidOpEx<AnyOpt>("Cannot perform operation");
     }
@@ -110,7 +110,7 @@ public static class AnyOptCalculator
         if (a.Type.HasFlagFast(Number))
             return AnyOpt.Create(a.Get<double>().ToLong() ^ b.Get<double>().ToLong(), Number);
         if (a.Type.IsRefType())
-            return AnyOpt.CreateRef((dynamic)a.GetRef<object>() ^ (dynamic)b.GetRef<object>(), SomeSharpObject);
+            return AnyOpt.CreateRef((dynamic)a.GetRef<object>() ^ (dynamic)b.GetRef<object>(), a.Type);
 
         return Throw.InvalidOpEx<AnyOpt>("Cannot perform operation");
     }
