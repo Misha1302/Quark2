@@ -9,9 +9,7 @@ const string code =
     import "../../../../Libraries"
 
     def Main() {
-        t = GetTimeInMilliseconds()
-        for (i = 0) (i < 100'000'000) (i = i + 1) { }
-        _ = PrintLn(GetTimeInMilliseconds() - t)
+        _ = PrintLn("Hello, World!")
         return 0
     }
     """;
