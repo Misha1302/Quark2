@@ -8,7 +8,7 @@ public static class QuarkLexerDefaultConfiguration
             (List<LexemePattern<QuarkLexemeType>>)
             [
                 new LexemePattern<QuarkLexemeType>("//.*", Comment),
-                new LexemePattern<QuarkLexemeType>(@"-?[0-9]+(\.[0-9]+)?", Number),
+                new LexemePattern<QuarkLexemeType>(@"-?[0-9']+(\.[0-9']+)?", Number),
                 new LexemePattern<QuarkLexemeType>(@"\(", LeftPar),
                 new LexemePattern<QuarkLexemeType>(@"\)", RightPar),
                 new LexemePattern<QuarkLexemeType>(@"\{", LeftBrace),

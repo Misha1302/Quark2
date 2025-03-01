@@ -46,7 +46,7 @@ public class AsgToBytecodeTranslator<T> where T : struct
                 CurBytecode.Add(new BytecodeInstruction(InstructionType.SetLocal, [varName]));
                 break;
             case AsgNodeType.Number:
-                var number = double.Parse(node.Text, CultureInfo.InvariantCulture);
+                var number = double.Parse(node.Text.Replace("'", ""), CultureInfo.InvariantCulture);
                 CurBytecode.Add(new BytecodeInstruction(InstructionType.PushConst, [number]));
                 break;
             case AsgNodeType.Type:
