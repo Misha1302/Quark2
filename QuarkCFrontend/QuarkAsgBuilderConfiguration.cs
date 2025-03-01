@@ -55,6 +55,8 @@ public static class QuarkAsgBuilderConfiguration
         ],
         [
             new IfNodeCreator(),
+            new ElifNodeCreator(),
+            new ElseNodeCreator(),
         ],
         [
             new ForLoopNodeCreator(),

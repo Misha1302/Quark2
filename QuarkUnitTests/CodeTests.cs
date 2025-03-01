@@ -290,6 +290,27 @@ public class CodeTests
         );
     }
 
+    [Test]
+    public void TestA8()
+    {
+        TestCode(
+            $$"""
+              {{_imports}}
+
+              def Main() {
+                  s = ""
+                  for (n = 0) (n < 10) (n = n + 1) {
+                      if n % 2 == 0 { s = Concat(s, "D2 ") }
+                      elif n % 3 == 0 { s = Concat(s, "D3 ") }
+                      else { s = Concat(s, "Hi ") }
+                  }
+                  return s
+              }
+              """,
+            any => Assert.That(any.Get<string>().Trim(), Is.EqualTo("D2 Hi D2 D3 D2 Hi D2 Hi D2 D3"))
+        );
+    }
+
     private void TestCode(string code, Action<Any> result)
     {
         var lexemes = new Lexer(QuarkLexerDefaultConfiguration.CreateDefault()).Lexemize(code);

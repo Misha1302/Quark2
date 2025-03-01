@@ -69,14 +69,20 @@ public class AsgToBytecodeTranslator<T> where T : struct
 
                 break;
             case AsgNodeType.If:
+            case AsgNodeType.ElseIf:
                 SimpleBytecodeGenerator.If(
                     () => Visit(node.Children[0]),
                     () => Visit(node.Children[1]),
+                    () =>
+                    {
+                        if (node.Children.Count >= 3)
+                            Visit(node.Children[2]);
+                    },
                     CurFunction.Code
                 );
                 break;
             case AsgNodeType.Else:
-            case AsgNodeType.ElseIf:
+                Visit(node.Children[0]);
                 break;
             case AsgNodeType.Return:
                 Visit(node.Children[0]);
