@@ -33,9 +33,19 @@ public class Translator
         var functionsCompiler = new FunctionsCompiler();
         for (var index = 0; index < function.Code.Instructions.Count; index++)
         {
-            var instruction = function.Code.Instructions[index];
-            var prevInstruction = index - 1 >= 0 ? function.Code.Instructions[index - 1] : null;
-            functionsCompiler.CompileInstruction(il, instruction, prevInstruction, data, module, constants);
+            var instructions = function.Code.Instructions;
+            var instruction = instructions[index];
+            var prevInstruction = index - 1 >= 0 ? instructions[index - 1] : null;
+            var nextInstruction = index + 1 < instructions.Count ? instructions[index + 1] : null;
+            functionsCompiler.CompileInstruction(
+                il,
+                prevInstruction,
+                instruction,
+                nextInstruction,
+                data,
+                module,
+                constants
+            );
         }
 
         return dynamicMethod;

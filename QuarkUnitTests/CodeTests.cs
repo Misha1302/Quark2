@@ -326,6 +326,36 @@ public class CodeTests
         );
     }
 
+    [Test]
+    public void TestB1()
+    {
+        TestCode(
+            $$"""
+              {{_imports}}
+
+              def Main() {
+                  return 2 >= 5
+              }
+              """,
+            any => Assert.That(any.Get<double>(), Is.EqualTo(0).Within(_error))
+        );
+    }
+
+    [Test]
+    public void TestB2()
+    {
+        TestCode(
+            $$"""
+              {{_imports}}
+
+              def Main() {
+                  return 29 >= 5
+              }
+              """,
+            any => Assert.That(any.Get<double>(), Is.EqualTo(1).Within(_error))
+        );
+    }
+
     private void TestCode(string code, Action<Any> result)
     {
         var lexemes = new Lexer(QuarkLexerDefaultConfiguration.CreateDefault()).Lexemize(code);

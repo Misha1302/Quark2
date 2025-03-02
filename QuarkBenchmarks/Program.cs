@@ -5,3 +5,4 @@ BenchmarkRunner.Run<MillionLoopTest>();
 BenchmarkRunner.Run<RecFactorialTest>();
 BenchmarkRunner.Run<DfsTest>();
 BenchmarkRunner.Run<IsPrimeTest>();
+BenchmarkRunner.Run<RecursiveIsPrimeTest>();

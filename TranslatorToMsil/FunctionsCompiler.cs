@@ -2,9 +2,14 @@ namespace TranslatorToMsil;
 
 public class FunctionsCompiler
 {
-    public void CompileInstruction(GroboIL il, BytecodeInstruction instruction, BytecodeInstruction? prevInstruction,
+    public void CompileInstruction(
+        GroboIL il,
+        BytecodeInstruction? prevInstruction,
+        BytecodeInstruction instruction,
+        BytecodeInstruction? nextInstruction,
         FunctionCompileData data,
-        BytecodeModule module, List<AnyOpt> constants)
+        BytecodeModule module,
+        List<AnyOpt> constants)
     {
         if (instruction.Type == InstructionType.PushConst)
             PushConst(il, instruction, constants);
@@ -19,7 +24,7 @@ public class FunctionsCompiler
         else if (instruction.Type == InstructionType.CallSharp)
             CallSharp(il, instruction, prevInstruction ?? Throw.InvalidOpEx<BytecodeInstruction>());
         else if (instruction.Type == InstructionType.CallFunc)
-            CallFunc(il, instruction, module);
+            CallFunc(il, instruction, nextInstruction, module);
         else if (instruction.Type == InstructionType.Ret)
             il.Ret();
         else if (instruction.Type == InstructionType.Label)
@@ -38,41 +43,38 @@ public class FunctionsCompiler
         var isVarArgs = parameters.Any(x => x.ParameterType == typeof(IReadOnlyStack<Any>));
         var size = !isVarArgs ? parameters.Length : prevInstruction.Arguments[0].Get<double>().ToLong() + 1;
 
-        var arrLoc = il.DeclareLocal(typeof(Any[]));
-        il.Ldc_I4((int)size);
-        il.Newarr(typeof(Any));
-        il.Stloc(arrLoc);
-        for (var i = 0; i < size; i++)
+        var locals = Enumerable.Range(0, (int)size).Select(_ => il.DeclareLocal(typeof(Any))).ToList();
+        foreach (var local in locals)
         {
-            var temp = il.DeclareLocal(typeof(Any));
-
             il.Box(typeof(AnyOpt));
             il.Castclass(typeof(IAny));
             il.Call(DelegatesHelper.GetInfo(AnyExtensions.ToAny));
-            il.Stloc(temp);
-
-            il.Ldloc(arrLoc);
-            il.Ldc_I4(i);
-            il.Ldelema(typeof(Any));
-            il.Ldloc(temp);
-
-            il.Stobj(typeof(Any));
+            il.Stloc(local);
         }
 
         if (!isVarArgs)
         {
-            for (var i = 0; i < size; i++)
-            {
-                il.Ldloc(arrLoc);
-                il.Ldc_I4(parameters.Length - i - 1);
-                il.Ldelem(typeof(Any));
-            }
+            for (var i = locals.Count - 1; i >= 0; i--) il.Ldloc(locals[i]);
 
             il.Call(method);
         }
         else
         {
             // Any[] args, nint ptr, bool returnsValue
+
+            var arrLoc = il.DeclareLocal(typeof(Any[]));
+            il.Ldc_I4((int)size);
+            il.Newarr(typeof(Any));
+            il.Stloc(arrLoc);
+            for (var i = 0; i < locals.Count; i++)
+            {
+                il.Ldloc(arrLoc);
+                il.Ldc_I4(i);
+                il.Ldelema(typeof(Any));
+                il.Ldloc(locals[^(i + 1)]);
+                il.Stobj(typeof(Any));
+            }
+
             il.Ldloc(arrLoc);
             il.Ldc_IntPtr(method.MethodHandle.GetFunctionPointer());
             il.Ldc_I4(method.ReturnType != typeof(void) ? 1 : 0);
@@ -95,7 +97,8 @@ public class FunctionsCompiler
     {
     }
 
-    private void CallFunc(GroboIL il, BytecodeInstruction instruction, BytecodeModule module)
+    private void CallFunc(GroboIL il, BytecodeInstruction instruction, BytecodeInstruction? nextInstruction,
+        BytecodeModule module)
     {
         var name = instruction.Arguments[0].Get<string>();
         var func = module.Functions.First(x => x.Name == name);
@@ -110,7 +113,7 @@ public class FunctionsCompiler
         }
 
         il.Ldstr(name);
-        il.Call(DelegatesHelper.GetInfo(RuntimeLibrary.CallFunc));
+        il.Call(DelegatesHelper.GetInfo(RuntimeLibrary.CallFunc), tailcall: nextInstruction?.Type == InstructionType.Ret);
     }
 
     private void CompileBrOp(GroboIL il, BytecodeInstruction instruction, FunctionCompileData data)
@@ -171,7 +174,7 @@ public class FunctionsCompiler
 
     private void PushRefsFromStack(int count, GroboIL il)
     {
-        var locals = Enumerable.Range(0, count).Select(x => il.DeclareLocal(typeof(AnyOpt))).ToArray();
+        var locals = Enumerable.Range(0, count).Select(_ => il.DeclareLocal(typeof(AnyOpt))).ToArray();
         foreach (var local in locals) il.Stloc(local);
         foreach (var local in locals.Reverse()) il.Ldloca(local);
     }
