@@ -4,12 +4,11 @@
         <TargetFramework>net8.0</TargetFramework>
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
+        <RootNamespace>Lexer</RootNamespace>
     </PropertyGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\CommonAst\CommonAst.csproj" />
-        <ProjectReference Include="..\QuarkLexer\QuarkLexer.csproj"/>
-        <ProjectReference Include="..\ExceptionsManager\ExceptionsManager.csproj"/>
+      <ProjectReference Include="..\CommonFrontendApi\CommonFrontendApi.csproj" />
     </ItemGroup>
 
 </Project>

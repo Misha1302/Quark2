@@ -9,6 +9,7 @@
 
     <ItemGroup>
         <ProjectReference Include="..\CommonFrontendApi\CommonFrontendApi.csproj"/>
+        <ProjectReference Include="..\CommonLexer\CommonLexer.csproj" />
     </ItemGroup>
 
 </Project>

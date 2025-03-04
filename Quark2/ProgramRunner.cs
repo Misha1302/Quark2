@@ -16,7 +16,7 @@ public class ProgramRunner
             var quarkStatistics = new QuarkStatistics();
             var lexemes =
                 quarkStatistics.Measure(() =>
-                    new Lexer(QuarkLexerDefaultConfiguration.CreateDefault()).Lexemize(code2));
+                    new QuarkLexer(QuarkLexerDefaultConfiguration.CreateDefault()).Lexemize(code2));
             var asg = quarkStatistics.Measure(() =>
                 new AsgBuilder<QuarkLexemeType>(QuarkAsgBuilderConfiguration.CreateDefault()).Build(lexemes));
             var module =

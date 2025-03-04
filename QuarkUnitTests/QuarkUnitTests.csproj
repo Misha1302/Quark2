@@ -21,7 +21,7 @@
     <ItemGroup>
         <ProjectReference Include="..\AbstractExecutor\AbstractExecutor.csproj"/>
         <ProjectReference Include="..\QuarkAsgToBytecodeTranslator\QuarkAsgToBytecodeTranslator.csproj"/>
-        <ProjectReference Include="..\QuarkAst\QuarkAst.csproj"/>
+        <ProjectReference Include="..\CommonAst\CommonAst.csproj" />
         <ProjectReference Include="..\QuarkLexer\QuarkLexer.csproj"/>
         <ProjectReference Include="..\TranslatorToMsil\TranslatorToMsil.csproj"/>
         <ProjectReference Include="..\VirtualMachine\VirtualMachine.csproj"/>

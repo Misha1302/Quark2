@@ -1,12 +1,15 @@
-namespace DefaultLexerImpl;
+﻿using System.Text.RegularExpressions;
+using CommonFrontendApi;
 
-public class Lexer(LexerConfiguration<QuarkLexemeType> configuration)
+namespace Lexer;
+
+public class DefaultLexer<T>(LexerConfiguration<T> configuration)
 {
     // Method that performs lexical analysis on the input code and returns a list of tokens.
-    public List<LexemeValue<QuarkLexemeType>> Lexemize(string code)
+    public List<LexemeValue<T>> Lexemize(string code)
     {
         var allMatches =
-            new List<LexemeValue<QuarkLexemeType>>(); // Initialize a list to store all matches found by regex patterns.
+            new List<LexemeValue<T>>(); // Initialize a list to store all matches found by regex patterns.
 
         // Iterate over each pattern defined in the configuration.
         foreach (var pattern in configuration.Patterns)
@@ -16,7 +19,7 @@ public class Lexer(LexerConfiguration<QuarkLexemeType> configuration)
                 Regex.Matches(code, pattern.Pattern)
                     .Select(match =>
                         // Create a LexemeValue object for each match.
-                        new LexemeValue<QuarkLexemeType>(match.Value, pattern, match.Index, code))
+                        new LexemeValue<T>(match.Value, pattern, match.Index, code))
             );
 
         // Sort the matches first by their starting position in the code, then by the order of the corresponding pattern in the configuration.
@@ -26,7 +29,7 @@ public class Lexer(LexerConfiguration<QuarkLexemeType> configuration)
             .ToList();
 
         var result =
-            new List<LexemeValue<QuarkLexemeType>>(); // Initialize a list to store the final tokens after filtering out ignored ones.
+            new List<LexemeValue<T>>(); // Initialize a list to store the final tokens after filtering out ignored ones.
         var index = 0; // Current character position being processed in the input code.
         var prevFoundIndex = 0; // Used to optimize search for next matching token.
 

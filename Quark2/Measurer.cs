@@ -46,7 +46,7 @@ public class Measurer
         {
             var quarkStatistics = new QuarkStatistics();
             var lexemes =
-                quarkStatistics.Measure(() => new Lexer(QuarkLexerDefaultConfiguration.CreateDefault()).Lexemize(code));
+                quarkStatistics.Measure(() => new QuarkLexer(QuarkLexerDefaultConfiguration.CreateDefault()).Lexemize(code));
             var asg = quarkStatistics.Measure(() =>
                 new AsgBuilder<QuarkLexemeType>(QuarkAsgBuilderConfiguration.CreateDefault()).Build(lexemes));
             var module =

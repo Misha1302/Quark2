@@ -358,7 +358,7 @@ public class CodeTests
 
     private void TestCode(string code, Action<Any> result)
     {
-        var lexemes = new Lexer(QuarkLexerDefaultConfiguration.CreateDefault()).Lexemize(code);
+        var lexemes = new QuarkLexer(QuarkLexerDefaultConfiguration.CreateDefault()).Lexemize(code);
         var asg = new AsgBuilder<QuarkLexemeType>(QuarkAsgBuilderConfiguration.CreateDefault()).Build(lexemes);
         var module = new AsgToBytecodeTranslator<QuarkLexemeType>().Translate(asg);
 

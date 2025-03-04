@@ -36,7 +36,7 @@ public class QuarkInitializer
     {
         var code2 = File.ReadAllText("Code/Main.lua");
 
-        var lexemes = new Lexer(QuarkLexerDefaultConfiguration.CreateDefault()).Lexemize(code2);
+        var lexemes = new QuarkLexer(QuarkLexerDefaultConfiguration.CreateDefault()).Lexemize(code2);
         var asg = new AsgBuilder<QuarkLexemeType>(QuarkAsgBuilderConfiguration.CreateDefault()).Build(lexemes);
         var module = new AsgToBytecodeTranslator<QuarkLexemeType>().Translate(asg);
         return module;

@@ -24,7 +24,7 @@ const string code =
     }
     """;
 
-var lexemes = new Lexer(QuarkLexerDefaultConfiguration.CreateDefault()).Lexemize(code);
+var lexemes = new QuarkLexer(QuarkLexerDefaultConfiguration.CreateDefault()).Lexemize(code);
 var asg = new AsgBuilder<QuarkLexemeType>(QuarkAsgBuilderConfiguration.CreateDefault()).Build(lexemes);
 var module = new AsgToBytecodeTranslator<QuarkLexemeType>().Translate(asg);
 var executor = new TranslatorToMsil.TranslatorToMsil();

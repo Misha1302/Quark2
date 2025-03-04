@@ -28,3 +28,7 @@ executor.Init(new ExecutorConfiguration(module));
 var results = executor.RunModule();
 Console.WriteLine(results.First());
 ```
+
+In current moment 2 modules was implemented:
+1. Lexer
+2. 
