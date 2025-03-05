@@ -2,18 +2,17 @@ namespace DefaultAstImpl.Asg;
 
 public record AsgNode<T>(
     AsgNodeType NodeType,
-    LexemeValue<T> LexemeValue,
+    LexemeValue<T>? LexemeValue,
     List<AsgNode<T>> Children,
     int BaseLineNumber = -1)
-    where T : struct
 {
     public AsgNodeType NodeType = NodeType;
 
     // ReSharper disable once ConditionalAccessQualifierIsNonNullableAccordingToAPIContract
-    public T? LexemeType => LexemeValue?.LexemePattern.LexemeType;
-    public string Text => LexemeValue.Text;
+    public T? LexemeType => LexemeValue != null ? LexemeValue.LexemePattern.LexemeType : default;
+    public string Text => LexemeValue?.Text ?? "";
 
-    public int LineNumber => BaseLineNumber == -1 ? LexemeValue.LineNumber : BaseLineNumber;
+    public int LineNumber => BaseLineNumber == -1 ? LexemeValue!.LineNumber : BaseLineNumber;
 
     public override string ToString() => ToStringCustom(0);
 

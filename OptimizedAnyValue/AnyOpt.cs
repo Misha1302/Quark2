@@ -28,7 +28,7 @@ public readonly struct AnyOpt : IAny
     /// <param name="type">type of value</param>
     /// <typeparam name="T">unmanaged 8-byte type</typeparam>
     /// <returns>new AnyOpt instance</returns>
-    public static AnyOpt Create<T>(T value, AnyValueType type) where T : unmanaged =>
+    public static AnyOpt Create<T>(T value, AnyValueType type) where T : struct =>
         new(Unsafe.BitCast<T, long>(value), type);
 
     public static AnyOpt Create(int value, AnyValueType type) => Create((long)value, type);
@@ -47,7 +47,7 @@ public readonly struct AnyOpt : IAny
     /// </summary>
     /// <typeparam name="T">8-byte unmanaged type</typeparam>
     /// <returns>T-type value</returns>
-    public T Get<T>() where T : unmanaged => Unsafe.BitCast<long, T>(_value);
+    public T Get<T>() where T : struct => Unsafe.BitCast<long, T>(_value);
 
     /// <summary>
     ///     Safe get value. Works correctly only if was created by 'CreateRef'

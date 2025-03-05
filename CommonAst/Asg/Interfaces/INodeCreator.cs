@@ -1,6 +1,6 @@
 namespace DefaultAstImpl.Asg.Interfaces;
 
-public interface INodeCreator<T> where T : struct
+public interface INodeCreator<T>
 {
     public AsgNodeType NodeType { get; }
 

@@ -1,6 +1,6 @@
 namespace DefaultAstImpl.Asg;
 
-public class AsgBuilder<T>(List<List<INodeCreator<T>>> creatorLevels) where T : struct
+public class AsgBuilder<T>(List<List<INodeCreator<T>>> creatorLevels) 
 {
     public AsgNode<T> Build(List<LexemeValue<T>> lexemes)
     {

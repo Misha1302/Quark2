@@ -2,7 +2,7 @@ namespace AsgToBytecodeTranslator;
 
 public class PrecompileDataGetter
 {
-    public List<FunctionData> GetFunctions<T>(AsgNode<T> root) where T : struct
+    public List<FunctionData> GetFunctions<T>(AsgNode<T> root) 
     {
         var functions = new List<FunctionData>();
         new BytecodeDfs().Dfs(root, x =>
@@ -17,7 +17,7 @@ public class PrecompileDataGetter
         return functions;
     }
 
-    private List<BytecodeVariable> GetLocals<T>(AsgNode<T> node) where T : struct
+    private List<BytecodeVariable> GetLocals<T>(AsgNode<T> node) 
     {
         var locals = new List<BytecodeVariable>();
         new BytecodeDfs().Dfs(node, x =>

@@ -1,6 +1,6 @@
 ﻿namespace AsgToBytecodeTranslator;
 
-public class AsgToBytecodeTranslator<T> where T : struct
+public class AsgToBytecodeTranslator<T>
 {
     private readonly Stack<FunctionData> _functionsStack = new();
     private readonly ImportsManager _importsManager = new(new QuarkMethodValidator());

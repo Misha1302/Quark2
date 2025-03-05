@@ -9,18 +9,13 @@ const string code =
     import "../../../../Libraries"
 
     def Main() {
-        n = 132749
-        top = n ** (1 / 2) + 1
-        isPrime = IsPrimeRec(n, top, 2)
-        _ = PrintLn(isPrime)
-        return 0
-    }
-
-    def IsPrimeRec(n, top, i) {
-        if (i >= top) { return 1 }
-        if (n % i == 0) { return 0 }
-
-        return IsPrimeRec(n, top, i + 1)
+        s = ""
+        for (n = 0) (n < 10) (n = n + 1) {
+            if n % 2 == 0 { s = Concat(s, "D2 ") }
+            elif n % 3 == 0 { s = Concat(s, "D3 ") }
+            else { s = Concat(s, "Hi ") }
+        }
+        return s
     }
     """;
 
