@@ -1,3 +1,3 @@
 namespace QuarkCFrontend.Nodes;
 
-public class NumberNodeCreator() : ConstantNodeCreatorBase(QuarkLexemeTypes.String, AsgNodeType.String);
+public class NumberNodeCreator() : ConstantNodeCreatorBase(QuarkLexemeType.String, AsgNodeType.String);

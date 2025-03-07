@@ -14,8 +14,8 @@ using BI = BytecodeInstruction;
 
 public class QuarkExtStructures : IQuarkExtension
 {
-    public static readonly QuarkLexemeType StructType = QuarkLexemeTypes.GetNextFreeNumber();
-    public static readonly QuarkLexemeType FieldAccess = QuarkLexemeTypes.GetNextFreeNumber();
+    public static readonly QuarkLexemeType StructType = QuarkLexemeTypeHelper.GetNextFreeNumber();
+    public static readonly QuarkLexemeType FieldAccess = QuarkLexemeTypeHelper.GetNextFreeNumber();
 
     public LexerConfiguration<QuarkLexemeType> ExtendLexerConfiguration(
         LexerConfiguration<QuarkLexemeType> current

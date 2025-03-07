@@ -10,10 +10,11 @@ const string code =
     import "../../../../Libraries"
 
     def Main() {
+        return 0
     }
     """;
 
-var extensions = (List<QuarkExtStructures>) [new QuarkExtStructures()];
+var extensions = (List<QuarkExtStructures>) [];//[new QuarkExtStructures()];
 
 var lexerConf = QuarkLexerDefaultConfiguration.CreateDefault();
 foreach (var ext in extensions) lexerConf = ext.ExtendLexerConfiguration(lexerConf);
