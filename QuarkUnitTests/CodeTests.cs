@@ -1,6 +1,6 @@
 namespace UnitTests;
 
-public class CodeTests
+public class CodeTests : CodeTesterBase
 {
     private double _error;
     private string _imports;
@@ -354,24 +354,5 @@ public class CodeTests
               """,
             any => Assert.That(any.Get<double>(), Is.EqualTo(1).Within(_error))
         );
-    }
-
-    private void TestCode(string code, Action<Any> result)
-    {
-        var lexemes = new QuarkLexer(QuarkLexerDefaultConfiguration.CreateDefault()).Lexemize(code);
-        var asg = new AsgBuilder<QuarkLexemeType>(QuarkAsgBuilderConfiguration.CreateDefault()).Build(lexemes);
-        var module = new AsgToBytecodeTranslator<QuarkLexemeType>().Translate(asg);
-
-        var msilExecutor = new TranslatorToMsil.TranslatorToMsil();
-        msilExecutor.Init(new ExecutorConfiguration(module));
-
-        var interpreter = new QuarkVirtualMachine();
-        interpreter.Init(new ExecutorConfiguration(module));
-
-        var resultTranslator = msilExecutor.RunModule().First();
-        var resultInterpreter = interpreter.RunModule().First();
-
-        result(resultTranslator);
-        result(resultInterpreter);
     }
 }

@@ -7,7 +7,7 @@ public static class AnyOptCalculator
     // Math ops
     public static AnyOpt Sum(in AnyOpt a, in AnyOpt b)
     {
-        Throw.AssertAlways(a.Type == b.Type, "Types to perform operations must be equal");
+        Validate(a, b);
 
         if (a.Type.HasFlagFast(Number))
             return AnyOpt.Create(a.Get<double>() + b.Get<double>(), Number);
@@ -19,7 +19,7 @@ public static class AnyOptCalculator
 
     public static AnyOpt Sub(in AnyOpt a, in AnyOpt b)
     {
-        Throw.AssertAlways(a.Type == b.Type, "Types to perform operations must be equal");
+        Validate(a, b);
 
         if (a.Type.HasFlagFast(Number))
             return AnyOpt.Create(a.Get<double>() - b.Get<double>(), Number);
@@ -29,9 +29,15 @@ public static class AnyOptCalculator
         return Throw.InvalidOpEx<AnyOpt>("Cannot perform operation");
     }
 
+
+    private static void Validate(in AnyOpt a, in AnyOpt b)
+    {
+        Throw.AssertAlways(a.Type == b.Type, $"Types to perform operations must be equal ({a.Type}, {b.Type})");
+    }
+
     public static AnyOpt Mul(in AnyOpt a, in AnyOpt b)
     {
-        Throw.AssertAlways(a.Type == b.Type, "Types to perform operations must be equal");
+        Validate(a, b);
 
         if (a.Type.HasFlagFast(Number))
             return AnyOpt.Create(a.Get<double>() * b.Get<double>(), Number);
@@ -43,7 +49,7 @@ public static class AnyOptCalculator
 
     public static AnyOpt Div(in AnyOpt a, in AnyOpt b)
     {
-        Throw.AssertAlways(a.Type == b.Type, "Types to perform operations must be equal");
+        Validate(a, b);
 
         if (a.Type.HasFlagFast(Number))
             return AnyOpt.Create(a.Get<double>() / b.Get<double>(), Number);
@@ -55,7 +61,7 @@ public static class AnyOptCalculator
 
     public static AnyOpt Pow(in AnyOpt a, in AnyOpt b)
     {
-        Throw.AssertAlways(a.Type == b.Type, "Types to perform operations must be equal");
+        Validate(a, b);
 
         if (a.Type.HasFlagFast(Number))
             return AnyOpt.Create(Math.Pow(a.Get<double>(), b.Get<double>()), Number);
@@ -67,7 +73,7 @@ public static class AnyOptCalculator
 
     public static AnyOpt Mod(in AnyOpt a, in AnyOpt b)
     {
-        Throw.AssertAlways(a.Type == b.Type, "Types to perform operations must be equal");
+        Validate(a, b);
 
         if (a.Type.HasFlagFast(Number))
             return AnyOpt.Create(a.Get<double>() % b.Get<double>(), Number);
@@ -81,7 +87,7 @@ public static class AnyOptCalculator
     // Logic ops
     public static AnyOpt And(in AnyOpt a, in AnyOpt b)
     {
-        Throw.AssertAlways(a.Type == b.Type, "Types to perform operations must be equal");
+        Validate(a, b);
 
         if (a.Type.HasFlagFast(Number))
             return AnyOpt.Create(a.Get<double>().ToLong() & b.Get<double>().ToLong(), Number);
@@ -93,7 +99,7 @@ public static class AnyOptCalculator
 
     public static AnyOpt Or(in AnyOpt a, in AnyOpt b)
     {
-        Throw.AssertAlways(a.Type == b.Type, "Types to perform operations must be equal");
+        Validate(a, b);
 
         if (a.Type.HasFlagFast(Number))
             return AnyOpt.Create(a.Get<double>().ToLong() | b.Get<double>().ToLong(), Number);
@@ -105,7 +111,7 @@ public static class AnyOptCalculator
 
     public static AnyOpt Xor(in AnyOpt a, in AnyOpt b)
     {
-        Throw.AssertAlways(a.Type == b.Type, "Types to perform operations must be equal");
+        Validate(a, b);
 
         if (a.Type.HasFlagFast(Number))
             return AnyOpt.Create(a.Get<double>().ToLong() ^ b.Get<double>().ToLong(), Number);
@@ -129,7 +135,7 @@ public static class AnyOptCalculator
     // Compare ops
     public static AnyOpt Eq(in AnyOpt a, in AnyOpt b)
     {
-        Throw.AssertAlways(a.Type == b.Type, "Types to perform operations must be equal");
+        Validate(a, b);
 
         if (a.Type.HasFlagFast(Number))
             return AnyOpt.Create(a.Get<double>().EqualWithAccuracy(b.Get<double>(), 1e-5) ? 1.0 : 0.0, Number);
@@ -146,7 +152,7 @@ public static class AnyOptCalculator
 
     public static AnyOpt Lt(in AnyOpt a, in AnyOpt b)
     {
-        Throw.AssertAlways(a.Type == b.Type, "Types to perform operations must be equal");
+        Validate(a, b);
 
         if (a.Type.HasFlagFast(Number))
             return AnyOpt.Create(a.Get<double>() < b.Get<double>() ? 1.0 : 0.0, Number);
@@ -158,7 +164,7 @@ public static class AnyOptCalculator
 
     public static AnyOpt Gt(in AnyOpt a, in AnyOpt b)
     {
-        Throw.AssertAlways(a.Type == b.Type, "Types to perform operations must be equal");
+        Validate(a, b);
 
         if (a.Type.HasFlagFast(Number))
             return AnyOpt.Create(a.Get<double>() > b.Get<double>() ? 1.0 : 0.0, Number);

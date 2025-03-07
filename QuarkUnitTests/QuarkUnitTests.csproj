@@ -23,6 +23,8 @@
         <ProjectReference Include="..\QuarkAsgToBytecodeTranslator\QuarkAsgToBytecodeTranslator.csproj"/>
         <ProjectReference Include="..\CommonAst\CommonAst.csproj"/>
         <ProjectReference Include="..\QuarkLexer\QuarkLexer.csproj"/>
+        <ProjectReference Include="..\QuarkRunner\QuarkRunner.csproj"/>
+        <ProjectReference Include="..\QuarkStructures\QuarkStructures.csproj"/>
         <ProjectReference Include="..\TranslatorToMsil\TranslatorToMsil.csproj"/>
         <ProjectReference Include="..\VirtualMachine\VirtualMachine.csproj"/>
     </ItemGroup>

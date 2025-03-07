@@ -8,10 +8,10 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\QuarkExtensions\QuarkExtensions.csproj" />
-      <ProjectReference Include="..\QuarkRunner\QuarkRunner.csproj" />
-      <ProjectReference Include="..\QuarkStructures\QuarkStructures.csproj" />
-      <ProjectReference Include="..\TranslatorToMsil\TranslatorToMsil.csproj" />
+        <ProjectReference Include="..\QuarkExtensions\QuarkExtensions.csproj"/>
+        <ProjectReference Include="..\QuarkRunner\QuarkRunner.csproj"/>
+        <ProjectReference Include="..\QuarkStructures\QuarkStructures.csproj"/>
+        <ProjectReference Include="..\TranslatorToMsil\TranslatorToMsil.csproj"/>
     </ItemGroup>
 
 </Project>

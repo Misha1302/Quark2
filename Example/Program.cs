@@ -6,15 +6,15 @@ const string code =
     import "../../../../Libraries"
 
     struct Vector3(x, y, z)
-
+    
     def Main() {
         v = CreateStruct("Vector3")
         v2 = CreateStruct("Vector3")
-        v->x = 3
-        v2->y = 4
+        v->x = v2
+        v->x->y = 5
+        v->y = 3
         _ = PrintLn(v)
-        _ = PrintLn(v2)
-        return 0
+        return v->x->y * v->y
     }
     """;
 

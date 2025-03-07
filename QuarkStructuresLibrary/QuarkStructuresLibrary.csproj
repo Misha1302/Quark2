@@ -15,6 +15,7 @@
     </PropertyGroup>
 
     <ItemGroup>
+        <ProjectReference Include="..\DictionaryExtensions\DictionaryExtensions.csproj"/>
         <ProjectReference Include="..\SharpAnyType\SharpAnyType.csproj"/>
     </ItemGroup>
 

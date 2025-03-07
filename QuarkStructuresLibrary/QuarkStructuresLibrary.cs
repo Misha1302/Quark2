@@ -1,4 +1,5 @@
-﻿using SharpAnyType;
+﻿using DictionaryExtensions;
+using SharpAnyType;
 
 namespace QuarkStructuresLibrary;
 
@@ -10,7 +11,8 @@ public class QuarkStructuresLibrary
 
     public void AddStructure(QuarkStructure s)
     {
-        Structures.Add(s.Name, s);
+        Structures.CreateOrAdd(s.Name, s);
+        Structures[s.Name] = s;
     }
 
     public static Any GetField(Any structure, Any fieldName) =>

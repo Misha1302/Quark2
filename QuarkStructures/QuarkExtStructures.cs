@@ -1,13 +1,14 @@
 ﻿using AsgToBytecodeTranslator;
-using BytecodeGenerationSimplifier;
 using CommonBytecode.Data.Structures;
 using CommonBytecode.Enums;
 using CommonFrontendApi;
 using DefaultAstImpl.Asg;
 using DefaultLexerImpl;
+using DictionaryExtensions;
 using QuarkExtension;
 using QuarkStructuresLibrary;
 using SharpAnyType;
+using static BytecodeGenerationSimplifier.SimpleBytecodeGenerator;
 
 namespace QuarkStructures;
 
@@ -53,8 +54,15 @@ public class QuarkExtStructures : IQuarkExtension
     {
         if (data.Node.Children.Count == 0) return;
         data.AsgToBytecodeTranslator.Visit(data.Node.Children[0]);
-        data.CurBytecode.Add(new BI(InstructionType.PushConst, [data.Node.Children[1].Text.ObjectToAny()]));
-        data.CurBytecode.Add(SimpleBytecodeGenerator.CallSharp(QuarkStructuresLibrary.QuarkStructuresLibrary.SetField));
+
+        for (var i = 1; i < data.Node.Children.Count - 1; i++)
+        {
+            data.CurBytecode.Add(new BI(InstructionType.PushConst, [data.Node.Children[i].Text.ObjectToAny()]));
+            data.CurBytecode.Add(CallSharp(QuarkStructuresLibrary.QuarkStructuresLibrary.GetField));
+        }
+
+        data.CurBytecode.Add(new BI(InstructionType.PushConst, [data.Node.Children[^1].Text.ObjectToAny()]));
+        data.CurBytecode.Add(CallSharp(QuarkStructuresLibrary.QuarkStructuresLibrary.SetField));
         data.CurBytecode.Add(new BI(InstructionType.Drop, []));
     }
 
@@ -62,8 +70,11 @@ public class QuarkExtStructures : IQuarkExtension
     {
         if (data.Node.Children.Count == 0) return;
         data.AsgToBytecodeTranslator.Visit(data.Node.Children[0]);
-        data.CurBytecode.Add(new BI(InstructionType.PushConst, [data.Node.Children[1].Text.ObjectToAny()]));
-        data.CurBytecode.Add(SimpleBytecodeGenerator.CallSharp(QuarkStructuresLibrary.QuarkStructuresLibrary.GetField));
+        for (var i = 1; i < data.Node.Children.Count; i++)
+        {
+            data.CurBytecode.Add(new BI(InstructionType.PushConst, [data.Node.Children[i].Text.ObjectToAny()]));
+            data.CurBytecode.Add(CallSharp(QuarkStructuresLibrary.QuarkStructuresLibrary.GetField));
+        }
     }
 
     private static void TranslateStructTypeAsg(AsgToBytecodeData<QuarkLexemeType> data)

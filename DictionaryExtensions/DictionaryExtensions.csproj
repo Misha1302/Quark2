@@ -6,9 +6,4 @@
         <Nullable>enable</Nullable>
     </PropertyGroup>
 
-    <ItemGroup>
-        <ProjectReference Include="..\AbstractExecutor\AbstractExecutor.csproj"/>
-        <ProjectReference Include="..\QuarkExtensions\QuarkExtensions.csproj"/>
-    </ItemGroup>
-
 </Project>

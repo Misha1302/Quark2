@@ -15,12 +15,21 @@ public abstract class FieldAccessNodeCreator : INodeCreator<QuarkLexemeType>
 
         nodes[i].NodeType = NodeType;
 
-        nodes[i].Children.Add(nodes[i - 1]);
+        // what the hell is there? IDK too, but it works with constructions like this: a->b->c->d  
+        while (i + 3 < nodes.Count && nodes[i + 2].LexemeType == QuarkExtStructures.FieldAccess)
+        {
+            nodes[i].Children.Add(nodes[i + 3]);
+            nodes.RemoveAt(i + 3);
+            nodes.RemoveAt(i + 2);
+        }
+
         nodes[i].Children.Add(nodes[i + 1]);
         nodes.RemoveAt(i + 1);
+
+        nodes[i].Children.Add(nodes[i - 1]);
+        nodes[i].Children.Reverse();
         nodes.RemoveAt(i - 1);
 
-        TryBuildImpl(nodes, i);
 
         return -1;
     }
