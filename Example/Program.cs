@@ -6,7 +6,7 @@ const string code =
     import "../../../../Libraries"
 
     struct Vector3(x, y, z)
-    
+
     def Main() {
         v = CreateStruct("Vector3")
         v2 = CreateStruct("Vector3")

@@ -154,7 +154,7 @@ public class CodeStructuresTests : CodeTesterBase
               def Foo(a) {
                   return a
               }
-              
+
               def NewVector3(x, y, z) {
                   v = CreateStruct("Vector3")
                   v->x = x
