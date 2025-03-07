@@ -6,29 +6,21 @@ components and, if necessary, create your own components.
 Minimal example of hello world using implemented components:
 
 ```C#
-using AbstractExecutor;
-using AsgToBytecodeTranslator;
-using DefaultAstImpl.Asg;
-using DefaultLexerImpl;
-using QuarkCFrontend;
-
 const string code =
     """
     import "../../../../Libraries"
 
     def Main() {
-        _ = PrintLn("Hello World!")
+        _ = PrintLn("Hello, World!")
         return 0
     }
     """;
 
-var lexemes = new Lexer(QuarkLexerDefaultConfiguration.CreateDefault()).Lexemize(code);
-var asg = new AsgBuilder<QuarkLexemeType>(QuarkAsgBuilderConfiguration.CreateDefault()).Build(lexemes);
-var module = new AsgToBytecodeTranslator<QuarkLexemeType>().Translate(asg);
 var executor = new TranslatorToMsil.TranslatorToMsil();
-executor.Init(new ExecutorConfiguration(module));
-var results = executor.RunModule();
-Console.WriteLine(results.First());
+var runner = new QuarkRunner.QuarkRunner();
+
+var result = runner.Execute(code, executor, []);
+Console.WriteLine(result);
 ```
 
 In current moment 9 modules was implemented:
@@ -42,3 +34,45 @@ In current moment 9 modules was implemented:
 7. QuarkVirtualMachine (aka QVM, Interpreter of CommonBytecode)
 8. TranslatorToMsil (Translate bytecode to msil, compile it and execute)
 9. ImportsManager (Helps to import dlls and it's dependencies)
+
+You can create yours extensions for Quark DSL also. 
+
+There is example of using QuarkExtStructures:
+```csharp
+using QuarkExtension;
+using QuarkStructures;
+
+const string code =
+    """
+    import "../../../../Libraries"
+
+    struct Vector2(x, y)
+
+    def Main() {
+        v1 = NewVector2(2, 3)
+        v2 = NewVector2(-12, 7)
+        v3 = SumVectors(v1, v2)
+        _ = PrintLn(v3)
+        return 0
+    }
+
+    def SumVectors(a, b) {
+        c = NewVector2(a->x + b->x, a->y + b->y)
+        return c
+    }
+
+    def NewVector2(x, y) {
+        v = CreateStruct("Vector2")
+        v->x = x
+        v->y = y
+        return v
+    }
+    """;
+
+var extensions = (List<IQuarkExtension>) [new QuarkExtStructures()];
+var executor = new TranslatorToMsil.TranslatorToMsil();
+var runner = new QuarkRunner.QuarkRunner();
+
+var result = runner.Execute(code, executor, extensions);
+Console.WriteLine(result);
+```
