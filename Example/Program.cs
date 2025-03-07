@@ -1,8 +1,4 @@
-﻿using AbstractExecutor;
-using AsgToBytecodeTranslator;
-using DefaultAstImpl.Asg;
-using DefaultLexerImpl;
-using QuarkCFrontend;
+﻿using QuarkExtension;
 using QuarkStructures;
 
 const string code =
@@ -13,33 +9,18 @@ const string code =
 
     def Main() {
         v = CreateStruct("Vector3")
+        v2 = CreateStruct("Vector3")
         v->x = 3
-        v->y = 34.42
-        v->z = v->y / v->x
+        v2->y = 4
         _ = PrintLn(v)
+        _ = PrintLn(v2)
         return 0
     }
     """;
 
-var extensions = (List<QuarkExtStructures>) [new QuarkExtStructures()];
-
-var lexerConf = QuarkLexerDefaultConfiguration.CreateDefault();
-lexerConf = extensions.Aggregate(lexerConf, (current, ext) => ext.ExtendLexerConfiguration(current));
-var lexemes = new QuarkLexer(lexerConf).Lexemize(code);
-Console.WriteLine(string.Join("\n", lexemes));
-
-var parserConf = QuarkAsgBuilderConfiguration.CreateDefault();
-parserConf = extensions.Aggregate(parserConf, (current, ext) => ext.ExtendAsgBuilderConfiguration(current));
-var asg = new AsgBuilder<QuarkLexemeType>(parserConf).Build(lexemes);
-Console.WriteLine(asg);
-
-var translatorHandlers = extensions.Aggregate((Action<AsgToBytecodeData<QuarkLexemeType>>)null!,
-    (current, ext) => current + ext.GetUnknownAsgCodeHandler());
-var module = new AsgToBytecodeTranslator<QuarkLexemeType>().Translate(asg, translatorHandlers);
-Console.WriteLine(module);
-
+var extensions = (List<IQuarkExtension>) [new QuarkExtStructures()];
 var executor = new TranslatorToMsil.TranslatorToMsil();
-executor.Init(new ExecutorConfiguration(module));
+var runner = new QuarkRunner.QuarkRunner();
 
-var results = executor.RunModule();
-Console.WriteLine(results.First());
+var result = runner.Execute(code, executor, extensions);
+Console.WriteLine(result);

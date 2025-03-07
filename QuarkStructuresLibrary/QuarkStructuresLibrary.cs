@@ -6,11 +6,11 @@ public class QuarkStructuresLibrary
 {
     public static readonly QuarkStructuresLibrary Instance = new();
 
-    public List<QuarkStructure> Structures { get; } = [];
+    public Dictionary<string, QuarkStructure> Structures { get; } = [];
 
     public void AddStructure(QuarkStructure s)
     {
-        Structures.Add(s);
+        Structures.Add(s.Name, s);
     }
 
     public static Any GetField(Any structure, Any fieldName) =>
@@ -20,5 +20,8 @@ public class QuarkStructuresLibrary
         structure.Get<QuarkStructure>().Fields[fieldName.Get<string>()] = value;
 
     public static Any CreateStruct(Any structName) =>
-        new(Instance.Structures.First(x => x.Name == structName.Get<string>()), AnyValueType.SomeSharpObject);
+        new(Clone(Instance.Structures[structName.Get<string>()]), AnyValueType.SomeSharpObject);
+
+    private static QuarkStructure Clone(QuarkStructure instanceStructure) =>
+        instanceStructure with { Fields = new Dictionary<string, Any>(instanceStructure.Fields) };
 }

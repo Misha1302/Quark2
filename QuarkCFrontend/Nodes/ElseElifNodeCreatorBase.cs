@@ -8,7 +8,7 @@ public abstract class ElseElifNodeCreatorBase : INodeCreator<QuarkLexemeType>
 
     protected void FindIfToSetAsParent(AsgNode<QuarkLexemeType> node, AsgNode<QuarkLexemeType> curChild)
     {
-        if (node.Children.Count >= 3 && (node.Children[2].LexemeType == If || node.Children[2].LexemeType == ElseIf))
+        if (node.Children is [_, _, { LexemeType: If or ElseIf }, ..])
         {
             FindIfToSetAsParent(node.Children[2], curChild);
             return;
