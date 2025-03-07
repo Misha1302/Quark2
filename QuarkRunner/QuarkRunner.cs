@@ -34,7 +34,6 @@ public class QuarkRunner
         var translatorHandlers = extensions.Aggregate((Action<AsgToBytecodeData<QuarkLexemeType>>)null!,
             (current, ext) => current + ext.GetUnknownAsgCodeHandler());
         var module = new AsgToBytecodeTranslator<QuarkLexemeType>().Translate(asg, translatorHandlers);
-        Console.WriteLine(module);
         return module;
     }
 
@@ -44,7 +43,6 @@ public class QuarkRunner
         var parserConf = QuarkAsgBuilderConfiguration.CreateDefault();
         parserConf = extensions.Aggregate(parserConf, (current, ext) => ext.ExtendAsgBuilderConfiguration(current));
         var asg = new AsgBuilder<QuarkLexemeType>(parserConf).Build(lexemes);
-        Console.WriteLine(asg);
         return asg;
     }
 
