@@ -1,24 +1,18 @@
 ﻿namespace AsgToBytecodeTranslator;
 
-public class AsgToBytecodeTranslator<T>
+public class AsgToBytecodeTranslator<T> : IAsgToBytecodeTranslator<T>
 {
     private readonly Stack<FunctionData> _functionsStack = new();
     private readonly ImportsManager _importsManager = new(new QuarkMethodValidator());
+
+    private Action<AsgToBytecodeData<T>> _asgBuilderExtensionMethod = null!;
     private List<FunctionData> _functions = [];
 
     private BytecodeFunction CurFunction => _functionsStack.Peek().BytecodeFunction;
     private List<BytecodeInstruction> CurBytecode => CurFunction.Code.Instructions;
 
-    public BytecodeModule Translate(AsgNode<T> root)
-    {
-        var getter = new PrecompileDataGetter();
-        _functions = getter.GetFunctions(root);
-        Visit(root);
-        return new BytecodeModule("Program", _functions.Select(x => x.BytecodeFunction).ToList());
-    }
-
     // split to classes
-    private void Visit(AsgNode<T> node)
+    public void Visit(AsgNode<T> node)
     {
         switch (node.NodeType)
         {
@@ -42,8 +36,16 @@ public class AsgToBytecodeTranslator<T>
                 break;
             case AsgNodeType.SetOperation:
                 Visit(node.Children[^1]);
-                var varName = node.Children[0].Text;
-                CurBytecode.Add(new BytecodeInstruction(InstructionType.SetLocal, [varName]));
+                if (node.Children[0].NodeType == AsgNodeType.Identifier)
+                {
+                    var varName = node.Children[0].Text;
+                    CurBytecode.Add(new BytecodeInstruction(InstructionType.SetLocal, [varName]));
+                }
+                else
+                {
+                    Visit(node.Children[0]);
+                }
+
                 break;
             case AsgNodeType.Number:
                 var number = double.Parse(node.Text.Replace("'", ""), CultureInfo.InvariantCulture);
@@ -59,7 +61,7 @@ public class AsgToBytecodeTranslator<T>
                 if (_importsManager.Have(functionName))
                 {
                     var @delegate = _importsManager.GetDelegateByName(functionName);
-                    var instructions = (Span<BytecodeInstruction>) [..SimpleBytecodeGenerator.CallSharp(@delegate)];
+                    var instructions = (Span<BytecodeInstruction>) [SimpleBytecodeGenerator.CallSharp(@delegate)];
                     CurBytecode.AddRange(instructions);
                 }
                 else
@@ -166,10 +168,23 @@ public class AsgToBytecodeTranslator<T>
                 break;
             case AsgNodeType.MaxEnumValue:
             case AsgNodeType.Removed:
-            default:
                 Throw.InvalidOpEx();
                 break;
+            default:
+                _asgBuilderExtensionMethod(
+                    new AsgToBytecodeData<T>(CurBytecode, node, _importsManager, _functions, _functionsStack, this)
+                );
+                break;
         }
+    }
+
+    public BytecodeModule Translate(AsgNode<T> root, Action<AsgToBytecodeData<T>> asgBuilderExtensionMethod = null!)
+    {
+        _asgBuilderExtensionMethod = asgBuilderExtensionMethod;
+        var getter = new PrecompileDataGetter();
+        _functions = getter.GetFunctions(root);
+        Visit(root);
+        return new BytecodeModule("Program", _functions.Select(x => x.BytecodeFunction).ToList());
     }
 
     private void DefineVariables(List<BytecodeVariable> variables)

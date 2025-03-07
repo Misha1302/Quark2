@@ -1,6 +1,6 @@
 namespace DefaultAstImpl.Asg;
 
-public class AsgBuilder<T>(List<List<INodeCreator<T>>> creatorLevels) 
+public class AsgBuilder<T>(AsgBuilderConfiguration<T> configuration) 
 {
     public AsgNode<T> Build(List<LexemeValue<T>> lexemes)
     {
@@ -9,7 +9,7 @@ public class AsgBuilder<T>(List<List<INodeCreator<T>>> creatorLevels)
         var root = new AsgNode<T>(AsgNodeType.Scope, null!, nodes);
 
 
-        foreach (var level in creatorLevels)
+        foreach (var level in configuration.CreatorLevels)
         {
             Int128 prevHashCode, curHashCode;
             do

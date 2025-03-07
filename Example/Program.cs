@@ -3,26 +3,35 @@ using AsgToBytecodeTranslator;
 using DefaultAstImpl.Asg;
 using DefaultLexerImpl;
 using QuarkCFrontend;
+using QuarkStructures;
 
 const string code =
     """
     import "../../../../Libraries"
 
     def Main() {
-        s = ""
-        for (n = 0) (n < 10) (n = n + 1) {
-            if n % 2 == 0 { s = Concat(s, "D2 ") }
-            elif n % 3 == 0 { s = Concat(s, "D3 ") }
-            else { s = Concat(s, "Hi ") }
-        }
-        return s
     }
     """;
 
-var lexemes = new QuarkLexer(QuarkLexerDefaultConfiguration.CreateDefault()).Lexemize(code);
-var asg = new AsgBuilder<QuarkLexemeType>(QuarkAsgBuilderConfiguration.CreateDefault()).Build(lexemes);
-var module = new AsgToBytecodeTranslator<QuarkLexemeType>().Translate(asg);
+var extensions = (List<QuarkExtStructures>) [new QuarkExtStructures()];
+
+var lexerConf = QuarkLexerDefaultConfiguration.CreateDefault();
+foreach (var ext in extensions) lexerConf = ext.ExtendLexerConfiguration(lexerConf);
+var lexemes = new QuarkLexer(lexerConf).Lexemize(code);
+Console.WriteLine(string.Join("\n", lexemes));
+
+var parserConf = QuarkAsgBuilderConfiguration.CreateDefault();
+foreach (var ext in extensions) parserConf = ext.ExtendAsgBuilderConfiguration(parserConf);
+var asg = new AsgBuilder<QuarkLexemeType>(parserConf).Build(lexemes);
+Console.WriteLine(asg);
+
+var translatorHandlers = (Action<AsgToBytecodeData<QuarkLexemeType>>)null!;
+foreach (var ext in extensions) translatorHandlers += ext.GetUnknownAsgCodeHandler();
+var module = new AsgToBytecodeTranslator<QuarkLexemeType>().Translate(asg, translatorHandlers);
+Console.WriteLine(module);
+
 var executor = new TranslatorToMsil.TranslatorToMsil();
 executor.Init(new ExecutorConfiguration(module));
+
 var results = executor.RunModule();
 Console.WriteLine(results.First());

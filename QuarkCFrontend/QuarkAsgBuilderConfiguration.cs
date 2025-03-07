@@ -2,7 +2,7 @@ namespace QuarkCFrontend;
 
 public static class QuarkAsgBuilderConfiguration
 {
-    public static List<List<INodeCreator<QuarkLexemeType>>> CreateDefault() =>
+    public static AsgBuilderConfiguration<QuarkLexemeType> CreateDefault() => new(
     [
         [
             new CommentNodeCreator(),
@@ -68,5 +68,5 @@ public static class QuarkAsgBuilderConfiguration
         [
             new FunctionCreationNodeCreator(),
         ],
-    ];
+    ]);
 }

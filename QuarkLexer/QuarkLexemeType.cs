@@ -1,6 +1,6 @@
 namespace DefaultLexerImpl;
 
-public class QuarkLexemeTypes
+public static class QuarkLexemeTypes
 {
     public static readonly QuarkLexemeType Identifier = 0;
     public static readonly QuarkLexemeType LeftPar = 1;
@@ -40,6 +40,10 @@ public class QuarkLexemeTypes
     public static readonly QuarkLexemeType Comment = 35;
     public static readonly QuarkLexemeType Def = 36;
     public static readonly QuarkLexemeType WhiteSpace = 37;
+
+    private static long _num = WhiteSpace;
+
+    public static long GetNextFreeNumber() => ++_num;
 }
 
 public record QuarkLexemeType(long Value)
