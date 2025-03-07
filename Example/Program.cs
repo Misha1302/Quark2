@@ -9,25 +9,32 @@ const string code =
     """
     import "../../../../Libraries"
 
+    struct Vector3(x, y, z)
+
     def Main() {
+        v = CreateStruct("Vector3")
+        v->x = 3
+        v->y = 34.42
+        v->z = v->y / v->x
+        _ = PrintLn(v)
         return 0
     }
     """;
 
-var extensions = (List<QuarkExtStructures>) [];//[new QuarkExtStructures()];
+var extensions = (List<QuarkExtStructures>) [new QuarkExtStructures()];
 
 var lexerConf = QuarkLexerDefaultConfiguration.CreateDefault();
-foreach (var ext in extensions) lexerConf = ext.ExtendLexerConfiguration(lexerConf);
+lexerConf = extensions.Aggregate(lexerConf, (current, ext) => ext.ExtendLexerConfiguration(current));
 var lexemes = new QuarkLexer(lexerConf).Lexemize(code);
 Console.WriteLine(string.Join("\n", lexemes));
 
 var parserConf = QuarkAsgBuilderConfiguration.CreateDefault();
-foreach (var ext in extensions) parserConf = ext.ExtendAsgBuilderConfiguration(parserConf);
+parserConf = extensions.Aggregate(parserConf, (current, ext) => ext.ExtendAsgBuilderConfiguration(current));
 var asg = new AsgBuilder<QuarkLexemeType>(parserConf).Build(lexemes);
 Console.WriteLine(asg);
 
-var translatorHandlers = (Action<AsgToBytecodeData<QuarkLexemeType>>)null!;
-foreach (var ext in extensions) translatorHandlers += ext.GetUnknownAsgCodeHandler();
+var translatorHandlers = extensions.Aggregate((Action<AsgToBytecodeData<QuarkLexemeType>>)null!,
+    (current, ext) => current + ext.GetUnknownAsgCodeHandler());
 var module = new AsgToBytecodeTranslator<QuarkLexemeType>().Translate(asg, translatorHandlers);
 Console.WriteLine(module);
 

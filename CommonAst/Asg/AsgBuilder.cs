@@ -1,6 +1,6 @@
 namespace DefaultAstImpl.Asg;
 
-public class AsgBuilder<T>(AsgBuilderConfiguration<T> configuration) 
+public class AsgBuilder<T>(AsgBuilderConfiguration<T> configuration)
 {
     public AsgNode<T> Build(List<LexemeValue<T>> lexemes)
     {
@@ -15,7 +15,7 @@ public class AsgBuilder<T>(AsgBuilderConfiguration<T> configuration)
             do
             {
                 prevHashCode = nodes.CalcHashCodeForNodes();
-                Dfs(nodes, level);
+                Dfs(nodes, level.Value);
                 curHashCode = nodes.CalcHashCodeForNodes();
             } while (curHashCode != prevHashCode);
         }

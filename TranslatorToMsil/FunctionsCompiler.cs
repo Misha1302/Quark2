@@ -113,7 +113,8 @@ public class FunctionsCompiler
         }
 
         il.Ldstr(name);
-        il.Call(DelegatesHelper.GetInfo(RuntimeLibrary.CallFunc), tailcall: nextInstruction?.Type == InstructionType.Ret);
+        il.Call(DelegatesHelper.GetInfo(RuntimeLibrary.CallFunc),
+            tailcall: nextInstruction?.Type == InstructionType.Ret);
     }
 
     private void CompileBrOp(GroboIL il, BytecodeInstruction instruction, FunctionCompileData data)

@@ -11,7 +11,7 @@ public class RecursiveIsPrimeTest() : QuarkTest(
         isPrime = IsPrimeRec(n, top, 2)
         return isPrime
     }
-    
+
     def IsPrimeRec(n, top, i) {
         if (i >= top) { return 1 }
         if (n % i == 0) { return 0 }

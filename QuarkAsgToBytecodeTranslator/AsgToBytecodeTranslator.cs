@@ -172,7 +172,13 @@ public class AsgToBytecodeTranslator<T> : IAsgToBytecodeTranslator<T>
                 break;
             default:
                 _asgBuilderExtensionMethod(
-                    new AsgToBytecodeData<T>(CurBytecode, node, _importsManager, _functions, _functionsStack, this)
+                    new AsgToBytecodeData<T>(
+                        _functionsStack.Count > 0 ? CurBytecode : null!,
+                        node,
+                        _importsManager,
+                        _functions,
+                        _functionsStack,
+                        this)
                 );
                 break;
         }

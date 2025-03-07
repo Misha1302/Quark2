@@ -6,6 +6,7 @@ using CommonFrontendApi;
 using DefaultAstImpl.Asg;
 using DefaultLexerImpl;
 using QuarkExtension;
+using QuarkStructuresLibrary;
 using SharpAnyType;
 
 namespace QuarkStructures;
@@ -30,9 +31,9 @@ public class QuarkExtStructures : IQuarkExtension
         AsgBuilderConfiguration<QuarkLexemeType> current
     )
     {
-        current.CreatorLevels.Insert(0, [new FieldGetNodeCreator()]);
-        current.CreatorLevels.Insert(0, [new FieldSetNodeCreator()]);
-        current.CreatorLevels.Add([new StructNodeCreator()]);
+        current.CreatorLevels.CreateNewOrAdd(3.4f, new FieldSetNodeCreator());
+        current.CreatorLevels.CreateNewOrAdd(3.5f, new FieldGetNodeCreator());
+        current.CreatorLevels.CreateNewOrAdd(2.5f, new StructNodeCreator());
         return current;
     }
 
@@ -50,17 +51,19 @@ public class QuarkExtStructures : IQuarkExtension
 
     private void TranslateFieldSetAsg(AsgToBytecodeData<QuarkLexemeType> data)
     {
+        if (data.Node.Children.Count == 0) return;
         data.AsgToBytecodeTranslator.Visit(data.Node.Children[0]);
         data.CurBytecode.Add(new BI(InstructionType.PushConst, [data.Node.Children[1].Text.ObjectToAny()]));
-        data.CurBytecode.Add(SimpleBytecodeGenerator.CallSharp(QuarkStructuresLibrary.SetField));
+        data.CurBytecode.Add(SimpleBytecodeGenerator.CallSharp(QuarkStructuresLibrary.QuarkStructuresLibrary.SetField));
         data.CurBytecode.Add(new BI(InstructionType.Drop, []));
     }
 
     private void TranslateFieldGetAsg(AsgToBytecodeData<QuarkLexemeType> data)
     {
+        if (data.Node.Children.Count == 0) return;
         data.AsgToBytecodeTranslator.Visit(data.Node.Children[0]);
         data.CurBytecode.Add(new BI(InstructionType.PushConst, [data.Node.Children[1].Text.ObjectToAny()]));
-        data.CurBytecode.Add(SimpleBytecodeGenerator.CallSharp(QuarkStructuresLibrary.GetField));
+        data.CurBytecode.Add(SimpleBytecodeGenerator.CallSharp(QuarkStructuresLibrary.QuarkStructuresLibrary.GetField));
     }
 
     private static void TranslateStructTypeAsg(AsgToBytecodeData<QuarkLexemeType> data)
@@ -73,6 +76,6 @@ public class QuarkExtStructures : IQuarkExtension
             .Select(x => x.Text)
             .ToDictionary(x => x, _ => Any.Nil);
 
-        QuarkStructuresLibrary.Instance.AddStructure(new QuarkStructure(name, fields));
+        QuarkStructuresLibrary.QuarkStructuresLibrary.Instance.AddStructure(new QuarkStructure(name, fields));
     }
 }

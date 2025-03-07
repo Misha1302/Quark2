@@ -1,6 +1,6 @@
-using SharpAnyType;
+﻿using SharpAnyType;
 
-namespace QuarkStructures;
+namespace QuarkStructuresLibrary;
 
 public class QuarkStructuresLibrary
 {
@@ -13,11 +13,11 @@ public class QuarkStructuresLibrary
         Structures.Add(s);
     }
 
-    public static Any GetField(Any structure, string fieldName) =>
-        structure.Get<QuarkStructure>().Fields[fieldName];
+    public static Any GetField(Any structure, Any fieldName) =>
+        structure.Get<QuarkStructure>().Fields[fieldName.Get<string>()];
 
-    public static void SetField(Any value, Any structure, string fieldName) =>
-        structure.Get<QuarkStructure>().Fields[fieldName] = value;
+    public static void SetField(Any value, Any structure, Any fieldName) =>
+        structure.Get<QuarkStructure>().Fields[fieldName.Get<string>()] = value;
 
     public static Any CreateStruct(Any structName) =>
         new(Instance.Structures.First(x => x.Name == structName.Get<string>()), AnyValueType.SomeSharpObject);

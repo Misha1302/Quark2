@@ -8,10 +8,10 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\CommonAst\CommonAst.csproj" />
-      <ProjectReference Include="..\CommonFrontendApi\CommonFrontendApi.csproj" />
-      <ProjectReference Include="..\QuarkAsgToBytecodeTranslator\QuarkAsgToBytecodeTranslator.csproj" />
-      <ProjectReference Include="..\QuarkLexer\QuarkLexer.csproj" />
+        <ProjectReference Include="..\CommonAst\CommonAst.csproj"/>
+        <ProjectReference Include="..\CommonFrontendApi\CommonFrontendApi.csproj"/>
+        <ProjectReference Include="..\QuarkAsgToBytecodeTranslator\QuarkAsgToBytecodeTranslator.csproj"/>
+        <ProjectReference Include="..\QuarkLexer\QuarkLexer.csproj"/>
     </ItemGroup>
 
 </Project>
