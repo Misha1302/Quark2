@@ -1,3 +1,4 @@
+using System.Runtime.CompilerServices;
 using DynamicStrongTypeValue;
 
 namespace StrongAnyValueCalculator;
@@ -30,6 +31,7 @@ public static class AnyOptCalculator
     }
 
 
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     private static void Validate(in AnyOpt a, in AnyOpt b)
     {
         Throw.AssertAlways(a.Type == b.Type, $"Types to perform operations must be equal ({a.Type}, {b.Type})");

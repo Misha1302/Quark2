@@ -27,10 +27,10 @@ public class QuarkGraphics
     public static Any CreateColor(Any r, Any g, Any b, Any alpha) =>
         new(
             new Rgba32(
-                r.Get<double>().ToInt(),
-                g.Get<double>().ToInt(),
-                b.Get<double>().ToInt(),
-                alpha.Get<double>().ToInt()
+                (float)(r.Get<double>() / 255.0),
+                (float)(g.Get<double>() / 255.0),
+                (float)(b.Get<double>() / 255.0),
+                (float)(alpha.Get<double>() / 255.0)
             ),
             AnyValueType.SomeSharpObject
         );

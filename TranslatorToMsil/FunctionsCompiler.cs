@@ -101,7 +101,8 @@ public class FunctionsCompiler
         BytecodeModule module)
     {
         var name = instruction.Arguments[0].Get<string>();
-        var func = module.Functions.First(x => x.Name == name);
+        var func = module.Functions.FirstOrDefault(x => x.Name == name);
+        Throw.AssertAlways(func != null, $"Function {name} not found");
         var parametersCount = func.Code.GetParametersCount();
 
         for (var i = 0; i < parametersCount; i++)
