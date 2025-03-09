@@ -2,34 +2,44 @@ namespace SharpLibrariesImporter;
 
 public class ImportsManagerImpl
 {
+    private readonly AssemblyFixer _assemblyFixer;
     private readonly Dictionary<MethodInfo, Delegate> _methods = new();
     private readonly IMethodValidator _methodValidator;
+
+    private string _lastUsedDirectoryPath = string.Empty;
 
     public ImportsManagerImpl(IMethodValidator methodValidator)
     {
         _methodValidator = methodValidator;
+        _assemblyFixer = new AssemblyFixer();
 
-        AppDomain.CurrentDomain.AssemblyResolve += OnCurrentDomainOnAssemblyResolve;
+        _assemblyFixer.Enable(() => _lastUsedDirectoryPath);
     }
 
     public IReadOnlyDictionary<MethodInfo, Delegate> Methods => _methods;
 
     ~ImportsManagerImpl()
     {
-        AppDomain.CurrentDomain.AssemblyResolve -= OnCurrentDomainOnAssemblyResolve;
+        _assemblyFixer.Disable();
     }
 
-    private Assembly? OnCurrentDomainOnAssemblyResolve(object? sender, ResolveEventArgs args)
-    {
-        var assembly = ((AppDomain)sender!).GetAssemblies().FirstOrDefault(x => x.FullName == args.Name);
-        return assembly;
-    }
 
     public void Import(string path)
     {
-        if (Directory.Exists(path)) ImportDirectory(path);
-        else if (File.Exists(path)) ImportFile(path);
-        else Throw.InvalidOpEx($"Unknown path \"{Path.GetFullPath(path)}\"");
+        if (Directory.Exists(path))
+        {
+            _lastUsedDirectoryPath = path;
+            ImportDirectory(path);
+        }
+        else if (File.Exists(path))
+        {
+            _lastUsedDirectoryPath = path[..path.LastIndexOf('.')];
+            ImportFile(path);
+        }
+        else
+        {
+            Throw.InvalidOpEx($"Unknown path \"{Path.GetFullPath(path)}\"");
+        }
     }
 
     private void ImportFile(string path)

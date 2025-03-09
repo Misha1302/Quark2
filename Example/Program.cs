@@ -3,7 +3,10 @@
     import "../../../../Libraries"
 
     def Main() {
-        _ = PrintLn("Hello, World!")
+        img = CreateImage(256, 256)
+        _ = SetPixel(img, 100, 100, CreateColor(255, 0, 0, 120))
+        _ = SaveImageAsPng(img, "Pixel.png")
+        _ = PrintLn("Saved!")
         return 0
     }
     """;
