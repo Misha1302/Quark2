@@ -9,21 +9,7 @@ public static class AnyExtensions
         new(value, type);
 
     public static string AnyToString(this Any value, AnyValueType type) =>
-        Configuration.IsDebug
-            ? CatchExceptionsAnyToString(value, type)
-            : BasicAnyToString(value, type);
-
-    private static string CatchExceptionsAnyToString(Any value, AnyValueType type)
-    {
-        try
-        {
-            return BasicAnyToString(value, type);
-        }
-        catch (Exception e)
-        {
-            return e.ToString();
-        }
-    }
+        BasicAnyToString(value, type);
 
     private static string BasicAnyToString(Any value, AnyValueType type)
     {
@@ -37,26 +23,12 @@ public static class AnyExtensions
                 : d.Method.ToString()!,
             NativeI64 => $"n_{value.Get<long>()}",
             AnyValueType.Any => $"any: {value.Value}",
-            _ => Throw.InvalidOpEx<string>(),
+            _ => $"type: {type}"
         };
     }
 
     public static string UnsafeI64ToString(this long value, AnyValueType type) =>
-        Configuration.IsDebug
-            ? CatchExceptionsUnsafeI64ToString(value, type)
-            : BasicUnsafeI64ToString(value, type);
-
-    private static string CatchExceptionsUnsafeI64ToString(long value, AnyValueType type)
-    {
-        try
-        {
-            return BasicUnsafeI64ToString(value, type);
-        }
-        catch (Exception e)
-        {
-            return e.ToString();
-        }
-    }
+        BasicUnsafeI64ToString(value, type);
 
     private static string BasicUnsafeI64ToString(long value, AnyValueType type)
     {
@@ -66,7 +38,7 @@ public static class AnyExtensions
             Number => Unsafe.BitCast<long, double>(value).ToString(CultureInfo.InvariantCulture),
             NativeI64 => $"n_{value}",
             AnyValueType.Any => $"any: {value}",
-            _ => Throw.InvalidOpEx<string>(),
+            _ => $"type: {type}"
         };
     }
 }

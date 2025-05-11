@@ -6,13 +6,14 @@
         true = 1
         false = 0
     
-        P = 2048
+        factor = 1 / 16
+        P = 2048 * factor
         img = CreateImage(P * 2, P * 2)
         
         scale = P / 1.5
         n_iter = 100
         
-        view0 = -900
+        view0 = -900 * factor
         view1 = 0
         
         for (y = 0 - P + view1) (y < P + view1) (y = y + 1) {

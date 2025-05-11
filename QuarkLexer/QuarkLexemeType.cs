@@ -42,6 +42,7 @@ public enum QuarkLexemeType
     Comment,
     Def,
     WhiteSpace,
+    Dot
 }
 
 public static class QuarkLexemeTypeHelper

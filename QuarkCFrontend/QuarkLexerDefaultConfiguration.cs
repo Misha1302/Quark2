@@ -7,6 +7,7 @@ public static class QuarkLexerDefaultConfiguration
         var patterns =
             (List<LexemePattern<QuarkLexemeType>>)
             [
+                new LexemePattern<QuarkLexemeType>("\\.", Dot),
                 new LexemePattern<QuarkLexemeType>("//.*", Comment),
                 new LexemePattern<QuarkLexemeType>(@"-?[0-9']+(\.[0-9']+)?", Number),
                 new LexemePattern<QuarkLexemeType>(@"\(", LeftPar),

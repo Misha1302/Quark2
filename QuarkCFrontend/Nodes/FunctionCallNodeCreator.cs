@@ -19,8 +19,14 @@ public class FunctionCallNodeCreator : INodeCreator<QuarkLexemeType>
         nodes.RemoveAt(i + 1);
         nodes[i].NodeType = AsgNodeType.FunctionCall;
 
+        if (i - 2 < 0) return 0;
+        if (nodes[i - 1].LexemeType != Dot) return 0;
 
-        return 0;
+        nodes[i].Children[0].Children.Insert(0, nodes[i - 2]);
+        nodes.RemoveAt(i - 1);
+        nodes.RemoveAt(i - 2);
+
+        return -2;
     }
 
 
