@@ -149,7 +149,7 @@ public class CodeTests : CodeTesterBase
 
               def Main() {
                   vec = CreateVector({5,6,7,8})
-                  return GetValue(vec, 2)
+                  return vec.GetValue(2)
               }
               """,
             any => Assert.That(any.Get<double>(), Is.EqualTo(7.0).Within(_error))
@@ -164,7 +164,7 @@ public class CodeTests : CodeTesterBase
               {{_imports}}
 
               def Main() {
-                  return ToNumber("3.21")
+                  return "3.21".ToNumber()
               }
               """,
             any => Assert.That(any.Get<double>(), Is.EqualTo(3.21).Within(_error))
@@ -221,7 +221,7 @@ public class CodeTests : CodeTesterBase
               def Dfs(names, vec, ind) {
                   s = GetValue(names, ind)
                   for (i = 0) (i < GetSize(GetValue(vec, ind))) (i = i + 1) {
-                      s = Concat(s, Dfs(names, vec, GetValue(GetValue(vec, ind), i)))
+                      s = s.Concat(Dfs(names, vec, GetValue(GetValue(vec, ind), i)))
                   }
                   return s
               }
@@ -300,9 +300,9 @@ public class CodeTests : CodeTesterBase
               def Main() {
                   s = ""
                   for (n = 0) (n < 10) (n = n + 1) {
-                      if n % 2 == 0 { s = Concat(s, "D2 ") }
-                      elif n % 3 == 0 { s = Concat(s, "D3 ") }
-                      else { s = Concat(s, "Hi ") }
+                      if n % 2 == 0 { s = s.Concat("D2 ") }
+                      elif n % 3 == 0 { s = s.Concat("D3 ") }
+                      else { s = s.Concat("Hi ") }
                   }
                   return s
               }
