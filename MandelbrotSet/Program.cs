@@ -5,7 +5,7 @@
     def Main() {
         true = 1
         false = 0
-    
+
         factor = 1 / 16
         P = 2048 * factor
         img = CreateImage(P * 2, P * 2)

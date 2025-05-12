@@ -7,20 +7,20 @@
     </PropertyGroup>
 
     <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
-      <OutputPath>../Libraries/bin/</OutputPath>
+        <OutputPath>../Libraries/bin/</OutputPath>
     </PropertyGroup>
 
     <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
-      <OutputPath>../Libraries/bin/</OutputPath>
+        <OutputPath>../Libraries/bin/</OutputPath>
     </PropertyGroup>
 
     <ItemGroup>
-      <PackageReference Include="SixLabors.ImageSharp" Version="3.1.7" />
+        <PackageReference Include="SixLabors.ImageSharp" Version="3.1.7"/>
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\Doubles\Doubles.csproj" />
-      <ProjectReference Include="..\SharpAnyType\SharpAnyType.csproj" />
+        <ProjectReference Include="..\Doubles\Doubles.csproj"/>
+        <ProjectReference Include="..\SharpAnyType\SharpAnyType.csproj"/>
     </ItemGroup>
 
 </Project>

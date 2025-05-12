@@ -45,7 +45,7 @@ public enum QuarkLexemeType
     Dot,
 
     // after this enum value should not exist other values to correct work QuarkLexemeTypeHelper  
-    MaxQuarkLexeme
+    MaxQuarkLexeme,
 }
 
 public static class QuarkLexemeTypeHelper
@@ -57,9 +57,7 @@ public static class QuarkLexemeTypeHelper
 
 public static class QuarkLexemeTypeExtensions
 {
-    public static bool IsNeedBlock(this QuarkLexemeType type)
-    {
-        return type is QuarkLexemeType.If or QuarkLexemeType.Else or QuarkLexemeType.ElseIf
+    public static bool IsNeedBlock(this QuarkLexemeType type) =>
+        type is QuarkLexemeType.If or QuarkLexemeType.Else or QuarkLexemeType.ElseIf
             or QuarkLexemeType.Def or QuarkLexemeType.While or QuarkLexemeType.For;
-    }
 }

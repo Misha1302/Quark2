@@ -12,8 +12,8 @@ public class BytecodeConverter
 
     private VmFunction ConvertFunction(BytecodeFunction function, List<BytecodeFunction> functions)
     {
-        var ops = function.Code.Instructions.Select(
-            instruction => new VmOperation(instruction.Type, ConvertToVmValues(instruction.Arguments))
+        var ops = function.Code.Instructions.Select(instruction =>
+            new VmOperation(instruction.Type, ConvertToVmValues(instruction.Arguments))
         ).ToList();
 
         var labels = LabelsCalculator.CalculateLabels(function.Code.Instructions);

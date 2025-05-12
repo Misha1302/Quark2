@@ -23,7 +23,7 @@ public static class AnyExtensions
                 : d.Method.ToString()!,
             NativeI64 => $"n_{value.Get<long>()}",
             AnyValueType.Any => $"any: {value.Value}",
-            _ => $"type: {type}"
+            _ => $"type: {type}",
         };
     }
 
@@ -38,7 +38,7 @@ public static class AnyExtensions
             Number => Unsafe.BitCast<long, double>(value).ToString(CultureInfo.InvariantCulture),
             NativeI64 => $"n_{value}",
             AnyValueType.Any => $"any: {value}",
-            _ => $"type: {type}"
+            _ => $"type: {type}",
         };
     }
 }

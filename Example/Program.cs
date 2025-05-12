@@ -1,4 +1,5 @@
 ﻿using QuarkStructures;
+using VirtualMachine;
 
 const string code =
     """
@@ -10,7 +11,7 @@ const string code =
     """;
 
 // var executor = new TranslatorToMsil.TranslatorToMsil();
-var executor = new VirtualMachine.QuarkVirtualMachine();
+var executor = new QuarkVirtualMachine();
 var runner = new QuarkRunner.QuarkRunner();
 
 var result = runner.Execute(code, executor,

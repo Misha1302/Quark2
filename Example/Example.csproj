@@ -9,11 +9,11 @@
 
     <ItemGroup>
         <ProjectReference Include="..\QuarkExtensions\QuarkExtensions.csproj"/>
-        <ProjectReference Include="..\QuarkListInitializer\QuarkListInitializer.csproj" />
+        <ProjectReference Include="..\QuarkListInitializer\QuarkListInitializer.csproj"/>
         <ProjectReference Include="..\QuarkRunner\QuarkRunner.csproj"/>
         <ProjectReference Include="..\QuarkStructures\QuarkStructures.csproj"/>
         <ProjectReference Include="..\TranslatorToMsil\TranslatorToMsil.csproj"/>
-        <ProjectReference Include="..\VirtualMachine\VirtualMachine.csproj" />
+        <ProjectReference Include="..\VirtualMachine\VirtualMachine.csproj"/>
     </ItemGroup>
 
 </Project>
