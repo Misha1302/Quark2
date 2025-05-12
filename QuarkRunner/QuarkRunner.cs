@@ -16,6 +16,7 @@ public class QuarkRunner
     {
         var lexemes = Lexemize(code, extensions);
         var asg = Parse(extensions, lexemes);
+        // TODO: add asg validator
         var module = Translate(extensions, asg);
         InitExecutor(executor, module);
         var result = Execute(executor);

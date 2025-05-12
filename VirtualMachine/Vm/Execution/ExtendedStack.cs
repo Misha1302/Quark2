@@ -9,27 +9,27 @@ public class ExtendedStack<T>(int maxSize) : IReadOnlyStack<T>
     public T Get(int ind)
     {
         var ind2 = ind > 0 ? ind : Count + ind;
-        Throw.AssertDebug(ind2 >= 0 && ind2 < Count);
+        Throw.AssertAlways(ind2 >= 0 && ind2 < Count, "Index out of stack range");
         return _data[ind2];
     }
 
     public void Push(T value)
     {
-        Throw.AssertDebug(Count < _data.Length, "Stack is full");
+        Throw.AssertAlways(Count < _data.Length, "Stack is full");
         _data[Count++] = value;
     }
 
     public T Pop()
     {
         Count--;
-        Throw.AssertDebug(Count >= 0);
+        Throw.AssertAlways(Count >= 0, "Stack is empty");
         return _data[Count];
     }
 
     public void DropMany(long argsCount)
     {
         Count -= (int)argsCount;
-        Throw.AssertDebug(Count >= 0);
+        Throw.AssertAlways(Count >= 0, "Stack is empty");
     }
 
     public override string ToString()

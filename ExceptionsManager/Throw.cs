@@ -12,16 +12,6 @@ public static class Throw
     public static T InvalidOpEx<T>(string message = "") => throw new InvalidOperationException(message);
 
     [Conditional("DEBUG")]
-    public static void AssertDebug(
-        [DoesNotReturnIf(false)] bool cond,
-        string errorMessage = "",
-        [CallerArgumentExpression(nameof(cond))]
-        string expression = ""
-    )
-    {
-        AssertAlways(cond, errorMessage, expression);
-    }
-
     public static void AssertAlways(
         [DoesNotReturnIf(false)] bool cond,
         string errorMessage = "",

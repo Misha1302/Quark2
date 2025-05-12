@@ -6,7 +6,8 @@ const string code =
     import "../../../../Libraries"
 
     def Main() {
-        return CreateVector({5,6})
+        _ = PrintLn("Hello, World!")
+        return 0
     }
     """;
 

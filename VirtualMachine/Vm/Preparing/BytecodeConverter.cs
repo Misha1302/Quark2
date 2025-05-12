@@ -33,8 +33,9 @@ public class BytecodeConverter
         foreach (var op in ops)
             if (op.Type is LoadLocal or SetLocal)
             {
-                var index = (long)locals.FindIndex(x => x.Name == op.Args[0].GetRef<string>());
-                Throw.AssertDebug(index >= 0);
+                var localName = op.Args[0].GetRef<string>();
+                var index = (long)locals.FindIndex(x => x.Name == localName);
+                Throw.AssertAlways(index >= 0, $"{localName} was not found");
                 op.Args[0] = AnyOpt.Create(index, NativeI64);
             }
     }
@@ -45,14 +46,16 @@ public class BytecodeConverter
             if (op.Type is Br)
             {
                 // int - jump ip = [string - jump label name]
-                var index = (long)labels.FindIndex(x => x.Name == op.Args[1].GetRef<string>());
-                Throw.AssertDebug(index >= 0);
+                var labelName = op.Args[1].GetRef<string>();
+                var index = (long)labels.FindIndex(x => x.Name == labelName);
+                Throw.AssertAlways(index >= 0, $"label {labelName} was not found");
                 op.Args[1] = AnyOpt.Create(index, NativeI64);
             }
             else if (op.Type is CallFunc)
             {
-                var index = (long)functions.FindIndex(x => x.Name == op.Args[0].GetRef<string>());
-                Throw.AssertDebug(index >= 0);
+                var funcName = op.Args[0].GetRef<string>();
+                var index = (long)functions.FindIndex(x => x.Name == funcName);
+                Throw.AssertAlways(index >= 0, "function {funcName} was not found");
                 op.Args[0] = AnyOpt.Create(index, NativeI64);
             }
     }

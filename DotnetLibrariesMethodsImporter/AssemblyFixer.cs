@@ -17,7 +17,8 @@ public class AssemblyFixer
 
         var dllName = args.Name.Split(",")[0] + ".dll";
         var lastImportedDirectory = _lastImportedDirectoryGetter();
-        Throw.AssertAlways(Directory.Exists(lastImportedDirectory));
+        Throw.AssertAlways(Directory.Exists(lastImportedDirectory),
+            $"Directory \"{lastImportedDirectory}\" doesn't exist");
 
         var foundDlls = Directory.GetFileSystemEntries(
             lastImportedDirectory,

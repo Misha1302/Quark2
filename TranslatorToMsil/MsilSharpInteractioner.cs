@@ -19,7 +19,7 @@ public static class MsilSharpInteractioner
         public Any Get(int ind)
         {
             var ind2 = ind > 0 ? ind : stack.Length + ind;
-            Throw.AssertDebug(ind2 >= 0 && ind2 < stack.Length);
+            Throw.AssertAlways(ind2 >= 0 && ind2 < stack.Length, "Index out of stack range");
             return stack[ind2];
         }
     }

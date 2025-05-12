@@ -370,4 +370,36 @@ public class CodeTests : CodeTesterBase
             any => Assert.That(any.Get<List<Any>>(), Is.EqualTo((List<Any>) [5, 2, 6]))
         );
     }
+
+    [Test]
+    public void TestB4()
+    {
+        TestCode(
+            $$"""
+              {{_imports}}
+
+              struct Vector2(x, y)
+
+              def Main() {
+                  v1 = NewVector2(2, 3)
+                  v2 = NewVector2(-12, 7)
+                  v3 = v1.SumVectors(v2)
+                  return v3->x * v3->y
+              }
+
+              def SumVectors(a, b) {
+                  c = NewVector2(a->x + b->x, a->y + b->y)
+                  return c
+              }
+
+              def NewVector2(x, y) {
+                  v = CreateStruct("Vector2")
+                  v->x = x
+                  v->y = y
+                  return v
+              }
+              """,
+            any => Assert.That(any.Get<double>(), Is.EqualTo((2 - 12) * (3 + 7)).Within(_smallError))
+        );
+    }
 }
