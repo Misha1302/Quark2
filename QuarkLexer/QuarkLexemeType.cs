@@ -42,12 +42,24 @@ public enum QuarkLexemeType
     Comment,
     Def,
     WhiteSpace,
-    Dot
+    Dot,
+
+    // after this enum value should not exist other values to correct work QuarkLexemeTypeHelper  
+    MaxQuarkLexeme
 }
 
 public static class QuarkLexemeTypeHelper
 {
-    private static long _num = (long)QuarkLexemeType.WhiteSpace;
+    private static long _num = (long)QuarkLexemeType.MaxQuarkLexeme;
 
     public static QuarkLexemeType GetNextFreeNumber() => (QuarkLexemeType)(++_num);
+}
+
+public static class QuarkLexemeTypeExtensions
+{
+    public static bool IsNeedBlock(this QuarkLexemeType type)
+    {
+        return type is QuarkLexemeType.If or QuarkLexemeType.Else or QuarkLexemeType.ElseIf
+            or QuarkLexemeType.Def or QuarkLexemeType.While or QuarkLexemeType.For;
+    }
 }

@@ -16,7 +16,7 @@ public class ScopesNodeCreator : INodeCreator<QuarkLexemeType>
         // ReSharper disable once ForeachCanBePartlyConvertedToQueryUsingAnotherGetEnumerator
         foreach (var pair in _scopes)
         {
-            if (i >= nodes.Count || nodes[i].LexemeType != pair.left)
+            if (i >= nodes.Count || nodes[i].NodeType == AsgNodeType.Scope || nodes[i].LexemeType != pair.left)
                 continue;
 
             i++;
@@ -34,7 +34,12 @@ public class ScopesNodeCreator : INodeCreator<QuarkLexemeType>
 
             var to = i - 1;
 
-            var node = new AsgNode<QuarkLexemeType>(AsgNodeType.Scope, null!, [], nodes[i].LineNumber);
+            var node = new AsgNode<QuarkLexemeType>(
+                AsgNodeType.Scope,
+                nodes[from - 1].LexemeValue,
+                [],
+                nodes[i].LineNumber
+            );
             node.Children.AddRange(nodes[from..(to + 1)]);
 
             nodes.RemoveRange(from - 1, to - from + 1 + 2);

@@ -148,7 +148,7 @@ public class CodeTests : CodeTesterBase
               {{_imports}}
 
               def Main() {
-                  vec = CreateVector(5,6,7,8, 4)
+                  vec = CreateVector({5,6,7,8})
                   return GetValue(vec, 2)
               }
               """,
@@ -213,8 +213,8 @@ public class CodeTests : CodeTesterBase
               {{_imports}}
 
               def Main() {
-                  names = CreateVector("A", "B", "F", "C", "E", "G", "H", "I", "D", 9)
-                  vec = CreateVector(CreateVector(1,2, 2), CreateVector(3,4, 2), CreateVector(5, 1), CreateVector(8, 1), CreateVector(0), CreateVector(6,7, 2), CreateVector(0), CreateVector(0), CreateVector(0), 9)
+                  names = CreateVector({"A", "B", "F", "C", "E", "G", "H", "I", "D"})
+                  vec = CreateVector({CreateVector({1,2}), CreateVector({3,4}), CreateVector({5}), CreateVector({8}), CreateVector({}), CreateVector({6,7}), CreateVector({}), CreateVector({}), CreateVector({})})
                   return Dfs(names, vec, 0)
               }
 
@@ -353,6 +353,21 @@ public class CodeTests : CodeTesterBase
               }
               """,
             any => Assert.That(any.Get<double>(), Is.EqualTo(1).Within(_error))
+        );
+    }
+
+    [Test]
+    public void TestB3()
+    {
+        TestCode(
+            $$"""
+              {{_imports}}
+
+              def Main() {
+                  return {5,2,6}
+              }
+              """,
+            any => Assert.That(any.Get<List<Any>>(), Is.EqualTo((List<Any>) [5, 2, 6]))
         );
     }
 }

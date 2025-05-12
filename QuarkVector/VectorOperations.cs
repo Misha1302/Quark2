@@ -2,12 +2,12 @@
 
 public static class VectorOperations
 {
-    public static Any CreateVector(IReadOnlyStack<Any> stack)
+    public static Any CreateVector(Any initializer)
     {
-        var elementsCount = stack.Get(-1).Get<double>().ToLong();
+        var lst = initializer.Get<List<Any>>();
         var vec = new VectorImpl<Any>();
-        vec.SetSize(elementsCount);
-        for (var i = 0; i < elementsCount; i++) vec[(int)elementsCount - i - 1] = stack.Get(-(i + 2));
+        vec.SetSize(lst.Count);
+        for (var i = 0; i < lst.Count; i++) vec[i] = lst[i];
 
         return new Any(vec, AnyValueType.SomeSharpObject);
     }
