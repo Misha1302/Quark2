@@ -5,7 +5,7 @@ public class AsgToBytecodeTranslator<T> : IAsgToBytecodeTranslator<T>
     private readonly Stack<FunctionData> _functionsStack = new();
     private readonly ImportsManager _importsManager = new(new QuarkMethodValidator());
 
-    private Action<AsgToBytecodeData<T>> _asgBuilderExtensionMethod = null!;
+    private Func<AsgToBytecodeData<T>, bool> _asgBuilderExtensionMethods = null!;
     private List<FunctionData> _functions = [];
 
     private BytecodeFunction CurFunction => _functionsStack.Peek().BytecodeFunction;
@@ -14,6 +14,18 @@ public class AsgToBytecodeTranslator<T> : IAsgToBytecodeTranslator<T>
     // split to classes
     public void Visit(AsgNode<T> node)
     {
+        var bytecodeData = new AsgToBytecodeData<T>(
+            _functionsStack.Count > 0 ? CurBytecode : null!,
+            node,
+            _importsManager,
+            _functions,
+            _functionsStack,
+            this
+        );
+
+        var funcs = _asgBuilderExtensionMethods.GetInvocationList().Cast<Func<AsgToBytecodeData<T>, bool>?>();
+        if (funcs.Any(func => func != null && func(bytecodeData))) return;
+
         switch (node.NodeType)
         {
             case AsgNodeType.Unknown:
@@ -168,25 +180,15 @@ public class AsgToBytecodeTranslator<T> : IAsgToBytecodeTranslator<T>
                 break;
             case AsgNodeType.MaxEnumValue:
             case AsgNodeType.Removed:
-                Throw.InvalidOpEx();
-                break;
             default:
-                _asgBuilderExtensionMethod(
-                    new AsgToBytecodeData<T>(
-                        _functionsStack.Count > 0 ? CurBytecode : null!,
-                        node,
-                        _importsManager,
-                        _functions,
-                        _functionsStack,
-                        this)
-                );
+                Throw.InvalidOpEx();
                 break;
         }
     }
 
-    public BytecodeModule Translate(AsgNode<T> root, Action<AsgToBytecodeData<T>> asgBuilderExtensionMethod = null!)
+    public BytecodeModule Translate(AsgNode<T> root, Func<AsgToBytecodeData<T>, bool> asgBuilderExtensionMethod = null!)
     {
-        _asgBuilderExtensionMethod = asgBuilderExtensionMethod;
+        _asgBuilderExtensionMethods = asgBuilderExtensionMethod;
         var getter = new PrecompileDataGetter();
         _functions = getter.GetFunctions(root);
         Visit(root);

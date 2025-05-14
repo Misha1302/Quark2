@@ -36,8 +36,8 @@ public class QuarkRunner
 
     public BytecodeModule Translate(List<IQuarkExtension> extensions, AsgNode<QuarkLexemeType> asg, ILogger logger)
     {
-        var translatorHandlers = extensions.Aggregate((Action<AsgToBytecodeData<QuarkLexemeType>>)null!,
-            (current, ext) => current + ext.GetUnknownAsgCodeHandler());
+        var translatorHandlers = extensions.Aggregate((Func<AsgToBytecodeData<QuarkLexemeType>, bool>)null!,
+            (current, ext) => current + ext.GetAsgNodeHandler());
         var module = new AsgToBytecodeTranslator<QuarkLexemeType>().Translate(asg, translatorHandlers);
         logger.Log(nameof(Translate), module.ToString());
         return module;

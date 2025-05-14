@@ -38,16 +38,22 @@ public class QuarkExtStructures : IQuarkExtension
         return current;
     }
 
-    public Action<AsgToBytecodeData<QuarkLexemeType>> GetUnknownAsgCodeHandler() => UnknownAsgCodeHandle;
+    public Func<AsgToBytecodeData<QuarkLexemeType>, bool>? GetAsgNodeHandler() => UnknownAsgCodeHandle;
 
-    private void UnknownAsgCodeHandle(AsgToBytecodeData<QuarkLexemeType> data)
+    private bool UnknownAsgCodeHandle(AsgToBytecodeData<QuarkLexemeType> data)
     {
-        if (data.Node.NodeType == StructNodeCreator.StructType)
+        var type = data.Node.NodeType;
+
+        if (type == StructNodeCreator.StructType)
             TranslateStructTypeAsg(data);
-        if (data.Node.NodeType == FieldGetNodeCreator.FieldGet)
+        if (type == FieldGetNodeCreator.FieldGet)
             TranslateFieldGetAsg(data);
-        if (data.Node.NodeType == FieldSetNodeCreator.FieldSet)
+        if (type == FieldSetNodeCreator.FieldSet)
             TranslateFieldSetAsg(data);
+
+        return type == StructNodeCreator.StructType
+               || type == FieldGetNodeCreator.FieldGet
+               || type == FieldSetNodeCreator.FieldSet;
     }
 
     private void TranslateFieldSetAsg(AsgToBytecodeData<QuarkLexemeType> data)

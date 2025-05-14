@@ -25,5 +25,5 @@ public class QuarkTypeSystemExt : IQuarkExtension
         return current;
     }
 
-    public Action<AsgToBytecodeData<QuarkLexemeType>> GetUnknownAsgCodeHandler() => null!;
+    public Func<AsgToBytecodeData<QuarkLexemeType>, bool>? GetAsgNodeHandler() => null;
 }

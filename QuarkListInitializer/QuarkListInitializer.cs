@@ -24,11 +24,11 @@ public class QuarkListInitializer : IQuarkExtension
         return current;
     }
 
-    public Action<AsgToBytecodeData<QuarkLexemeType>> GetUnknownAsgCodeHandler() => ListInitializerCreator;
+    public Func<AsgToBytecodeData<QuarkLexemeType>, bool>? GetAsgNodeHandler() => ListInitializerCreator;
 
-    private void ListInitializerCreator(AsgToBytecodeData<QuarkLexemeType> data)
+    private bool ListInitializerCreator(AsgToBytecodeData<QuarkLexemeType> data)
     {
-        if (data.Node.NodeType != ListInitializerNodeCreator.ListInitializer) return;
+        if (data.Node.NodeType != ListInitializerNodeCreator.ListInitializer) return false;
 
         var listName = Guid.NewGuid().ToString();
         data.CurBytecode.Add(CallSharp(CreateList));
@@ -44,6 +44,7 @@ public class QuarkListInitializer : IQuarkExtension
         }
 
         data.CurBytecode.Add(new BytecodeInstruction(InstructionType.LoadLocal, [listName]));
+        return true;
     }
 
     public static Any CreateList() => new(new List<Any>(), AnyValueType.SomeSharpObject);
