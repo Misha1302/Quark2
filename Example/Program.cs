@@ -7,9 +7,13 @@ const string code =
     import "../../../../Libraries"
 
     def Main() {
-        a:Number = 5
-        _ = PrintLn(a)
+        _ = PrintLn(Fact(5))
         return 0
+    }
+    
+    def Fact(i) {
+        if i <= 1 { return i }
+        return Fact(i - 1) * i
     }
     """;
 

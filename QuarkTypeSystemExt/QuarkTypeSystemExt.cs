@@ -17,6 +17,7 @@ public class QuarkTypeSystemExt : IQuarkExtension
     public static readonly QuarkLexemeType Colon = QuarkLexemeTypeHelper.GetNextFreeNumber();
 
     private readonly Dictionary<string, string> _varToType = [];
+    private bool _tryingToAddVarType;
 
     public LexerConfiguration<QuarkLexemeType> ExtendLexerConfiguration(LexerConfiguration<QuarkLexemeType> current)
     {
@@ -39,44 +40,60 @@ public class QuarkTypeSystemExt : IQuarkExtension
         var node = data.Node;
         var translator = data.AsgToBytecodeTranslator;
 
-        if (TryAddVarType(node)) return true;
+        if (TryAddVarType(node, data)) return true;
 
-        if (node.NodeType != AsgNodeType.SetOperation) return false;
+        if (TrySetOp(data, node, translator)) return true;
 
+        return false;
+    }
 
-        if (node.Children[0].NodeType == AsgNodeType.Identifier)
+    private bool TrySetOp(AsgToBytecodeData<QuarkLexemeType> data, AsgNode<QuarkLexemeType> node,
+        IAsgToBytecodeTranslator<QuarkLexemeType> translator)
+    {
+        if (node.NodeType == AsgNodeType.SetOperation)
         {
-            var varName = node.Children[0].Text;
-            TryAddVarType(node.Children[0]);
+            if (node.Children[0].NodeType == AsgNodeType.Identifier)
+            {
+                var varName = node.Children[0].Text;
+                TryAddVarType(node.Children[0], data);
 
-            translator.Visit(node.Children[^1]);
+                translator.Visit(node.Children[^1]);
 
-            data.CurBytecode.AddRange(SimpleBytecodeGenerator.Dup());
-            data.CurBytecode.Add(new BytecodeInstruction(InstructionType.PushConst, [GetTypeOfVar(varName)]));
-            data.CurBytecode.Add(SimpleBytecodeGenerator.CallSharp(CheckForTypes));
+                data.CurBytecode.AddRange(SimpleBytecodeGenerator.Dup());
+                data.CurBytecode.Add(new BytecodeInstruction(InstructionType.PushConst, [GetTypeOfVar(varName)]));
+                data.CurBytecode.Add(SimpleBytecodeGenerator.CallSharp(CheckForTypes));
 
-            data.CurBytecode.Add(new BytecodeInstruction(InstructionType.SetLocal, [varName]));
+                data.CurBytecode.Add(new BytecodeInstruction(InstructionType.SetLocal, [varName]));
+            }
+            else
+            {
+                translator.Visit(node.Children[0]);
+            }
+
+            return true;
         }
-        else
-        {
-            translator.Visit(node.Children[0]);
-        }
 
-        return true;
+        return false;
     }
 
     private string GetTypeOfVar(string varName) => _varToType.GetValueOrDefault(varName, nameof(AnyValueType.Any));
 
-    private bool TryAddVarType(AsgNode<QuarkLexemeType> node)
+    private bool TryAddVarType(AsgNode<QuarkLexemeType> node, AsgToBytecodeData<QuarkLexemeType> data)
     {
+        if (_tryingToAddVarType) return false;
+
+        _tryingToAddVarType = true;
         if (node.NodeType == AsgNodeType.Identifier)
         {
             _varToType.TryAdd(node.Text, nameof(AnyValueType.Any));
             if (node.Children is [_, { NodeType: AsgNodeType.Identifier }, ..])
                 _varToType[node.Text] = node.Children[1].Text;
+            data.AsgToBytecodeTranslator.Visit(node);
+            _tryingToAddVarType = false;
             return true;
         }
 
+        _tryingToAddVarType = false;
         return false;
     }
 
