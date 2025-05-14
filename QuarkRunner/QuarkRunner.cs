@@ -13,8 +13,9 @@ namespace QuarkRunner;
 
 public class QuarkRunner
 {
-    public Any Execute(string code, IExecutor executor, List<IQuarkExtension> extensions, ILogger logger)
+    public Any Execute(string code, IExecutor executor, List<IQuarkExtension> extensions, ILogger? logger = null)
     {
+        logger ??= new PlugLogger();
         logger.Log("Code", code);
 
         var lexemes = Lexemize(code, extensions, logger);
