@@ -12,6 +12,7 @@
         <ProjectReference Include="..\QuarkListInitializer\QuarkListInitializer.csproj"/>
         <ProjectReference Include="..\QuarkRunner\QuarkRunner.csproj"/>
         <ProjectReference Include="..\QuarkStructures\QuarkStructures.csproj"/>
+        <ProjectReference Include="..\QuarkTypeSystemExt\QuarkTypeSystemExt.csproj"/>
         <ProjectReference Include="..\TranslatorToMsil\TranslatorToMsil.csproj"/>
         <ProjectReference Include="..\VirtualMachine\VirtualMachine.csproj"/>
     </ItemGroup>
