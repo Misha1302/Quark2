@@ -109,4 +109,17 @@ public static class SimpleBytecodeGenerator
         elifOrElseBody();
         bytecode.Instructions.Add(new BI(InstructionType.Label, [endLabel]));
     }
+
+    public static List<BI> Dup()
+    {
+        var name = Guid.NewGuid().ToString();
+        return
+        [
+            new BI(InstructionType.MakeVariables,
+                [new Any(new BytecodeVariable(name, AnyValueType.Any), AnyValueType.SomeSharpObject)]),
+            new BI(InstructionType.SetLocal, [name]),
+            new BI(InstructionType.LoadLocal, [name]),
+            new BI(InstructionType.LoadLocal, [name]),
+        ];
+    }
 }

@@ -7,7 +7,7 @@ const string code =
     import "../../../../Libraries"
 
     def Main() {
-        a:int = 5
+        a:Number = 5
         _ = PrintLn(a)
         return 0
     }

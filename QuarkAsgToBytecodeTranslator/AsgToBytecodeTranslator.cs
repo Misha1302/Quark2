@@ -5,7 +5,7 @@ public class AsgToBytecodeTranslator<T> : IAsgToBytecodeTranslator<T>
     private readonly Stack<FunctionData> _functionsStack = new();
     private readonly ImportsManager _importsManager = new(new QuarkMethodValidator());
 
-    private Func<AsgToBytecodeData<T>, bool> _asgBuilderExtensionMethods = null!;
+    private Func<AsgToBytecodeData<T>, bool>? _asgBuilderExtensionMethods;
     private List<FunctionData> _functions = [];
 
     private BytecodeFunction CurFunction => _functionsStack.Peek().BytecodeFunction;
@@ -23,8 +23,11 @@ public class AsgToBytecodeTranslator<T> : IAsgToBytecodeTranslator<T>
             this
         );
 
-        var funcs = _asgBuilderExtensionMethods.GetInvocationList().Cast<Func<AsgToBytecodeData<T>, bool>?>();
-        if (funcs.Any(func => func != null && func(bytecodeData))) return;
+        if (_asgBuilderExtensionMethods != null)
+        {
+            var funcs = _asgBuilderExtensionMethods.GetInvocationList().Cast<Func<AsgToBytecodeData<T>, bool>?>();
+            if (funcs.Any(func => func != null && func(bytecodeData))) return;
+        }
 
         switch (node.NodeType)
         {
