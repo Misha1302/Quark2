@@ -1,0 +1,31 @@
+Старый байткод:
+MakeVariables  []
+MakeVariables  [any: BytecodeVariable { Name = i, Type = Any }, any: BytecodeVariable { Name = i, Type = Any }, any: BytecodeVariable { Name = i, Type = Any }]
+PushConst  [0]
+SetLocal  [i]
+PushConst  [0]
+SetLocal  [i]
+Label  [47e2e975-d02d-41de-a85d-d7c190832897]
+LoadLocal  [i]
+PushConst  [5]
+MathOrLogicOp  [any: Lt]
+Br  [any: IfFalse, 22d1beb5-fd02-43b2-9828-989814e58164]
+LoadLocal  [i]
+PushConst  [1]
+MathOrLogicOp  [any: Sum]
+SetLocal  [i]
+Br  [any: Basic, 47e2e975-d02d-41de-a85d-d7c190832897]
+Label  [22d1beb5-fd02-43b2-9828-989814e58164]
+LoadLocal  [i]
+Ret  []
+
+Идея заключается в оперированиями интерфейсами (задача добиться интерфейса головного мозга)
+Новый байткод (абстрактно):
+MakeVariables [] // параметры
+MakeVariables [i] // локалки
+PushIValue [{PushConst, 0}] // в стеке появлеяется IValue
+LoadIVariable [{LoadIVariable, "i"}] // в стеке появляется IVariable 
+SetLocal [{CheckForTypes},{SetIVariable}]
+
+void SetIVariable(IVariable v, Any any):
+    v.Set(any)
