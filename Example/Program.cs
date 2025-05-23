@@ -10,7 +10,7 @@ const string code =
         _ = PrintLn(Fact(5))
         return 0
     }
-    
+
     def Fact(i) {
         if i <= 1 { return i }
         return Fact(i - 1) * i

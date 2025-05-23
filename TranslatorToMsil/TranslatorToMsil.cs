@@ -1,6 +1,8 @@
-﻿namespace TranslatorToMsil;
+﻿using CommonBytecode;
 
-public class TranslatorToMsil : IExecutor
+namespace TranslatorToMsil;
+
+public class TranslatorToMsil : IExecutor<ExecutorConfiguration>
 {
     public IEnumerable<Any> RunModule() =>
         RunFunction("Main", []);

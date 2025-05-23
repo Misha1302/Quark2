@@ -1,5 +1,6 @@
 ﻿using AbstractExecutor;
 using AsgToBytecodeTranslator;
+using CommonBytecode;
 using CommonBytecode.Data.Structures;
 using CommonFrontendApi;
 using CommonLoggers;
@@ -13,7 +14,8 @@ namespace QuarkRunner;
 
 public class QuarkRunner
 {
-    public Any Execute(string code, IExecutor executor, List<IQuarkExtension> extensions, ILogger? logger = null)
+    public Any Execute(string code, IExecutor<ExecutorConfiguration> executor, List<IQuarkExtension> extensions,
+        ILogger? logger = null)
     {
         logger ??= new PlugLogger();
         logger.Log("Code", code);
@@ -27,9 +29,9 @@ public class QuarkRunner
         return result;
     }
 
-    public Any Execute(IExecutor executor) => executor.RunModule().First();
+    public Any Execute(IExecutor<ExecutorConfiguration> executor) => executor.RunModule().First();
 
-    public void InitExecutor(IExecutor executor, BytecodeModule module)
+    public void InitExecutor(IExecutor<ExecutorConfiguration> executor, BytecodeModule module)
     {
         executor.Init(new ExecutorConfiguration(module));
     }

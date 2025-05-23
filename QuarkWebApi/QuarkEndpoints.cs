@@ -1,3 +1,5 @@
+using CommonBytecode;
+
 namespace QuarkWebApi;
 
 public static class QuarkEndpoints
@@ -8,7 +10,7 @@ public static class QuarkEndpoints
     {
         _app
             .MapGet("Quark/" + name, (
-                    [FromServices] IExecutor executor
+                    [FromServices] IExecutor<ExecutorConfiguration> executor
                 ) =>
                 executor.RunFunction(name.Get<string>(), []).First().Get<string>());
     }
@@ -18,7 +20,7 @@ public static class QuarkEndpoints
         _app
             .MapPost("Quark/" + name, (
                     string text,
-                    [FromServices] IExecutor executor
+                    [FromServices] IExecutor<ExecutorConfiguration> executor
                 ) =>
                 executor.RunFunction(name.Get<string>(), [text.ObjectToAny()]).First().Get<string>());
     }
@@ -29,7 +31,7 @@ public static class QuarkEndpoints
             _app
                 .MapDelete("Quark/" + name, (
                         string text,
-                        [FromServices] IExecutor executor
+                        [FromServices] IExecutor<ExecutorConfiguration> executor
                     ) =>
                     executor.RunFunction(name.Get<string>(), [text.ObjectToAny()]).First()
                         .Get<string>());
@@ -38,7 +40,7 @@ public static class QuarkEndpoints
             _app
                 .MapDelete("Quark/" + name,
                     (
-                        [FromServices] IExecutor executor
+                        [FromServices] IExecutor<ExecutorConfiguration> executor
                     ) => executor.RunFunction(name.Get<string>(), []).First().Get<string>());
     }
 
@@ -47,7 +49,7 @@ public static class QuarkEndpoints
         _app
             .MapPut("Quark/" + name, (
                     string text,
-                    [FromServices] IExecutor executor
+                    [FromServices] IExecutor<ExecutorConfiguration> executor
                 ) =>
                 executor.RunFunction(name.Get<string>(), [text.ObjectToAny()]).First().Get<string>());
     }

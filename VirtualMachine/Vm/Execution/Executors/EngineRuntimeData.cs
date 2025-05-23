@@ -1,3 +1,5 @@
+using CommonBytecode;
+
 namespace VirtualMachine.Vm.Execution.Executors;
 
 // ReSharper disable once NotAccessedPositionalProperty.Global

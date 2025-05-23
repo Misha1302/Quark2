@@ -1,12 +1,12 @@
 ﻿namespace AbstractExecutor;
 
-public interface IExecutor
+public interface IExecutor<in T>
 {
     /// <summary>
     ///     Initialize executor to run with current configuration
     /// </summary>
     /// <param name="configuration">Data to initialize</param>
-    void Init(ExecutorConfiguration configuration);
+    void Init(T configuration);
 
     /// <summary>
     ///     Executes a given bytecode module and returns the result as an enumeration of Any values.
