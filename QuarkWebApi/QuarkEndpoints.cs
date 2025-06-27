@@ -10,7 +10,7 @@ public static class QuarkEndpoints
     {
         _app
             .MapGet("Quark/" + name, (
-                    [FromServices] IExecutor<ExecutorConfiguration> executor
+                    [FromServices] IExecutor<ExecutorConfiguration, IEnumerable<Any>> executor
                 ) =>
                 executor.RunFunction(name.Get<string>(), []).First().Get<string>());
     }
@@ -20,7 +20,7 @@ public static class QuarkEndpoints
         _app
             .MapPost("Quark/" + name, (
                     string text,
-                    [FromServices] IExecutor<ExecutorConfiguration> executor
+                    [FromServices] IExecutor<ExecutorConfiguration, IEnumerable<Any>> executor
                 ) =>
                 executor.RunFunction(name.Get<string>(), [text.ObjectToAny()]).First().Get<string>());
     }
@@ -31,7 +31,7 @@ public static class QuarkEndpoints
             _app
                 .MapDelete("Quark/" + name, (
                         string text,
-                        [FromServices] IExecutor<ExecutorConfiguration> executor
+                        [FromServices] IExecutor<ExecutorConfiguration, IEnumerable<Any>> executor
                     ) =>
                     executor.RunFunction(name.Get<string>(), [text.ObjectToAny()]).First()
                         .Get<string>());
@@ -40,7 +40,7 @@ public static class QuarkEndpoints
             _app
                 .MapDelete("Quark/" + name,
                     (
-                        [FromServices] IExecutor<ExecutorConfiguration> executor
+                        [FromServices] IExecutor<ExecutorConfiguration, IEnumerable<Any>> executor
                     ) => executor.RunFunction(name.Get<string>(), []).First().Get<string>());
     }
 
@@ -49,7 +49,7 @@ public static class QuarkEndpoints
         _app
             .MapPut("Quark/" + name, (
                     string text,
-                    [FromServices] IExecutor<ExecutorConfiguration> executor
+                    [FromServices] IExecutor<ExecutorConfiguration, IEnumerable<Any>> executor
                 ) =>
                 executor.RunFunction(name.Get<string>(), [text.ObjectToAny()]).First().Get<string>());
     }

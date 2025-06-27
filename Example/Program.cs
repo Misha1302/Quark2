@@ -1,34 +1,33 @@
-﻿using CommonLoggers;
-using QuarkStructures;
-using VirtualMachine;
+﻿using GenericBytecode2;
 
-const string code =
-    """
-    import "../../../../Libraries"
+var vm = new GenericBytecodeVirtualMachine.GenericBytecodeVirtualMachine();
+var mainBody = new FunctionBytecode([
+    new Instruction(InstructionManager.GetNextInstruction("Push"), [new InstructionAction(PushSmth)]),
+    new Instruction(InstructionManager.GetNextInstruction("Dup"), [new InstructionAction(Dup)]),
+    new Instruction(InstructionManager.GetNextInstruction("CallMethod"), [new InstructionAction(Print)]),
+    new Instruction(InstructionManager.GetNextInstruction("CallMethod"), [new InstructionAction(Print)]),
+    new Instruction(InstructionValue.Ret, []),
+]);
+var main = new GenericBytecodeFunction("Main", mainBody);
+vm.Init(new GenericBytecodeModule([main]));
+vm.RunModule();
 
-    def Main() {
-        _ = PrintLn(Fact(5))
-        return 0
-    }
+return;
 
-    def Fact(i) {
-        if i <= 1 { return i }
-        return Fact(i - 1) * i
-    }
-    """;
+static void Print(Str value)
+{
+    Console.WriteLine(value.Value);
+}
 
-// добавить авто-диспетчеризацию функций (Dictionary) по типам данных 
+static void PushSmth(out Str res)
+{
+    res = new Str("Hi!");
+}
 
-// var executor = new TranslatorToMsil.TranslatorToMsil();
-var executor = new QuarkVirtualMachine();
-var runner = new QuarkRunner.QuarkRunner();
+static void Dup(Str value, out Str res1, out Str res2)
+{
+    res1 = value;
+    res2 = value;
+}
 
-var result = runner.Execute(code, executor,
-    [
-        new QuarkExtStructures(),
-        new QuarkListInitializer.QuarkListInitializer(),
-        new QuarkTypeSystemExt.QuarkTypeSystemExt(),
-    ],
-    new FileLogger("../../logs.txt")
-);
-Console.WriteLine(result);
+public record Str(string Value) : IBasicValue;

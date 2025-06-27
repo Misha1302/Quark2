@@ -1,8 +1,11 @@
 namespace GenericBytecode2;
 
-public struct InstructionValue(int value)
+public readonly record struct InstructionValue(int Value)
 {
-    public readonly int Value = value;
+    // Build-in's
+    public static readonly InstructionValue Invalid = InstructionManager.GetNextInstruction(nameof(Invalid));
+    public static readonly InstructionValue Ret = InstructionManager.GetNextInstruction(nameof(Ret));
+    public static readonly InstructionValue Goto = InstructionManager.GetNextInstruction(nameof(Goto));
 
-    public static readonly InstructionValue Invalid = new(0);
+    public override string ToString() => InstructionManager.GetNameOfInstruction(this);
 }

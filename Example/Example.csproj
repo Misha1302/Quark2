@@ -8,6 +8,7 @@
     </PropertyGroup>
 
     <ItemGroup>
+        <ProjectReference Include="..\GenericBytecodeVirtualMachine\GenericBytecodeVirtualMachine.csproj"/>
         <ProjectReference Include="..\QuarkExtensions\QuarkExtensions.csproj"/>
         <ProjectReference Include="..\QuarkListInitializer\QuarkListInitializer.csproj"/>
         <ProjectReference Include="..\QuarkRunner\QuarkRunner.csproj"/>

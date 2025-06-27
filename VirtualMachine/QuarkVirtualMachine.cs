@@ -2,7 +2,7 @@ using CommonBytecode;
 
 namespace VirtualMachine;
 
-public class QuarkVirtualMachine : IExecutor<ExecutorConfiguration>
+public class QuarkVirtualMachine : IExecutor<ExecutorConfiguration, IEnumerable<Any>>
 {
     private Engine _engine = null!;
     private VmModule _vmModule = null!;

@@ -20,14 +20,15 @@ public class QuarkInitializer
         return app;
     }
 
-    private static void AddSingletons(WebApplicationBuilder builder, IExecutor<ExecutorConfiguration> executor)
+    private static void AddSingletons(WebApplicationBuilder builder,
+        IExecutor<ExecutorConfiguration, IEnumerable<Any>> executor)
     {
         builder.Services.AddSingleton(executor);
     }
 
-    private IExecutor<ExecutorConfiguration> CreateExecutor(RunType runType, BytecodeModule module)
+    private IExecutor<ExecutorConfiguration, IEnumerable<Any>> CreateExecutor(RunType runType, BytecodeModule module)
     {
-        var executor = (IExecutor<ExecutorConfiguration>)(runType != RunType.RunningUsingInterpreter
+        var executor = (IExecutor<ExecutorConfiguration, IEnumerable<Any>>)(runType != RunType.RunningUsingInterpreter
             ? new QuarkVirtualMachine()
             : new TranslatorToMsil.TranslatorToMsil());
         executor.Init(new ExecutorConfiguration(module));

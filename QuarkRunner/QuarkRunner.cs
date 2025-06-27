@@ -14,7 +14,8 @@ namespace QuarkRunner;
 
 public class QuarkRunner
 {
-    public Any Execute(string code, IExecutor<ExecutorConfiguration> executor, List<IQuarkExtension> extensions,
+    public Any Execute(string code, IExecutor<ExecutorConfiguration, IEnumerable<Any>> executor,
+        List<IQuarkExtension> extensions,
         ILogger? logger = null)
     {
         logger ??= new PlugLogger();
@@ -29,9 +30,9 @@ public class QuarkRunner
         return result;
     }
 
-    public Any Execute(IExecutor<ExecutorConfiguration> executor) => executor.RunModule().First();
+    public Any Execute(IExecutor<ExecutorConfiguration, IEnumerable<Any>> executor) => executor.RunModule().First();
 
-    public void InitExecutor(IExecutor<ExecutorConfiguration> executor, BytecodeModule module)
+    public void InitExecutor(IExecutor<ExecutorConfiguration, IEnumerable<Any>> executor, BytecodeModule module)
     {
         executor.Init(new ExecutorConfiguration(module));
     }

@@ -1,4 +1,5 @@
 using CommonBytecode;
+using SharpAnyType;
 
 namespace Quark2;
 
@@ -32,9 +33,10 @@ public class ProgramRunner
         }
     }
 
-    private static IExecutor<ExecutorConfiguration> CreateExecutor(RunType runType, BytecodeModule module)
+    private static IExecutor<ExecutorConfiguration, IEnumerable<Any>> CreateExecutor(RunType runType,
+        BytecodeModule module)
     {
-        var executor = (IExecutor<ExecutorConfiguration>)(
+        var executor = (IExecutor<ExecutorConfiguration, IEnumerable<Any>>)(
             runType == RunType.MainCodeRunningUsingInterpreter
                 ? new QuarkVirtualMachine()
                 : new TranslatorToMsil.TranslatorToMsil()

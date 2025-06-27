@@ -1,4 +1,5 @@
 using CommonBytecode;
+using SharpAnyType;
 
 namespace Quark2;
 
@@ -39,7 +40,8 @@ public class Measurer
         Console.WriteLine($"Translator to msil min execution time: {times2.Min()} ms");
     }
 
-    private List<long> Measure(Func<IExecutor<ExecutorConfiguration>> executorMaker, int times, string code)
+    private List<long> Measure(Func<IExecutor<ExecutorConfiguration, IEnumerable<Any>>> executorMaker, int times,
+        string code)
     {
         var executionTimes = new List<long>(times);
 

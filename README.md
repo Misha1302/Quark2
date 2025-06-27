@@ -1,5 +1,7 @@
 # A Framework for easy and fast creation programming languages and DSLs
+
 ## Main description
+
 The main idea is make many components with common API. It should help create DSLs as constructors from implemented
 components and, if necessary, create your own components.
 
@@ -38,6 +40,7 @@ In current moment 9 modules was implemented:
 You can create yours extensions for Quark DSL also.
 
 There is example of using QuarkExtStructures:
+
 ```csharp
 using QuarkExtension;
 using QuarkStructures;
@@ -78,6 +81,7 @@ Console.WriteLine(result);
 ```
 
 ## Experimental bytecode branch description
+
 ### Innovative approach to bytecode
 
 New bytecode arranged like

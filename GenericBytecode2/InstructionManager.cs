@@ -2,7 +2,16 @@ namespace GenericBytecode2;
 
 public static class InstructionManager
 {
-    private static int _curInstructionNumber = 1;
+    private static int _curInstructionNumber;
 
-    public static InstructionValue GetNextInstruction() => new(_curInstructionNumber++);
+    private static readonly Dictionary<InstructionValue, string> _instructionNames = [];
+
+    public static InstructionValue GetNextInstruction(string name)
+    {
+        var i = new InstructionValue(_curInstructionNumber++);
+        _instructionNames[i] = name;
+        return i;
+    }
+
+    public static string GetNameOfInstruction(InstructionValue instruction) => _instructionNames[instruction];
 }
