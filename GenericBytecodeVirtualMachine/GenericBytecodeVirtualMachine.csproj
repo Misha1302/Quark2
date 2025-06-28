@@ -8,6 +8,7 @@
 
     <ItemGroup>
         <ProjectReference Include="..\AbstractExecutor\AbstractExecutor.csproj"/>
+        <ProjectReference Include="..\CommonLoggers\CommonLoggers.csproj" />
         <ProjectReference Include="..\GenericBytecode2\GenericBytecode2.csproj"/>
     </ItemGroup>
 

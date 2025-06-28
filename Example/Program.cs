@@ -1,33 +1,41 @@
-﻿using GenericBytecode2;
+﻿using System.Diagnostics;
+using CommonLoggers;
+using GenericBytecode2;
+using GenericBytecode2.Structures;
+using Boolean = GenericBytecode2.Structures.Boolean;
 
-var vm = new GenericBytecodeVirtualMachine.GenericBytecodeVirtualMachine();
+var push = InstructionManager.GetNextInstruction("Push");
+var callMethod = InstructionManager.GetNextInstruction("CallMethod");
+var ret = InstructionValue.Ret;
+var setLabel = InstructionValue.SetLabel;
+var jumpIfTrue = InstructionValue.JumpIfTrue;
+
 var mainBody = new FunctionBytecode([
-    new Instruction(InstructionManager.GetNextInstruction("Push"), [new InstructionAction(PushSmth)]),
-    new Instruction(InstructionManager.GetNextInstruction("Dup"), [new InstructionAction(Dup)]),
-    new Instruction(InstructionManager.GetNextInstruction("CallMethod"), [new InstructionAction(Print)]),
-    new Instruction(InstructionManager.GetNextInstruction("CallMethod"), [new InstructionAction(Print)]),
-    new Instruction(InstructionValue.Ret, []),
+    new Instruction(setLabel, [new InstructionAction(GetStartLabelName)]),
+    new Instruction(push, [new InstructionAction(PushSmth)]),
+    new Instruction(callMethod, [new InstructionAction(Print)]),
+    new Instruction(push, [new InstructionAction(PushNeedToContinue)]),
+    new Instruction(jumpIfTrue, [new InstructionAction(GetStartLabelName)]),
+    new Instruction(ret, []),
 ]);
 var main = new GenericBytecodeFunction("Main", mainBody);
-vm.Init(new GenericBytecodeModule([main]));
+
+var vm = new GenericBytecodeVirtualMachine.GenericBytecodeVirtualMachine();
+vm.Init(new GenericBytecodeConfiguration(new GenericBytecodeModule([main]), new PlugLogger()));
+
+var sw = Stopwatch.StartNew();
 vm.RunModule();
+Console.WriteLine(sw.Elapsed);
 
 return;
 
-static void Print(Str value)
-{
-    Console.WriteLine(value.Value);
-}
+static void GetStartLabelName(out Str res) => res = Temp.Start;
+static void Print(Str value) => Console.WriteLine(value.Value);
+static void PushSmth(out Str res) => res = new Str("Hi!");
+static void PushNeedToContinue(out IBoolean res) => res = new Boolean(++Temp.Count < 100_000);
 
-static void PushSmth(out Str res)
+public static class Temp
 {
-    res = new Str("Hi!");
+    public static int Count;
+    public static readonly Str Start = new("start");
 }
-
-static void Dup(Str value, out Str res1, out Str res2)
-{
-    res1 = value;
-    res2 = value;
-}
-
-public record Str(string Value) : IBasicValue;

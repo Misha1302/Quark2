@@ -11,7 +11,7 @@ public static class Throw
     [DoesNotReturn]
     public static T InvalidOpEx<T>(string message = "") => throw new InvalidOperationException(message);
 
-    [Conditional("DEBUG")]
+    // [Conditional("DEBUG")]
     public static void AssertAlways(
         [DoesNotReturnIf(false)] bool cond,
         string errorMessage = "",
@@ -23,4 +23,7 @@ public static class Throw
     }
 
     public static void NotImplementedException(string msg = "") => throw new NotImplementedException(msg);
+
+    [DoesNotReturn]
+    public static T NullException<T>() => throw new NullReferenceException();
 }

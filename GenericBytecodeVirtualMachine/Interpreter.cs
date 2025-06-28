@@ -1,9 +1,11 @@
+using CommonLoggers;
 using ExceptionsManager;
 using GenericBytecode2;
+using GenericBytecode2.Structures;
 
 namespace GenericBytecodeVirtualMachine;
 
-public class Interpreter
+public class Interpreter(ILogger logger)
 {
     private readonly Stack<FunctionFrame> _functionStack = new();
     private readonly Stack<IBasicValue> _valuesStack = new();
@@ -15,19 +17,7 @@ public class Interpreter
         while (_functionStack.Count > 0)
         {
             while (CurrentFrame.Sp >= 0)
-            {
-                var instruction = CurrentFrame.Bytecode.Body.Instructions[CurrentFrame.Sp];
-                CurrentFrame.Sp++;
-
-                Throw.AssertAlways(instruction.Value != InstructionValue.Invalid, "Invalid instruction value");
-                if (instruction.Value == InstructionValue.Ret) CurrentFrame.Sp = -1;
-                else if (instruction.Value == InstructionValue.Goto) CurrentFrame.Sp = -1;
-                else CallInstruction(instruction);
-
-                Console.WriteLine(
-                    $"  Executed: {instruction}".PadRight(75) + "[ " + string.Join(", ", _valuesStack) + " ]"
-                );
-            }
+                Step();
 
             _functionStack.Pop();
         }
@@ -35,28 +25,62 @@ public class Interpreter
         return _valuesStack;
     }
 
+    private void Step()
+    {
+        var instruction = CurrentFrame.Bytecode.Body.Instructions[CurrentFrame.Sp];
+        CurrentFrame.Sp++;
+
+        Throw.AssertAlways(instruction.Value != InstructionValue.Invalid, "Invalid instruction value");
+        if (instruction.Value == InstructionValue.Ret)
+            CurrentFrame.Sp = -1;
+        else if (instruction.Value == InstructionValue.JumpIfTrue)
+            JumpIfTrue(instruction);
+        else if (instruction.Value == InstructionValue.SetLabel)
+            Nop();
+        else CallInstruction(instruction);
+
+        if (logger.GetType() != typeof(PlugLogger))
+            logger.Log(
+                "Step",
+                $"Executed: {instruction}".PadRight(115) + "[ " + string.Join(", ", _valuesStack) + " ]"
+            );
+    }
+
+    private void JumpIfTrue(Instruction instruction)
+    {
+        if (_valuesStack.Pop().To<IBasicValue, IBoolean>().ToBool())
+            CurrentFrame.Sp = CurrentFrame.Labels[instruction.Args[0].Invoke<Str>()];
+    }
+
+    private void Nop()
+    {
+    }
+
     private void CallInstruction(Instruction instruction)
     {
         foreach (var act in instruction.Args)
         {
-            var args = Enumerable.Range(0, act.Action.Method.GetParameters().Length).Cast<object?>().ToArray();
+            var args = GenericArrayPool<object?>.Shared.Rent(act.Parameters.Length);
             var i = 0;
-            foreach (var arg in act.Action.Method.GetParameters())
+            foreach (var arg in act.Parameters)
             {
                 args[i] = !arg.ParameterType.IsByRef ? _valuesStack.Pop() : null;
                 i++;
             }
 
 
-            act.Action.Method.Invoke(null, args);
+            act.Invoke(args);
 
 
             i = 0;
-            foreach (var arg in act.Action.Method.GetParameters())
+            foreach (var arg in act.Parameters)
             {
-                if (arg.ParameterType.IsByRef) _valuesStack.Push((IBasicValue)args[i]!);
+                if (arg.ParameterType.IsByRef)
+                    _valuesStack.Push((IBasicValue)args[i]!);
                 i++;
             }
+
+            GenericArrayPool<object?>.Shared.Return(args);
         }
     }
 

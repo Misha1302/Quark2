@@ -1,11 +1,14 @@
 using System.Reflection;
 using ExceptionsManager;
+using GenericBytecode2.Structures;
 
 namespace GenericBytecode2;
 
 public record InstructionAction
 {
     private readonly Func<string>? _delegateToString;
+
+    private readonly Lazy<ParameterInfo[]> _parametersLazy;
     public readonly Delegate Action;
 
     /// <summary>
@@ -23,7 +26,11 @@ public record InstructionAction
 
         Action = action;
         _delegateToString = delegateToString;
+
+        _parametersLazy = new Lazy<ParameterInfo[]>(Action.Method.GetParameters);
     }
+
+    public ParameterInfo[] Parameters => _parametersLazy.Value;
 
     private static void CheckAction(Delegate action)
     {
@@ -68,6 +75,24 @@ public record InstructionAction
             action.GetInvocationList().Length == 1,
             "Action must be single"
         );
+    }
+
+    public void Invoke(params object?[] args)
+    {
+        Action.Method.Invoke(null, args);
+    }
+
+    public T Invoke<T>(Span<object?> args = default)
+    {
+        var arr = GenericArrayPool<object?>.Shared.Rent(args.Length + 1);
+        Array.Clear(arr);
+        args.UnsafeCopyTo(arr);
+
+        Action.Method.Invoke(null, arr);
+
+        var res = (T)arr[^1]!;
+        GenericArrayPool<object?>.Shared.Return(arr);
+        return res;
     }
 
     public override string ToString() => (_delegateToString?.Invoke() ?? Action.Method.ToString()) ?? string.Empty;
