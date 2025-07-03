@@ -15,5 +15,5 @@ public interface IQuarkExtension
         AsgBuilderConfiguration<QuarkLexemeType> current
     );
 
-    public Action<AsgToBytecodeData<QuarkLexemeType>> GetUnknownAsgCodeHandler();
+    public Func<AsgToBytecodeData<QuarkLexemeType>, bool>? GetAsgNodeHandler();
 }

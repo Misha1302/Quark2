@@ -1,21 +1,40 @@
-﻿using QuarkStructures;
-using VirtualMachine;
+﻿using System.Diagnostics;
+using BasicMathExtension;
+using CommonLoggers;
+using GenericBytecode;
 
-const string code =
-    """
-    import "../../../../Libraries"
+var push = InstructionManager.GetNextInstruction("Push");
+var callMethod = InstructionManager.GetNextInstruction("CallMethod");
+var ret = InstructionValue.Ret;
 
-    def Main() {
-        _ = PrintLn("Hello, World!")
-        return 0
-    }
-    """;
+var mainBody = new FunctionBytecode([
+    new Instruction(push, new InstructionAction(PushSmth)),
+    new Instruction(push, new InstructionAction(PushSmth2)),
+    new Instruction(BasicMathExtension.BasicMathExtension.AddInstruction, []),
+    new Instruction(callMethod, new InstructionAction(Print)),
+    new Instruction(ret, []),
+]);
 
-// var executor = new TranslatorToMsil.TranslatorToMsil();
-var executor = new QuarkVirtualMachine();
-var runner = new QuarkRunner.QuarkRunner();
+var main = new GenericBytecodeFunction("Main", mainBody);
+var module = new GenericBytecodeModule([main]);
 
-var result = runner.Execute(code, executor,
-    [new QuarkExtStructures(), new QuarkListInitializer.QuarkListInitializer()]
-);
-Console.WriteLine(result);
+var ext = new BasicMathExtension.BasicMathExtension();
+module = ext.ManipulateBytecode(module);
+
+var vm = new GenericBytecodeVirtualMachine.GenericBytecodeVirtualMachine();
+vm.Init(new GenericBytecodeConfiguration(module, new PlugLogger()));
+
+var sw = Stopwatch.StartNew();
+vm.RunModule();
+Console.WriteLine(sw.Elapsed);
+
+return;
+
+static void Print(IBasicValue value) => Console.WriteLine(value);
+static void PushSmth(out Number res) => res = new Number(10);
+static void PushSmth2(out Number res) => res = new Number(25);
+
+public record struct Number(double Value) : IBasicValue, IAddable<Number>
+{
+    public static Number Add(Number a, Number b) => new(a.Value + b.Value);
+}

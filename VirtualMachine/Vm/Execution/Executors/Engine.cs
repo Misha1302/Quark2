@@ -1,3 +1,5 @@
+using CommonBytecode;
+
 namespace VirtualMachine.Vm.Execution.Executors;
 
 public class Engine(ExecutorConfiguration configuration)

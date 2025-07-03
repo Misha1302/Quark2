@@ -8,6 +8,7 @@
 
     <ItemGroup>
         <ProjectReference Include="..\AbstractExecutor\AbstractExecutor.csproj"/>
+        <ProjectReference Include="..\CommonLoggers\CommonLoggers.csproj"/>
         <ProjectReference Include="..\QuarkExtensions\QuarkExtensions.csproj"/>
     </ItemGroup>
 
