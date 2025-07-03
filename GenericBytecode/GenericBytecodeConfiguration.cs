@@ -1,5 +1,5 @@
 using CommonLoggers;
 
-namespace GenericBytecode2;
+namespace GenericBytecode;
 
 public record GenericBytecodeConfiguration(GenericBytecodeModule Module, ILogger Logger);

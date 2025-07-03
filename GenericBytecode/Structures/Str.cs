@@ -1,4 +1,4 @@
-namespace GenericBytecode2.Structures;
+namespace GenericBytecode.Structures;
 
 public record Str(string Value) : IBasicValue
 {

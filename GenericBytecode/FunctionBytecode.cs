@@ -1,4 +1,4 @@
-﻿namespace GenericBytecode2;
+﻿namespace GenericBytecode;
 
 public record FunctionBytecode(List<Instruction> Instructions)
 {

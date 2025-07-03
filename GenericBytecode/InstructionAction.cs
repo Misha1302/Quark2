@@ -1,14 +1,16 @@
 using System.Reflection;
 using ExceptionsManager;
-using GenericBytecode2.Structures;
+using GenericBytecode.Structures;
 
-namespace GenericBytecode2;
+namespace GenericBytecode;
 
 public record InstructionAction
 {
     private readonly Func<string>? _delegateToString;
 
     private readonly Lazy<ParameterInfo[]> _parametersLazy;
+    private readonly Lazy<ParameterInfo[]> _parametersRefsLazy;
+    private readonly Lazy<ParameterInfo[]> _parametersWithoutRefsLazy;
     public readonly Delegate Action;
 
     /// <summary>
@@ -28,9 +30,17 @@ public record InstructionAction
         _delegateToString = delegateToString;
 
         _parametersLazy = new Lazy<ParameterInfo[]>(Action.Method.GetParameters);
+        _parametersWithoutRefsLazy =
+            new Lazy<ParameterInfo[]>(() => Parameters.Where(p => !p.ParameterType.IsByRef).ToArray());
+        _parametersRefsLazy =
+            new Lazy<ParameterInfo[]>(() => Parameters.Where(p => p.ParameterType.IsByRef).ToArray());
     }
 
     public ParameterInfo[] Parameters => _parametersLazy.Value;
+    public ParameterInfo[] ParametersWithoutRefs => _parametersWithoutRefsLazy.Value;
+    public ParameterInfo[] ParametersRefs => _parametersRefsLazy.Value;
+
+    public static implicit operator InstructionAction(Delegate action) => new(action);
 
     private static void CheckAction(Delegate action)
     {

@@ -1,5 +1,5 @@
-using GenericBytecode2;
-using GenericBytecode2.Structures;
+using GenericBytecode;
+using GenericBytecode.Structures;
 
 namespace GenericBytecodeVirtualMachine;
 

@@ -1,7 +1,7 @@
 using CommonLoggers;
 using ExceptionsManager;
-using GenericBytecode2;
-using GenericBytecode2.Structures;
+using GenericBytecode;
+using GenericBytecode.Structures;
 
 namespace GenericBytecodeVirtualMachine;
 

@@ -1,4 +1,4 @@
-namespace GenericBytecode2;
+namespace GenericBytecode;
 
 public readonly record struct InstructionValue(int Value)
 {
@@ -9,4 +9,10 @@ public readonly record struct InstructionValue(int Value)
     public static readonly InstructionValue SetLabel = InstructionManager.GetNextInstruction(nameof(SetLabel));
 
     public override string ToString() => InstructionManager.GetNameOfInstruction(this);
+
+    public bool IsSomeOf(params InstructionValue[] instructions)
+    {
+        var thisLoc = this;
+        return instructions.Any(x => x == thisLoc);
+    }
 }

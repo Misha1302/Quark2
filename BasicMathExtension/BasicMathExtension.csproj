@@ -7,9 +7,7 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\AbstractExecutor\AbstractExecutor.csproj"/>
-        <ProjectReference Include="..\CommonLoggers\CommonLoggers.csproj"/>
-        <ProjectReference Include="..\GenericBytecode\GenericBytecode.csproj"/>
+        <ProjectReference Include="..\WistExtensions\WistExtensions.csproj"/>
     </ItemGroup>
 
 </Project>

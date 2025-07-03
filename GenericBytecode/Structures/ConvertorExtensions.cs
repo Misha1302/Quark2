@@ -1,6 +1,6 @@
 using ExceptionsManager;
 
-namespace GenericBytecode2.Structures;
+namespace GenericBytecode.Structures;
 
 public static class ConvertorExtensions
 {

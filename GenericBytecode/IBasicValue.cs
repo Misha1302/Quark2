@@ -1,3 +1,3 @@
-namespace GenericBytecode2;
+namespace GenericBytecode;
 
 public interface IBasicValue;

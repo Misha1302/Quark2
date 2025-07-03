@@ -7,8 +7,8 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\AbstractExecutor\AbstractExecutor.csproj"/>
-        <ProjectReference Include="..\CommonLoggers\CommonLoggers.csproj"/>
+        <ProjectReference Include="..\CommonAst\CommonAst.csproj"/>
+        <ProjectReference Include="..\CommonFrontendApi\CommonFrontendApi.csproj"/>
         <ProjectReference Include="..\GenericBytecode\GenericBytecode.csproj"/>
     </ItemGroup>
 

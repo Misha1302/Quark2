@@ -1,9 +1,4 @@
-namespace GenericBytecode2.Structures;
-
-public interface IBoolean : IBasicValue
-{
-    public bool ToBool();
-}
+namespace GenericBytecode.Structures;
 
 public readonly record struct Boolean(bool Value) : IBoolean
 {

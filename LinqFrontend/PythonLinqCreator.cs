@@ -58,15 +58,13 @@ public class PythonLinqCreator(string ansName, List<LexemeValue<LinqLexemeType>>
         );
         return;
 
-        string Loop(string topName, string expr, string resultCollection)
-        {
-            return $"""
-                    while {_iName} < {topName}:
-                       {_xName} = {_overName}[{_iName}]
-                       {resultCollection}.append({expr}) 
-                       {_iName} += 1
-                    """;
-        }
+        string Loop(string topName, string expr, string resultCollection) =>
+            $"""
+             while {_iName} < {topName}:
+                {_xName} = {_overName}[{_iName}]
+                {resultCollection}.append({expr}) 
+                {_iName} += 1
+             """;
     }
 
     public void Where(ref int index)
@@ -77,16 +75,14 @@ public class PythonLinqCreator(string ansName, List<LexemeValue<LinqLexemeType>>
         );
         return;
 
-        string Loop(string topName, string expr, string resultCollection)
-        {
-            return $"""
-                    while {_iName} < {topName}:
-                    {_xName} = {_overName}[{_iName}]
-                    if ({expr}):
-                        {resultCollection}.append({_xName}) 
-                    {_iName} += 1
-                    """;
-        }
+        string Loop(string topName, string expr, string resultCollection) =>
+            $"""
+             while {_iName} < {topName}:
+             {_xName} = {_overName}[{_iName}]
+             if ({expr}):
+                 {resultCollection}.append({_xName}) 
+             {_iName} += 1
+             """;
     }
 
     public void All(ref int index)
@@ -97,15 +93,13 @@ public class PythonLinqCreator(string ansName, List<LexemeValue<LinqLexemeType>>
         );
         return;
 
-        string Loop(string topName, string expr, string accumulator)
-        {
-            return $"""
-                    while {_iName} < {topName}:
-                       {_xName} = {_overName}[{_iName}]
-                       {accumulator} &= ({expr})
-                       {_iName} += 1
-                    """;
-        }
+        string Loop(string topName, string expr, string accumulator) =>
+            $"""
+             while {_iName} < {topName}:
+                {_xName} = {_overName}[{_iName}]
+                {accumulator} &= ({expr})
+                {_iName} += 1
+             """;
     }
 
     public void Any(ref int index)
@@ -116,16 +110,14 @@ public class PythonLinqCreator(string ansName, List<LexemeValue<LinqLexemeType>>
         );
         return;
 
-        string Loop(string topName, string expr, string accumulator)
-        {
-            return $"""
-                    while {_iName} < {topName}:
-                       {_xName} = {_overName}[{_iName}]
-                       {accumulator} |= ({expr})
-                       if {accumulator}: break
-                       {_iName} += 1
-                    """;
-        }
+        string Loop(string topName, string expr, string accumulator) =>
+            $"""
+             while {_iName} < {topName}:
+                {_xName} = {_overName}[{_iName}]
+                {accumulator} |= ({expr})
+                if {accumulator}: break
+                {_iName} += 1
+             """;
     }
 
     public void Count(ref int index)
@@ -136,15 +128,13 @@ public class PythonLinqCreator(string ansName, List<LexemeValue<LinqLexemeType>>
         );
         return;
 
-        string Loop(string topName, string expr, string accumulator)
-        {
-            return $"""
-                    while {_iName} < {topName}:
-                       {_xName} = {_overName}[{_iName}]
-                       {accumulator} += ({expr})
-                       {_iName} += 1
-                    """;
-        }
+        string Loop(string topName, string expr, string accumulator) =>
+            $"""
+             while {_iName} < {topName}:
+                {_xName} = {_overName}[{_iName}]
+                {accumulator} += ({expr})
+                {_iName} += 1
+             """;
     }
 
     public void Sum(ref int index)
@@ -160,15 +150,13 @@ public class PythonLinqCreator(string ansName, List<LexemeValue<LinqLexemeType>>
         );
         return;
 
-        string Loop(string topName, string expr, string accumulator)
-        {
-            return $"""
-                    while {_iName} < {topName}:
-                       {_xName} = {_overName}[{_iName}]
-                       {accumulator} *= ({expr})
-                       {_iName} += 1
-                    """;
-        }
+        string Loop(string topName, string expr, string accumulator) =>
+            $"""
+             while {_iName} < {topName}:
+                {_xName} = {_overName}[{_iName}]
+                {accumulator} *= ({expr})
+                {_iName} += 1
+             """;
     }
 
     private void MakeLoopInstruction(ref int index,

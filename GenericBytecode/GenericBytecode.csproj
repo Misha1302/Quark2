@@ -8,7 +8,7 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\CommonLoggers\CommonLoggers.csproj" />
+        <ProjectReference Include="..\CommonLoggers\CommonLoggers.csproj"/>
         <ProjectReference Include="..\ExceptionsManager\ExceptionsManager.csproj"/>
     </ItemGroup>
 

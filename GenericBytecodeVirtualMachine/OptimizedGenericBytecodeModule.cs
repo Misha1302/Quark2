@@ -1,4 +1,4 @@
-using GenericBytecode2;
+using GenericBytecode;
 
 namespace GenericBytecodeVirtualMachine;
 
