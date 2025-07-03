@@ -1,4 +1,5 @@
 ﻿using System.Linq.Expressions;
+using System.Reflection;
 using CommonFrontendApi;
 using DefaultAstImpl.Asg;
 using ExceptionsManager;
@@ -44,14 +45,30 @@ public class BasicMathExtension : IWistExtension
     private void HandleInstruction(GenericBytecodeFunction function, int instrIndex)
     {
         var instr = function.Body.Instructions[instrIndex];
-        if (instr.Value != AddInstruction) Throw.NotImplementedException();
-
         var type = function.GetTypesStack(instrIndex)[^1];
-        var addF = typeof(MathExtFunctions).GetMethod(nameof(MathExtFunctions.AddFunc))!.MakeGenericMethod(type);
+        var addF = GetMethodInfoToCall(instr).MakeGenericMethod(type);
 
         var parameters = addF.GetParameters().Select(x => x.ParameterType).ToArray();
         var argsAndRet = parameters.Append(typeof(void)).ToArray();
         var @delegate = Delegate.CreateDelegate(Expression.GetDelegateType(argsAndRet), addF);
         instr.Args.AddToEnd(@delegate);
+    }
+
+    private static MethodInfo GetMethodInfoToCall(Instruction instr)
+    {
+        var name =
+            instr.Value == AddInstruction
+                ? nameof(MathExtFunctions.AddFunc)
+                : instr.Value == SubInstruction
+                    ? nameof(MathExtFunctions.SubFunc)
+                    : instr.Value == DivInstruction
+                        ? nameof(MathExtFunctions.DivFunc)
+                        : instr.Value == MulInstruction
+                            ? nameof(MathExtFunctions.MulFunc)
+                            : instr.Value == ModInstruction
+                                ? nameof(MathExtFunctions.ModFunc)
+                                : Throw.InvalidOpEx<string>();
+
+        return typeof(MathExtFunctions).GetMethod(name)!;
     }
 }

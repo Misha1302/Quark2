@@ -1,5 +1,5 @@
 ﻿using System.Diagnostics;
-using BasicMathExtension;
+using BasicMathExtension.DefaultImplementations;
 using CommonLoggers;
 using GenericBytecode;
 
@@ -10,7 +10,9 @@ var ret = InstructionValue.Ret;
 var mainBody = new FunctionBytecode([
     new Instruction(push, new InstructionAction(PushSmth)),
     new Instruction(push, new InstructionAction(PushSmth2)),
-    new Instruction(BasicMathExtension.BasicMathExtension.AddInstruction, []),
+    new Instruction(BasicMathExtension.BasicMathExtension.DivInstruction, []),
+    new Instruction(push, new InstructionAction(PushSmth2)),
+    new Instruction(BasicMathExtension.BasicMathExtension.SubInstruction, []),
     new Instruction(callMethod, new InstructionAction(Print)),
     new Instruction(ret, []),
 ]);
@@ -33,8 +35,3 @@ return;
 static void Print(IBasicValue value) => Console.WriteLine(value);
 static void PushSmth(out Number res) => res = new Number(10);
 static void PushSmth2(out Number res) => res = new Number(25);
-
-public record struct Number(double Value) : IBasicValue, IAddable<Number>
-{
-    public static Number Add(Number a, Number b) => new(a.Value + b.Value);
-}

@@ -61,24 +61,21 @@ public class Interpreter(ILogger logger)
         foreach (var act in instruction.Args)
         {
             var args = GenericArrayPool<object?>.Shared.Rent(act.Parameters.Length);
-            var i = 0;
-            foreach (var arg in act.Parameters)
-            {
-                args[i] = !arg.ParameterType.IsByRef ? _valuesStack.Pop() : null;
-                i++;
-            }
 
+            // parameters should be loaded in reverse order
+            for (var i = 0; i < act.ParametersWithoutRefs.Length; i++)
+                args[act.ParametersWithoutRefs.Length - 1 - i] = _valuesStack.Pop();
+
+            // we need to rewrite garbage
+            for (var i = 0; i < act.ParametersRefs.Length; i++)
+                args[i + act.ParametersWithoutRefs.Length] = null;
 
             act.Invoke(args);
 
-
-            i = 0;
-            foreach (var arg in act.Parameters)
-            {
-                if (arg.ParameterType.IsByRef)
+            // push received values on stack
+            for (var i = 0; i < act.Parameters.Length; i++)
+                if (act.Parameters[i].ParameterType.IsByRef)
                     _valuesStack.Push((IBasicValue)args[i]!);
-                i++;
-            }
 
             GenericArrayPool<object?>.Shared.Return(args);
         }

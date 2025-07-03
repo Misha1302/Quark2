@@ -14,7 +14,9 @@ public record GenericBytecodeFunction(string Name, FunctionBytecode Body)
         foreach (var action in Body.Instructions[instrIndex].Args)
         {
             VerifyStack(stack, action);
-            stack.RemoveRange(instrIndex, action.ParametersWithoutRefs.Length);
+
+            var count = action.ParametersWithoutRefs.Length;
+            stack.RemoveRange(stack.Count - count, count);
             stack.AddRange(action.ParametersRefs.Select(x => x.ParameterType.GetElementType()!));
         }
 

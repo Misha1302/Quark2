@@ -25,6 +25,6 @@ public interface IModable<TSelf> where TSelf : IModable<TSelf>
     public static abstract TSelf Mod(TSelf a, TSelf b);
 }
 
-public interface IArithmeticOperators<TSelf>
+public interface IArithmeticOperable<TSelf>
     : IAddable<TSelf>, ISubable<TSelf>, IMulable<TSelf>, IDivable<TSelf>
     where TSelf : IAddable<TSelf>, ISubable<TSelf>, IMulable<TSelf>, IDivable<TSelf>;
