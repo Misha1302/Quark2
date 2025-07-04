@@ -1,4 +1,4 @@
-namespace GenericBytecode;
+namespace CommonExtensions;
 
 public static class CollectionsExtensions
 {

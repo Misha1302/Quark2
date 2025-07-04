@@ -7,8 +7,8 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\DictionaryExtensions\DictionaryExtensions.csproj"/>
         <ProjectReference Include="..\QuarkExtensions\QuarkExtensions.csproj"/>
+        <ProjectReference Include="..\CommonExtensions\CommonExtensions.csproj"/>
         <ProjectReference Include="..\QuarkStructuresLibrary\QuarkStructuresLibrary.csproj"/>
     </ItemGroup>
 

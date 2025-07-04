@@ -1,4 +1,6 @@
+using CommonExtensions;
 using ExceptionsManager;
+using GenericBytecode.Instruction;
 
 namespace GenericBytecode;
 
@@ -28,7 +30,10 @@ public record GenericBytecodeFunction(string Name, FunctionBytecode Body)
         for (var i = 0; i < action.ParametersWithoutRefs.Length; i++)
         {
             var j = stack.Count - 1 - i;
-            Throw.AssertAlways(action.Parameters[i].ParameterType == stack[j]);
+            Throw.AssertAlways(
+                stack[j].IsImplement(action.Parameters[i].ParameterType),
+                $"{stack[j]} must implement {action.Parameters[i].ParameterType.Name} ({action})"
+            );
         }
     }
 }

@@ -1,7 +1,9 @@
+using CommonArrayPool;
+using CommonExtensions;
 using CommonLoggers;
 using ExceptionsManager;
-using GenericBytecode;
-using GenericBytecode.Structures;
+using GenericBytecode.Instruction;
+using GenericBytecode.Interfaces;
 
 namespace GenericBytecodeVirtualMachine;
 
@@ -14,6 +16,8 @@ public class Interpreter(ILogger logger)
 
     public IEnumerable<IBasicValue> Run()
     {
+        logger.SetTheme("Execution", "\n\n");
+
         while (_functionStack.Count > 0)
         {
             while (CurrentFrame.Sp >= 0)
@@ -30,26 +34,24 @@ public class Interpreter(ILogger logger)
         var instruction = CurrentFrame.Bytecode.Body.Instructions[CurrentFrame.Sp];
         CurrentFrame.Sp++;
 
-        Throw.AssertAlways(instruction.Value != InstructionValue.Invalid, "Invalid instruction value");
-        if (instruction.Value == InstructionValue.Ret)
+        Throw.AssertAlways(instruction.Value != InstructionManager.Invalid, "Invalid instruction value");
+
+        if (instruction.Value == InstructionManager.Ret)
             CurrentFrame.Sp = -1;
-        else if (instruction.Value == InstructionValue.JumpIfTrue)
+        else if (instruction.Value == InstructionManager.JumpIfTrue)
             JumpIfTrue(instruction);
-        else if (instruction.Value == InstructionValue.SetLabel)
+        else if (instruction.Value == InstructionManager.SetLabel)
             Nop();
         else CallInstruction(instruction);
 
         if (logger.GetType() != typeof(PlugLogger))
-            logger.Log(
-                "Step",
-                $"Executed: {instruction}".PadRight(115) + "[ " + string.Join(", ", _valuesStack) + " ]"
-            );
+            logger.Log($"{instruction}\n" + "[ " + string.Join(", ", _valuesStack) + " ]\n");
     }
 
     private void JumpIfTrue(Instruction instruction)
     {
         if (_valuesStack.Pop().To<IBasicValue, IBoolean>().ToBool())
-            CurrentFrame.Sp = CurrentFrame.Labels[instruction.Args[0].Invoke<Str>()];
+            CurrentFrame.Sp = CurrentFrame.Labels[instruction.Args[0].Invoke<IStr>().GetString()];
     }
 
     private void Nop()

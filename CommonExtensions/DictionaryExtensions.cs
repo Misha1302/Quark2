@@ -1,4 +1,4 @@
-﻿namespace DictionaryExtensions;
+﻿namespace CommonExtensions;
 
 public static class DictionaryExtensions
 {
@@ -8,7 +8,9 @@ public static class DictionaryExtensions
         TListValue v
     ) where TKey : notnull
     {
-        d.TryAdd(k, []);
+        if (!d.ContainsKey(k))
+            d.Add(k, []);
+
         d[k].Add(v);
     }
 
@@ -20,6 +22,7 @@ public static class DictionaryExtensions
     {
         if (!d.ContainsKey(k))
             d.Add(k, default!);
+
         d[k] = v;
     }
 }

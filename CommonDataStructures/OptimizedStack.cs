@@ -1,6 +1,4 @@
-﻿using CommonDataStructures;
-
-namespace OptimizedStack;
+﻿namespace CommonDataStructures;
 
 public class OptimizedStack<T>(int size = 1024) : IReadOnlyStack<T>
 {

@@ -4,8 +4,9 @@ using CommonFrontendApi;
 using DefaultAstImpl.Asg;
 using ExceptionsManager;
 using GenericBytecode;
+using GenericBytecode.Instruction;
 using WistExtensions;
-using static GenericBytecode.InstructionManager;
+using static GenericBytecode.Instruction.InstructionManager;
 
 namespace BasicMathExtension;
 

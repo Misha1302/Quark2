@@ -1,4 +1,4 @@
-using GenericBytecode;
+using GenericBytecode.Interfaces;
 
 namespace BasicMathExtension.DefaultImplementations;
 

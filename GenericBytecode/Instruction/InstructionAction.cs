@@ -1,8 +1,10 @@
 using System.Reflection;
+using CommonArrayPool;
+using CommonExtensions;
 using ExceptionsManager;
-using GenericBytecode.Structures;
+using GenericBytecode.Interfaces;
 
-namespace GenericBytecode;
+namespace GenericBytecode.Instruction;
 
 public record InstructionAction
 {
@@ -11,10 +13,11 @@ public record InstructionAction
     private readonly Lazy<ParameterInfo[]> _parametersLazy;
     private readonly Lazy<ParameterInfo[]> _parametersRefsLazy;
     private readonly Lazy<ParameterInfo[]> _parametersWithoutRefsLazy;
+
     public readonly Delegate Action;
 
     /// <summary>
-    ///     Action must be:
+    ///     Action must be: <br />
     ///     1. single method <br />
     ///     2. return type = void <br />
     ///     3. parameters = (out? p)* <br />
@@ -58,17 +61,14 @@ public record InstructionAction
     private static void CheckParameters(Delegate action)
     {
         Throw.AssertAlways(
-            action.Method.GetParameters().All(Predicate),
-            "Action must take (out) parameters of (sub)type IBasicValue"
+            action.Method.GetParameters().All(IsImplement<IBasicValue>),
+            "Action must take (out) parameters of type which implements IBasicValue"
         );
+
         return;
 
-        bool Predicate(ParameterInfo p)
-        {
-            var t = p.ParameterType.GetElementType() ?? p.ParameterType;
-            var r = typeof(IBasicValue).IsAssignableFrom(t) || t == typeof(IBasicValue);
-            return r;
-        }
+        bool IsImplement<T>(ParameterInfo p) =>
+            (p.ParameterType.GetElementType() ?? p.ParameterType).IsImplement<T>();
     }
 
     private static void CheckReturnType(Delegate action)

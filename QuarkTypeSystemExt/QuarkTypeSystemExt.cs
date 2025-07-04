@@ -2,10 +2,10 @@
 using BytecodeGenerationSimplifier;
 using CommonBytecode.Data.Structures;
 using CommonBytecode.Enums;
+using CommonExtensions;
 using CommonFrontendApi;
 using DefaultAstImpl.Asg;
 using DefaultLexerImpl;
-using DictionaryExtensions;
 using ExceptionsManager;
 using QuarkExtension;
 using SharpAnyType;

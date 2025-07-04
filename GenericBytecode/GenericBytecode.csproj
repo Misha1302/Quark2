@@ -8,8 +8,10 @@
     </PropertyGroup>
 
     <ItemGroup>
+        <ProjectReference Include="..\CommonArrayPool\CommonArrayPool.csproj"/>
         <ProjectReference Include="..\CommonLoggers\CommonLoggers.csproj"/>
         <ProjectReference Include="..\ExceptionsManager\ExceptionsManager.csproj"/>
+        <ProjectReference Include="..\CommonExtensions\CommonExtensions.csproj"/>
     </ItemGroup>
 
 </Project>

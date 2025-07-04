@@ -1,6 +1,7 @@
 ﻿using AbstractExecutor;
 using CommonLoggers;
 using GenericBytecode;
+using GenericBytecode.Interfaces;
 using SharpAnyType;
 
 namespace GenericBytecodeVirtualMachine;

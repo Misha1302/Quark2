@@ -1,4 +1,4 @@
-namespace GenericBytecode;
+namespace GenericBytecode.Instruction;
 
 public record Instruction(InstructionValue Value, ArgsCollection Args)
 {

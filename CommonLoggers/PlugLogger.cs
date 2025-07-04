@@ -2,7 +2,11 @@ namespace CommonLoggers;
 
 public class PlugLogger : ILogger
 {
-    public void Log(string theme, string message)
+    public void SetTheme(string theme, string end = "\n")
+    {
+    }
+
+    public void Log(string message)
     {
     }
 }

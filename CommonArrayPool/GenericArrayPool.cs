@@ -1,4 +1,4 @@
-namespace GenericBytecode.Structures;
+﻿namespace CommonArrayPool;
 
 public class GenericArrayPool<T>
 {

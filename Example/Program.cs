@@ -2,10 +2,11 @@
 using BasicMathExtension.DefaultImplementations;
 using CommonLoggers;
 using GenericBytecode;
+using GenericBytecode.Instruction;
+using GenericBytecode.Interfaces;
 
 var push = InstructionManager.GetNextInstruction("Push");
 var callMethod = InstructionManager.GetNextInstruction("CallMethod");
-var ret = InstructionValue.Ret;
 
 var mainBody = new FunctionBytecode([
     new Instruction(push, new InstructionAction(PushSmth)),
@@ -14,7 +15,8 @@ var mainBody = new FunctionBytecode([
     new Instruction(push, new InstructionAction(PushSmth2)),
     new Instruction(BasicMathExtension.BasicMathExtension.SubInstruction, []),
     new Instruction(callMethod, new InstructionAction(Print)),
-    new Instruction(ret, []),
+
+    new Instruction(InstructionManager.Ret, []),
 ]);
 
 var main = new GenericBytecodeFunction("Main", mainBody);
@@ -24,7 +26,7 @@ var ext = new BasicMathExtension.BasicMathExtension();
 module = ext.ManipulateBytecode(module);
 
 var vm = new GenericBytecodeVirtualMachine.GenericBytecodeVirtualMachine();
-vm.Init(new GenericBytecodeConfiguration(module, new PlugLogger()));
+vm.Init(new GenericBytecodeConfiguration(module, new FileLogger("logs.txt")));
 
 var sw = Stopwatch.StartNew();
 vm.RunModule();

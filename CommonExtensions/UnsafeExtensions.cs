@@ -1,4 +1,4 @@
-namespace GenericBytecode.Structures;
+namespace CommonExtensions;
 
 public static unsafe class UnsafeExtensions
 {

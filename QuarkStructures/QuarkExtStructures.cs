@@ -1,10 +1,10 @@
 ﻿using AsgToBytecodeTranslator;
 using CommonBytecode.Data.Structures;
 using CommonBytecode.Enums;
+using CommonExtensions;
 using CommonFrontendApi;
 using DefaultAstImpl.Asg;
 using DefaultLexerImpl;
-using DictionaryExtensions;
 using QuarkExtension;
 using QuarkStructuresLibrary;
 using SharpAnyType;

@@ -11,7 +11,6 @@ global using Doubles;
 global using DynamicStrongTypeValue;
 global using ExceptionsManager;
 global using GrEmit;
-global using OptimizedStack;
 global using RuntimeHackes;
 global using SharpAnyType;
 global using StrongAnyValueCalculator;

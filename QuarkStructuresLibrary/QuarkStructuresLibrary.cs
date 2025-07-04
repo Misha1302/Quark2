@@ -1,4 +1,4 @@
-﻿using DictionaryExtensions;
+﻿using CommonExtensions;
 using SharpAnyType;
 
 namespace QuarkStructuresLibrary;
