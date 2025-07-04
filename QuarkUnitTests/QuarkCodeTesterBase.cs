@@ -3,7 +3,7 @@ using QuarkStructures;
 
 namespace UnitTests;
 
-public class CodeTesterBase
+public class QuarkCodeTesterBase
 {
     private readonly List<IQuarkExtension> _defaultExtensions =
         [new QuarkExtStructures(), new QuarkListInitializer.QuarkListInitializer()];

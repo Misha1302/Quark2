@@ -3,7 +3,7 @@ using QuarkStructures;
 
 namespace UnitTests;
 
-public class CodeStructuresTests : CodeTesterBase
+public class QuarkCodeStructuresTests : QuarkCodeTesterBase
 {
     private double _error;
     private List<IQuarkExtension> _extensions;

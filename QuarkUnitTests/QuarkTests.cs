@@ -1,6 +1,6 @@
 namespace UnitTests;
 
-public class CodeTests : CodeTesterBase
+public class QuarkTests : QuarkCodeTesterBase
 {
     private double _error;
     private string _imports;

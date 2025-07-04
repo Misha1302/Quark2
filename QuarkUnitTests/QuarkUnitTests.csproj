@@ -20,6 +20,9 @@
 
     <ItemGroup>
         <ProjectReference Include="..\AbstractExecutor\AbstractExecutor.csproj"/>
+        <ProjectReference Include="..\BasicMathExtension\BasicMathExtension.csproj"/>
+        <ProjectReference Include="..\GenericBytecodeVirtualMachine\GenericBytecodeVirtualMachine.csproj"/>
+        <ProjectReference Include="..\GenericBytecode\GenericBytecode.csproj"/>
         <ProjectReference Include="..\QuarkAsgToBytecodeTranslator\QuarkAsgToBytecodeTranslator.csproj"/>
         <ProjectReference Include="..\CommonAst\CommonAst.csproj"/>
         <ProjectReference Include="..\QuarkLexer\QuarkLexer.csproj"/>

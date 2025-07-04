@@ -22,13 +22,12 @@ public record InstructionAction
     ///     2. return type = void <br />
     ///     3. parameters = (out? p)* <br />
     ///     4. static <br />
+    ///     5. types of return (out) parameters must be classes <br />
     /// </summary>
     /// <param name="action"></param>
     /// <param name="delegateToString"></param>
     public InstructionAction(Delegate action, Func<string>? delegateToString = null)
     {
-        CheckAction(action);
-
         Action = action;
         _delegateToString = delegateToString;
 
@@ -37,6 +36,8 @@ public record InstructionAction
             new Lazy<ParameterInfo[]>(() => Parameters.Where(p => !p.ParameterType.IsByRef).ToArray());
         _parametersRefsLazy =
             new Lazy<ParameterInfo[]>(() => Parameters.Where(p => p.ParameterType.IsByRef).ToArray());
+
+        CheckAction();
     }
 
     public ParameterInfo[] Parameters => _parametersLazy.Value;
@@ -45,24 +46,33 @@ public record InstructionAction
 
     public static implicit operator InstructionAction(Delegate action) => new(action);
 
-    private static void CheckAction(Delegate action)
+    private void CheckAction()
     {
-        CheckIsSingleAction(action);
-        CheckReturnType(action);
-        CheckParameters(action);
-        CheckStatic(action);
+        CheckIsSingleAction();
+        CheckReturnType();
+        CheckParameters();
+        CheckReturnParameters();
+        CheckStatic();
     }
 
-    private static void CheckStatic(Delegate action)
-    {
-        Throw.AssertAlways(action.Method.IsStatic, $"Action ({action.Method.Name}) must be static");
-    }
-
-    private static void CheckParameters(Delegate action)
+    private void CheckReturnParameters()
     {
         Throw.AssertAlways(
-            action.Method.GetParameters().All(IsImplement<IBasicValue>),
-            "Action must take (out) parameters of type which implements IBasicValue"
+            ParametersRefs.All(p => p.ParameterType.IsClass),
+            "Types of out parameters (return values) must be specific class"
+        );
+    }
+
+    private void CheckStatic()
+    {
+        Throw.AssertAlways(Action.Method.IsStatic, $"Action ({Action.Method.Name}) must be static");
+    }
+
+    private void CheckParameters()
+    {
+        Throw.AssertAlways(
+            ParametersRefs.All(IsImplement<IBasicValue>),
+            $"Action must take (out) parameters of type which implements {nameof(IBasicValue)}"
         );
 
         return;
@@ -71,18 +81,18 @@ public record InstructionAction
             (p.ParameterType.GetElementType() ?? p.ParameterType).IsImplement<T>();
     }
 
-    private static void CheckReturnType(Delegate action)
+    private void CheckReturnType()
     {
         Throw.AssertAlways(
-            action.Method.ReturnType == typeof(void),
+            Action.Method.ReturnType == typeof(void),
             "Action must have no return value"
         );
     }
 
-    private static void CheckIsSingleAction(Delegate action)
+    private void CheckIsSingleAction()
     {
         Throw.AssertAlways(
-            action.GetInvocationList().Length == 1,
+            Action.GetInvocationList().Length == 1,
             "Action must be single"
         );
     }
