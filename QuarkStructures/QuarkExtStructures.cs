@@ -38,7 +38,7 @@ public class QuarkExtStructures : IQuarkExtension
         return current;
     }
 
-    public Func<AsgToBytecodeData<QuarkLexemeType>, bool>? GetAsgNodeHandler() => UnknownAsgCodeHandle;
+    public Func<AsgToBytecodeData<QuarkLexemeType>, bool> GetAsgNodeHandler() => UnknownAsgCodeHandle;
 
     private bool UnknownAsgCodeHandle(AsgToBytecodeData<QuarkLexemeType> data)
     {

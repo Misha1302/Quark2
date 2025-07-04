@@ -24,7 +24,7 @@ public class QuarkListInitializer : IQuarkExtension
         return current;
     }
 
-    public Func<AsgToBytecodeData<QuarkLexemeType>, bool>? GetAsgNodeHandler() => ListInitializerCreator;
+    public Func<AsgToBytecodeData<QuarkLexemeType>, bool> GetAsgNodeHandler() => ListInitializerCreator;
 
     private bool ListInitializerCreator(AsgToBytecodeData<QuarkLexemeType> data)
     {
